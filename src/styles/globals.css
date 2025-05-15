@@ -1,0 +1,1044 @@
+/* Pretendard 폰트 로딩 */
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
+
+/* Montserrat 폰트 사전 로딩 */
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url('https://fonts.gstatic.com/s/montserrat/v25/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCvC73w5aXp-p7K4KLg.woff2') format('woff2');
+  size-adjust: 100%;
+  ascent-override: 90%;
+  descent-override: 20%;
+  line-gap-override: normal;
+}
+
+@font-face {
+  font-family: 'JalnanGothic';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_231029@1.1/JalnanGothic.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 100%;
+  ascent-override: 90%;
+  descent-override: 20%;
+  line-gap-override: normal;
+}
+
+/* 폰트 로딩 전 텍스트 크기 안정화를 위한 스타일 */
+html {
+  font-size: 16px;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+}
+
+/* 초기 렌더링 상태에서의 폰트 스타일 */
+.initial-render {
+  opacity: 0;
+}
+
+/* 폰트 로딩 완료 후 적용할 스타일 */
+.fonts-loaded {
+  opacity: 1;
+  transition: opacity 0.2s ease-in;
+}
+
+/* 반응형 전환 시 애니메이션 방지 */
+* {
+  transition: background-color 0.2s ease, color 0.2s ease !important;
+}
+
+h1, h2, h3, h4, h5, h6, p, span, div {
+  transition: none !important;
+}
+
+/* 폰트가 로드되기 전 상태 */
+h1, h2, h3, h4, h5, h6 {
+  font-family: -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+  font-synthesis: none;
+}
+
+/* 폰트 로딩 후 상태 */
+.fonts-loaded h1,
+.fonts-loaded h2,
+.fonts-loaded h3,
+.fonts-loaded h4,
+.fonts-loaded h5,
+.fonts-loaded h6 {
+  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+}
+
+.jalnan {
+  font-family: 'JalnanGothic', sans-serif !important;
+}
+
+/* 폰트 로딩 전 텍스트가 튀는 것을 방지 */
+.fonts-loaded .jalnan {
+  visibility: visible;
+}
+
+/* 전체 페이지 스타일 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+/* 컨텐츠가 로드되기 전에 보여질 skeleton 스타일 */
+img, video {
+  background-color: #272840;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+html, body {
+    overflow-x: hidden;
+    width: 100%;
+    position: relative;
+}
+
+:root {
+    --primary-color: #333;
+    --secondary-color: #555;
+    --accent-color: #2f80ed;
+    --highlight-color: #ffef00;
+    --background-color: #fff;
+    --text-color: #333;
+    --hero-bg-color: #3388ff;
+    --white-color: #fff;
+    --naver-color: #ffffff;
+    --youtube-color: #ffffff;
+    --selfnote-color: #ffffff;
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    max-width: 100vw;
+}
+
+/* 컨텐츠 컨테이너 */
+.content-container {
+    padding-top: 0;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+/* Hero 섹션 스타일 - 스크린샷 스타일 적용 */
+.hero {
+    height: calc(100vh - 80px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: var(--hero-bg-color);
+    color: var(--white-color);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-container {
+    max-width: 1200px;
+    width: 90%;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+}
+
+.hero-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.hero-text {
+    flex: 1;
+    max-width: 600px;
+    padding-right: 20px;
+}
+
+.hero-subtitle {
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    opacity: 0.9;
+}
+
+/* 회사명 스타일 */
+.company-name {
+    font-size: 4.5rem;
+    font-weight: 800;
+    color: var(--white-color);
+    margin-bottom: 1.5rem;
+    text-align: left;
+    line-height: 1.2;
+}
+
+/* 강조 텍스트 스타일 */
+.highlight {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.accent-text {
+    color: var(--highlight-color);
+    font-weight: 900;
+}
+
+/* 이력 리스트 스타일 */
+.credentials {
+    list-style: none;
+    margin-bottom: 2rem;
+    text-align: left;
+}
+
+.credentials li {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.1rem;
+    color: var(--white-color);
+    line-height: 1.2;
+}
+
+/* 특정 회사명 강조 스타일 */
+.naver {
+    color: var(--naver-color);
+    font-weight: 700;
+}
+
+.youtube {
+    color: var(--youtube-color);
+    font-weight: 700;
+}
+
+.selfnote {
+    color: var(--selfnote-color);
+    font-weight: 800; /* 더 굵게 */
+}
+
+.hashtags {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 2.5rem;
+}
+
+.hashtags span {
+    color: var(--white-color);
+    font-weight: 500;
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+/* 버튼 그룹 스타일 */
+.button-group {
+    display: flex;
+    gap: 20px;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 500px;
+}
+
+.cta-button, .portfolio-button {
+    min-width: 180px;
+    text-align: center;
+    font-weight: 600;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.cta-button {
+    background-color: var(--white-color);
+    color: var(--accent-color);
+    border: none;
+    padding: 16px 30px;
+    font-size: 1.1rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.cta-button:hover {
+    background-color: #f8f8f8;
+    transform: translateY(-2px);
+}
+
+.portfolio-button {
+    background-color: transparent;
+    color: var(--white-color);
+    border: 2px solid var(--white-color);
+    padding: 14px 28px;
+    font-size: 1.1rem;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.portfolio-button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+/* Hero 이미지 스타일 */
+.hero-image {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    position: relative;
+}
+
+.hero-image img {
+    max-height: 600px;
+    object-fit: contain;
+}
+
+/* 이미지 placeholder 스타일 */
+.placeholder-image {
+    width: 400px;
+    height: 500px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    position: relative;
+}
+
+.placeholder-image::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 150px;
+    height: 150px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.placeholder-image::after {
+    content: "이미지";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+/* 모바일 반응형 스타일 */
+@media screen and (max-width: 768px) {
+    .menu-toggle {
+        display: block;
+        cursor: pointer;
+    }
+    
+    .bar {
+        display: block;
+        width: 25px;
+        height: 3px;
+        margin: 5px auto;
+        background-color: var(--primary-color);
+        transition: all 0.3s ease-in-out;
+    }
+    
+    .nav-menu {
+        position: fixed;
+        left: 0;
+        top: 80px;
+        flex-direction: column;
+        background-color: var(--background-color);
+        width: 100%;
+        text-align: center;
+        transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s;
+        transform: translateY(-100%);
+        opacity: 0;
+        box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .nav-menu.active {
+        transform: translateY(0);
+        opacity: 1;
+        left: 0;
+    }
+    
+    .nav-item {
+        margin: 25px 0;
+    }
+    
+    .menu-toggle.active .bar:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+    
+    .menu-toggle.active .bar:nth-child(2) {
+        opacity: 0;
+    }
+    
+    .menu-toggle.active .bar:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+    }
+    
+    /* 모바일에서의 Hero 섹션 조정 */
+    .hero-content {
+        flex-direction: column;
+        padding: 0 20px;
+        width: 100%;
+        max-width: 100%;
+    }
+    
+    .hero-text {
+        max-width: 100%;
+        padding-right: 0;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .hero-subtitle {
+        text-align: center;
+        font-size: 1.3rem;
+    }
+    
+    .company-name {
+        font-size: 3rem;
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+    
+    .credentials {
+        text-align: center;
+        margin-bottom: 2.5rem;
+    }
+    
+    .credentials li {
+        font-size: 1.4rem;
+        margin-bottom: 0.1rem;
+        font-weight: 500;
+        white-space: nowrap;
+        line-height: 1.2;
+    }
+    
+    .credentials li:first-child {
+        margin-bottom: 0.2rem;
+    }
+    
+    .hashtags {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .hashtags span {
+        font-size: 1rem;
+    }
+    
+    .button-group {
+        flex-direction: column;
+        gap: 15px;
+        align-items: center;
+        max-width: 100%;
+        justify-content: center;
+    }
+    
+    .cta-button, .portfolio-button {
+        width: 100%;
+        max-width: 280px;
+        min-width: unset;
+        padding: 14px 20px;
+        font-size: 1.1rem;
+    }
+    
+    /* 모바일에서 이미지 숨김 */
+    .hero-image {
+        display: none;
+    }
+
+    /* 이미지 컨테이너 반응형 처리 */
+    .hero-image, 
+    .why-card-img-simple,
+    .why-card-img-white,
+    .why-card-img {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    /* 이미지 반응형 처리 */
+    .hero-image img, 
+    .why-card-img-simple img,
+    .why-card-img-simple video,
+    .why-card-img-white img,
+    .why-card-img img {
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+    }
+
+    /* 카드 컨테이너 반응형 처리 */
+    .why-card-simple,
+    .why-card-white,
+    .why-card {
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+}
+
+/* 특정 모바일 최적화 (가로 너비 370px) */
+@media screen and (max-width: 400px) {
+    .hero-text {
+        width: 100%;
+        padding: 0 5px;
+    }
+    
+    .company-name {
+        font-size: 1.9rem;
+        margin-bottom: 1.2rem;
+        white-space: nowrap;
+    }
+    
+    .hero-subtitle {
+        font-size: 1rem;
+        margin-bottom: 0.8rem;
+    }
+    
+    .credentials {
+        width: 100%;
+        margin-bottom: 1.5rem;
+    }
+    
+    .credentials li {
+        font-size: 0.78rem;
+        margin-bottom: 0.05rem;
+        white-space: nowrap;
+        font-weight: 500;
+        line-height: 1.1;
+    }
+    
+    .hashtags {
+        gap: 10px;
+        margin-bottom: 2rem;
+    }
+    
+    .hashtags span {
+        font-size: 0.9rem;
+    }
+    
+    .cta-button, .portfolio-button {
+        max-width: 250px;
+        padding: 12px 16px;
+        font-size: 1rem;
+    }
+}
+
+/* 작은 모바일 화면 */
+@media screen and (max-width: 480px) {
+    .company-name {
+        font-size: 2.2rem;
+        margin-bottom: 1.5rem;
+        white-space: nowrap;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.2rem;
+    }
+    
+    .credentials li {
+        font-size: 1.2rem;
+        margin-bottom: 0.1rem;
+        white-space: nowrap;
+        line-height: 1.2;
+    }
+    
+    .cta-button, .portfolio-button {
+        max-width: 250px;
+        padding: 12px 16px;
+        font-size: 1rem;
+    }
+}
+
+/* Why Choose Us 섹션 */
+.why-section {
+    width: 100%;
+    min-height: 600px;
+    padding: 100px 0 80px 0;
+    background: radial-gradient(ellipse at center, #3a1c5c 0%, #0a0c18 80%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.why-title {
+    color: #fff;
+    font-size: 2.3rem;
+    font-weight: 800;
+    margin-bottom: 60px;
+    text-align: center;
+    letter-spacing: -1px;
+}
+.why-cards {
+    display: flex;
+    gap: 48px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.why-card {
+    background: rgba(20, 20, 40, 0.95);
+    border-radius: 24px;
+    box-shadow: 0 8px 32px 0 rgba(80, 40, 120, 0.25);
+    display: flex;
+    align-items: center;
+    padding: 36px 32px;
+    min-width: 340px;
+    max-width: 480px;
+    width: 100%;
+    gap: 32px;
+    transition: box-shadow 0.2s, transform 0.2s;
+    position: relative;
+}
+.why-card:hover {
+    box-shadow: 0 12px 40px 0 rgba(120, 80, 200, 0.35);
+    transform: translateY(-6px) scale(1.03);
+}
+.why-card-text {
+    flex: 1;
+    color: #fff;
+}
+.why-badge {
+    display: inline-block;
+    background: linear-gradient(90deg, #5f72ff 0%, #9a57ff 100%);
+    color: #fff;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: 12px;
+    padding: 4px 16px;
+    margin-bottom: 12px;
+}
+.why-card-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    margin-bottom: 10px;
+    line-height: 1.4;
+}
+.why-highlight {
+    color: #5f72ff;
+}
+.why-desc {
+    font-size: 1rem;
+    color: #e0e0e0;
+    margin-bottom: 18px;
+    line-height: 1.6;
+}
+.why-more {
+    color: #9a57ff;
+    font-size: 1rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+.why-more:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+.why-card-img {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.why-card-img img {
+    border-radius: 16px;
+    box-shadow: 0 4px 16px 0 rgba(80, 40, 120, 0.18);
+    width: 220px;
+    height: 220px;
+    object-fit: cover;
+}
+@media (max-width: 1024px) {
+    .why-cards {
+        flex-direction: column;
+        gap: 32px;
+        align-items: center;
+    }
+    .why-card {
+        max-width: 95vw;
+        min-width: 0;
+        flex-direction: column;
+        gap: 20px;
+        padding: 28px 16px;
+    }
+    .why-card-img img {
+        width: 180px;
+        height: 180px;
+    }
+}
+@media (max-width: 600px) {
+    .why-section {
+        padding: 60px 0 40px 0;
+    }
+    .why-title {
+        font-size: 1.3rem;
+        margin-bottom: 32px;
+    }
+    .why-card {
+        padding: 18px 6px;
+        border-radius: 14px;
+    }
+    .why-card-img img {
+        width: 120px;
+        height: 120px;
+    }
+    .why-card-title {
+        font-size: 1.05rem;
+    }
+    .why-desc {
+        font-size: 0.95rem;
+    }
+}
+
+/* Why Choose Us 화이트 섹션 */
+.why-section-white {
+    width: 100%;
+    background: #fff;
+    padding: 80px 0 60px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.why-cards-white {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+    width: 100%;
+    max-width: 900px;
+}
+.why-card-white {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    border-radius: 24px;
+    box-shadow: 0 4px 24px 0 rgba(40, 40, 80, 0.10);
+    padding: 36px 32px;
+    gap: 40px;
+    width: 100%;
+    min-height: 220px;
+}
+.why-card-white:nth-child(even) {
+    flex-direction: row-reverse;
+}
+.why-card-img-white {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.why-card-img-white img {
+    border-radius: 16px;
+    box-shadow: 0 2px 8px 0 rgba(80, 80, 120, 0.10);
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+    background: #f5f5f7;
+}
+.why-card-text-white {
+    flex: 1;
+    color: #222;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 0;
+}
+.why-badge-white {
+    display: inline-block;
+    background: linear-gradient(90deg, #5f72ff 0%, #38c6ff 100%);
+    color: #fff;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: 12px;
+    padding: 4px 16px;
+    margin-bottom: 12px;
+    align-self: flex-start;
+}
+.why-card-title-white {
+    font-size: 1.35rem;
+    font-weight: 800;
+    margin-bottom: 10px;
+    line-height: 1.4;
+}
+.why-highlight-white {
+    color: #38c6ff;
+}
+.why-desc-white {
+    font-size: 1rem;
+    color: #444;
+    margin-bottom: 18px;
+    line-height: 1.6;
+}
+.why-more-white {
+    color: #38c6ff;
+    font-size: 1rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+.why-more-white:hover {
+    color: #222;
+    text-decoration: underline;
+}
+@media (max-width: 900px) {
+    .why-cards-white {
+        max-width: 98vw;
+    }
+    .why-card-white {
+        flex-direction: column !important;
+        gap: 20px;
+        padding: 24px 10px;
+    }
+    .why-card-img-white img {
+        width: 120px;
+        height: 120px;
+    }
+    .why-card-title-white {
+        font-size: 1.05rem;
+    }
+    .why-desc-white {
+        font-size: 0.95rem;
+    }
+}
+
+/* Why Choose Us 심플 섹션 - 카드, 텍스트, 이미지 모두 세로 중앙 정렬 (이전 상태로 복원) */
+.why-section-simple {
+    width: 100%;
+    background: linear-gradient(135deg, #181c2a 0%, #23243a 100%);
+    padding: 80px 0 60px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.why-cards-simple {
+    display: flex;
+    flex-direction: column;
+    gap: 72px;
+    width: 100%;
+    max-width: 1400px;
+    padding: 0 40px;
+    box-sizing: border-box;
+    align-items: center;
+}
+.why-card-simple {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    gap: 56px;
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+.why-card-simple.reverse {
+    flex-direction: row-reverse;
+}
+.why-card-simple:nth-child(1) .why-card-text-simple {
+    text-align: left;
+    align-items: flex-start;
+}
+.why-card-simple:nth-child(2) .why-card-text-simple {
+    text-align: right;
+    align-items: flex-end;
+}
+.why-card-img-simple {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 320px;
+    min-height: 320px;
+}
+.why-card-img-simple img,
+.why-card-img-simple video {
+    border-radius: 32px;
+    width: 320px;
+    height: 320px;
+    object-fit: cover;
+    background: #f5f5f7;
+}
+.why-card-text-simple {
+    flex: 1;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    min-width: 0;
+    gap: 12px;
+    margin-left: 0;
+    max-width: 420px;
+    align-items: center;
+    text-align: center;
+}
+.why-badge-simple {
+    display: inline-block;
+    background: #272840;
+    color: #51B7FD;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 50px;
+    padding: 5px 12px;
+    margin-bottom: 4px;
+    transition: all 0.3s ease;
+    border: 1px solid #4F506B;
+}
+
+.why-badge-simple:hover {
+    background: #1f202f;
+    transform: translateY(-1px);
+}
+
+.why-card-title-simple {
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin-bottom: 0;
+    line-height: 1.3;
+}
+.why-highlight-simple {
+    color: #3491FF;
+}
+.why-desc-simple {
+    font-size: 0.9rem;
+    color: #e0e0e0;
+    margin-bottom: 0;
+    line-height: 1.5;
+}
+.why-more-simple {
+    color: #38c6ff;
+    font-size: 1.08rem;
+    font-weight: 700;
+    text-decoration: none;
+    margin-top: 8px;
+    transition: color 0.2s;
+}
+.why-more-simple:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+@media (max-width: 900px) {
+    .why-section-simple {
+        padding: 60px 0;
+        width: 100%;
+        overflow-x: hidden;
+    }
+    .why-cards-simple {
+        width: 100%;
+        max-width: 100%;
+        padding: 0;
+        margin: 0;
+    }
+    .why-card-simple,
+    .why-card-simple.reverse {
+        flex-direction: column !important;
+        gap: 20px;
+        width: 100%;
+        max-width: 100%;
+        align-items: stretch;
+        position: relative;
+        padding: 18px 20px 24px;
+        box-sizing: border-box;
+        margin: 0;
+    }
+    .why-card-img-simple {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        min-width: auto;
+        padding: 0;
+        margin: 0;
+    }
+    .why-card-img-simple img,
+    .why-card-img-simple video {
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        min-height: 180px;
+        border-radius: 18px;
+        display: block;
+        margin: 0 auto;
+    }
+    .why-card-text-simple {
+        width: 100%;
+        min-width: 0;
+        max-width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start !important;
+        text-align: left !important;
+        gap: 10px;
+        margin: 0;
+        word-break: keep-all;
+        background: none;
+        z-index: 1;
+        position: static;
+        padding: 0;
+        box-sizing: border-box;
+    }
+}
+
+.why-section-title {
+    font-size: 3.2rem;
+    font-weight: 900;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 0.7rem;
+    margin-top: 1.2rem;
+    letter-spacing: -1px;
+    line-height: 1.1;
+}
+.why-section-desc {
+    font-size: 1.5rem;
+    color: #38c6ff;
+    text-align: center;
+    margin-bottom: 3.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+    white-space: nowrap;
+}
+@media (max-width: 900px) {
+    .why-section-title {
+        font-size: 2.1rem;
+        margin-bottom: 0.3rem;
+        margin-top: 0.7rem;
+    }
+    .why-section-desc {
+        font-size: 1.2rem;
+        margin-bottom: 2.2rem;
+        white-space: normal;
+        line-height: 1.3;
+    }
+}
+
+/* === Audio Comparison Section === */
+.audio-comparison-section {
+    width: 100%;
+    padding: 100px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+@media (max-width: 900px) {
+    .audio-comparison-section {
+        padding: 60px 0;
+    }
+} 
