@@ -11,7 +11,7 @@ export const metadata = {
     siteName: "셀프노트 스튜디오",
     images: [
       {
-        url: "/og-image.jpg",
+        url: "https://selfnote.co.kr/og-image.jpg?v=1",
         width: 1200,
         height: 630,
         alt: "셀프노트 스튜디오",
@@ -33,6 +33,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="ko">
       <head>
+        <script src="https://analytics.ahrefs.com/analytics.js" data-key="favKZEBpe4B6nY2v9/elAQ" async></script>
         <link
           rel="preload"
           href="https://fonts.gstatic.com/s/montserrat/v25/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCvC73w5aXp-p7K4KLg.woff2"
