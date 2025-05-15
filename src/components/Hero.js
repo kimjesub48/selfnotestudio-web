@@ -123,7 +123,7 @@ const TitleText = styled.span`
 `;
 
 const Description = styled.p`
-  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-weight: 400;
   font-size: ${props => props.$isMobile ? '1rem' : '1.1rem'};
   color: #bfc7d1;
@@ -147,6 +147,11 @@ const Description = styled.p`
   @media (max-width: 900px) {
     font-size: 1rem;
   }
+  
+  /* 텍스트 렌더링 최적화 */
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 `;
 
 const ScrollIndicator = styled.div`
@@ -183,85 +188,105 @@ export default function Hero() {
   // 비디오 로딩 및 재생 처리
   useEffect(() => {
     if (videoRef.current) {
-      // 비디오 로드 이벤트
-      const handleVideoLoaded = () => {
-        console.log('Video data loaded');
-        
-        // 비디오 재생 시도
-        const playPromise = videoRef.current.play();
-        
-        if (playPromise !== undefined) {
-          playPromise
-            .then(() => {
-              console.log('Video playing - showing video');
-              // 재생 성공 시 즉시 비디오 표시 (배경은 천천히 사라짐)
+      // IntersectionObserver를 사용하여 뷰포트에 들어올 때만 비디오 로드
+      const observer = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          console.log('Video in viewport - loading video');
+          
+          // 비디오 로드 이벤트
+          const handleVideoLoaded = () => {
+            console.log('Video data loaded');
+            
+            // 비디오 재생 시도
+            const playPromise = videoRef.current.play();
+            
+            if (playPromise !== undefined) {
+              playPromise
+                .then(() => {
+                  console.log('Video playing - showing video');
+                  // 재생 성공 시 즉시 비디오 표시 (배경은 천천히 사라짐)
+                  setVideoLoaded(true);
+                })
+                .catch(error => {
+                  console.log('Auto-play was prevented:', error);
+                  // 자동 재생이 차단된 경우에도 비디오 표시
+                  setVideoLoaded(true);
+                });
+            }
+          };
+          
+          // 비디오 로드 중 상태 표시
+          const handleLoadStart = () => {
+            console.log('Video loading started');
+          };
+          
+          videoRef.current.addEventListener('loadeddata', handleVideoLoaded);
+          videoRef.current.addEventListener('loadstart', handleLoadStart);
+          
+          // 비디오 로드 확인을 위한 백업 타이머
+          const timer = setTimeout(() => {
+            if (!videoLoaded) {
+              console.log('Video load timeout - forcing loaded state');
               setVideoLoaded(true);
-            })
-            .catch(error => {
-              console.log('Auto-play was prevented:', error);
-              // 자동 재생이 차단된 경우에도 비디오 표시
-              setVideoLoaded(true);
-            });
+            }
+          }, 3000);
+          
+          // 옵저버 연결 해제
+          observer.disconnect();
+          
+          return () => {
+            if (videoRef.current) {
+              videoRef.current.removeEventListener('loadeddata', handleVideoLoaded);
+              videoRef.current.removeEventListener('loadstart', handleLoadStart);
+            }
+            clearTimeout(timer);
+          };
         }
-      };
+      }, {
+        rootMargin: '0px',
+        threshold: 0.1
+      });
       
-      // 비디오 로드 중 상태 표시
-      const handleLoadStart = () => {
-        console.log('Video loading started');
-      };
-      
-      videoRef.current.addEventListener('loadeddata', handleVideoLoaded);
-      videoRef.current.addEventListener('loadstart', handleLoadStart);
-      
-      // 비디오 로드 확인을 위한 백업 타이머
-      const timer = setTimeout(() => {
-        if (!videoLoaded) {
-          console.log('Video load timeout - forcing loaded state');
-          setVideoLoaded(true);
-        }
-      }, 3000);
+      observer.observe(videoRef.current);
       
       return () => {
-        if (videoRef.current) {
-          videoRef.current.removeEventListener('loadeddata', handleVideoLoaded);
-          videoRef.current.removeEventListener('loadstart', handleLoadStart);
-        }
-        clearTimeout(timer);
+        observer.disconnect();
       };
     }
-  }, []);
+  }, [videoLoaded]);
 
   // 폰트 로딩 처리
   useEffect(() => {
+    // 초기 렌더링 상태 업데이트 - 더 빠르게 표시
+    const initialTimer = setTimeout(() => {
+      setInitialRender(false);
+      // 컴포넌트 페이드인 시작
+      setIsVisible(true);
+    }, 10); // 100ms에서 10ms로 감소
+    
     // 폰트 로딩 확인
     if ('fonts' in document) {
-      Promise.all([
-        document.fonts.load('900 1em Montserrat'),
-        document.fonts.load('400 1em Pretendard'),
-        document.fonts.load('400 1em JalnanGothic')
-      ]).then(() => {
-        console.log('Fonts loaded successfully');
+      // 필수 폰트만 먼저 로드
+      document.fonts.load('400 1em system-ui').then(() => {
         setFontsLoaded(true);
-      }).catch((err) => {
-        // 폰트 로딩 실패 시에도 컴포넌트는 표시
-        console.warn('Font loading failed:', err);
-        setFontsLoaded(true);
+        
+        // 나머지 폰트는 비동기적으로 로드
+        Promise.all([
+          document.fonts.load('900 1em Montserrat'),
+          document.fonts.load('400 1em Pretendard'),
+          document.fonts.load('400 1em JalnanGothic')
+        ]).catch((err) => {
+          console.warn('Font loading failed:', err);
+        });
       });
     } else {
       // fonts API를 지원하지 않는 브라우저에서는 타임아웃으로 처리
       const timer = setTimeout(() => {
         console.log('Font loading timeout - setting as loaded');
         setFontsLoaded(true);
-      }, 500); // 시간 증가
+      }, 100); // 시간 감소
       return () => clearTimeout(timer);
     }
-    
-    // 초기 렌더링 상태 업데이트
-    const initialTimer = setTimeout(() => {
-      setInitialRender(false);
-      // 컴포넌트 페이드인 시작
-      setIsVisible(true);
-    }, 100);
     
     return () => clearTimeout(initialTimer);
   }, []);

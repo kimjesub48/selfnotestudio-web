@@ -101,7 +101,7 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
     return `${baseUrl}/images/card${index + 1}-poster.jpg${index >= 2 ? '?v=3' : ''}`;
   };
 
-  // 간소화된 비디오 재생 로직
+  // 비디오 재생 로직 개선
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
@@ -112,31 +112,28 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
     // 비디오 로드
     video.load();
     
-    // 비디오 재생 시도
-    const playVideo = () => {
-      const playPromise = video.play();
-      if (playPromise !== undefined) {
-        playPromise.catch(error => {
-          console.log(`Video ${index + 1} autoplay failed:`, error);
-        });
+    // IntersectionObserver를 사용하여 뷰포트에 들어올 때만 비디오 로드
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        // 비디오 재생 시도
+        const playPromise = video.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(error => {
+            console.log(`Video ${index + 1} autoplay failed:`, error);
+          });
+        }
+        setVideoLoaded(true);
+        observer.disconnect();
       }
-    };
+    }, {
+      rootMargin: '100px',
+      threshold: 0.1
+    });
     
-    // 비디오 메타데이터 로드 완료 시 재생
-    const handleLoadedMetadata = () => {
-      playVideo();
-      setVideoLoaded(true);
-    };
-    
-    video.addEventListener('loadedmetadata', handleLoadedMetadata);
-    
-    // 이미 메타데이터가 로드된 경우 바로 재생
-    if (video.readyState >= 1) {
-      handleLoadedMetadata();
-    }
+    observer.observe(video);
     
     return () => {
-      video.removeEventListener('loadedmetadata', handleLoadedMetadata);
+      observer.disconnect();
       video.pause();
       video.src = '';
       video.load();
@@ -245,7 +242,7 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
             loop
             muted
             playsInline
-            preload="auto"
+            preload="none"
             poster={getPosterUrl()}
             style={videoStyle}
             playsinline="true"
@@ -253,6 +250,8 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
             x5-playsinline="true"
             x5-video-player-type="h5"
             x5-video-player-fullscreen="true"
+            loading="lazy"
+            fetchpriority="low"
           >
             <source src={getVideoUrl()} type="video/mp4" />
             동영상을 로드할 수 없습니다.

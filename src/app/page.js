@@ -1,13 +1,18 @@
 'use client';
 
-import React, { useEffect, useState, Suspense } from 'react';
+import React, { useEffect, useState, Suspense, lazy } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Head from 'next/head';
 import Hero from '../components/Hero';
-import WhyChooseUs from '../components/WhyChooseUs';
-import AudioComparison from '../components/AudioComparison';
 import '../styles/globals.css';
+
+// 동적 임포트로 컴포넌트 지연 로딩
+const WhyChooseUs = lazy(() => import('../components/WhyChooseUs'));
+const AudioComparison = lazy(() => import('../components/AudioComparison'));
+const VideoPackages = lazy(() => import('../components/VideoPackages'));
+const Reviews = lazy(() => import('../components/Reviews'));
+const StudioInfo = lazy(() => import('../components/StudioInfo'));
 
 // 로딩 스켈레톤 컴포넌트
 const SectionSkeleton = ({ height = 400 }) => (
@@ -94,6 +99,21 @@ export default function Home() {
       const timer = setTimeout(() => setPageReady(true), 2000);
       return () => clearTimeout(timer);
     }
+    
+    // 주요 컴포넌트 사전 로드
+    const preloadComponents = async () => {
+      // 메인 컨텐츠가 표시된 후 나머지 컴포넌트를 미리 로드
+      const preload = () => {
+        import('../components/VideoPackages');
+        import('../components/Reviews');
+        import('../components/StudioInfo');
+      };
+      
+      // 메인 컨텐츠 로드 후 지연 실행
+      setTimeout(preload, 3000);
+    };
+    
+    preloadComponents();
   }, []);
 
   return (
@@ -104,8 +124,26 @@ export default function Home() {
       <main>
         <div className="content-container">
           <Hero />
-          <WhyChooseUs />
-          <AudioComparison />
+          
+          <Suspense fallback={<SectionSkeleton height={600} />}>
+            <WhyChooseUs />
+          </Suspense>
+          
+          <Suspense fallback={<SectionSkeleton height={500} />}>
+            <AudioComparison />
+          </Suspense>
+          
+          <Suspense fallback={<SectionSkeleton height={500} />}>
+            <VideoPackages />
+          </Suspense>
+          
+          <Suspense fallback={<SectionSkeleton height={400} />}>
+            <Reviews />
+          </Suspense>
+          
+          <Suspense fallback={<SectionSkeleton height={600} />}>
+            <StudioInfo />
+          </Suspense>
         </div>
       </main>
     </>

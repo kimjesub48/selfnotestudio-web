@@ -541,6 +541,8 @@ export default function VideoPackages() {
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
                       allowFullScreen
                       playsinline="1"
+                      loading="lazy"
+                      fetchpriority="low"
                     ></iframe>
                   ) : (
                     <>
@@ -562,6 +564,8 @@ export default function VideoPackages() {
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
                       allowFullScreen
                       playsinline="1"
+                      loading="lazy"
+                      fetchpriority="low"
                     ></iframe>
                   ) : (
                     <>

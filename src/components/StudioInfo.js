@@ -667,6 +667,8 @@ export default function StudioInfo() {
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
                   allowFullScreen
                   playsinline="1"
+                  loading="lazy"
+                  fetchpriority="low"
                 ></iframe>
                 <ScrollableOverlay />
               </>

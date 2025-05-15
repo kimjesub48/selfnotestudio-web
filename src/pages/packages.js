@@ -399,7 +399,18 @@ export default function Packages() {
     <PageContainer>
       <Head>
         <title>영상 패키지 | 셀프노트 스튜디오</title>
-        <meta name="description" content="셀프노트 스튜디오의 다양한 영상 패키지를 확인하세요." />
+        <meta name="description" content="셀프노트 스튜디오의 다양한 영상 패키지를 확인하세요. 일반 촬영, 프리미엄 촬영, 프로 촬영, 스페셜 무비 촬영까지 목적에 맞는 최적의 패키지를 선택할 수 있습니다." />
+        <meta name="keywords" content="영상 패키지, 셀프노트 스튜디오, 유튜브 영상 제작, 뮤직비디오, 커버 영상, 축가 영상, 녹음실" />
+        <meta property="og:title" content="영상 패키지 | 셀프노트 스튜디오" />
+        <meta property="og:description" content="셀프노트 스튜디오의 다양한 영상 패키지를 확인하세요. 일반 촬영, 프리미엄 촬영, 프로 촬영, 스페셜 무비 촬영까지 목적에 맞는 최적의 패키지를 선택할 수 있습니다." />
+        <meta property="og:image" content="https://selfnote.co.kr/studio/studio02.webp?v=2" />
+        <meta property="og:url" content="https://selfnote.co.kr/packages" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="영상 패키지 | 셀프노트 스튜디오" />
+        <meta name="twitter:description" content="셀프노트 스튜디오의 다양한 영상 패키지를 확인하세요." />
+        <meta name="twitter:image" content="https://selfnote.co.kr/studio/studio02.webp?v=2" />
+        <link rel="canonical" href="https://selfnote.co.kr/packages" />
       </Head>
       
       <Header>
@@ -465,6 +476,8 @@ export default function Packages() {
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
                 allowFullScreen
                 playsinline="1"
+                loading="lazy"
+                fetchpriority="low"
               ></iframe>
               <ScrollableOverlay />
             </VideoWrapper>
