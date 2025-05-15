@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://selfnote.co.kr/sitemap.xml 

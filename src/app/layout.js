@@ -1,8 +1,32 @@
 import "../styles/globals.css";
 
 export const metadata = {
-  title: "셀프노트 스튜디오",
-  description: "오디오 제작 전문 스튜디오",
+  title: "일반인 녹음실 | 유튜브 커버영상 · 음원발매 · 축가녹음까지 | 셀프노트 스튜디오",
+  description: "셀프노트는 일반인을 위한 셀프녹음실입니다. 노래녹음, 유튜브 커버영상, 음원발매, 셀프축가, 식전영상, 축가녹음, 커버촬영, 뮤직비디오까지 가능한 서울 녹음실입니다.",
+  keywords: "일반인 녹음실, 셀프녹음실, 유튜브 커버영상, 음원발매, 축가녹음, 노래녹음, 녹음실 대여, 셀프축가, 식전영상, 커버촬영, 뮤직비디오, 서울 녹음실",
+  openGraph: {
+    title: "일반인 녹음실 · 유튜브 커버 · 축가녹음 | 셀프노트 스튜디오",
+    description: "셀프노트는 누구나 쉽게 녹음할 수 있는 셀프녹음실입니다. 노래녹음부터 커버영상, 축가, 음원발매까지 올인원 제공!",
+    url: "https://selfnote.co.kr",
+    siteName: "셀프노트 스튜디오",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "셀프노트 스튜디오",
+      },
+    ],
+    locale: "ko_KR",
+    type: "website",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  alternates: {
+    canonical: "https://selfnote.co.kr",
+  },
 };
 
 export default function RootLayout({ children }) {

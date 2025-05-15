@@ -300,7 +300,8 @@ export default function Hero() {
             muted
             loop
             playsInline
-            preload="auto"
+            preload="none"
+            poster="/studio/studio01.webp"
           >
             <source src="/videos/hero.webm" type="video/webm" />
           </VideoBackground>

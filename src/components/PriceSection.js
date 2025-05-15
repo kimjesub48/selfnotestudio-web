@@ -51,6 +51,7 @@ const Card = styled.div`
   @media (max-width: 900px) {
     width: 95%;
     min-width: 0;
+    order: ${props => props.$mobileOrder || 'unset'};
   }
 `;
 
@@ -161,31 +162,8 @@ export default function PriceSection() {
       <div style={{ height: '20px' }}></div>
       
       <CardRow>
-        {/* 녹음실 대여 */}
-        <Card>
-          <CardTitle>녹음실 대여</CardTitle>
-          <Table>
-            <tbody>
-              <Tr><Th>이용 시간</Th><Td>1시간</Td></Tr>
-              <Tr><Th>엔지니어</Th><Td>포함</Td></Tr>
-              <Tr><Th>장비</Th><Td>고급 마이크/음향</Td></Tr>
-              <Tr><Th>인원</Th><Td>4인까지(초과 1인 5천원)</Td></Tr>
-              <Tr><Th>추가 옵션</Th><Td>없음</Td></Tr>
-            </tbody>
-          </Table>
-          <PriceRow>
-            <OldPrice>60,000</OldPrice>
-            <Price>50,000</Price>
-            <Discount>↓16%</Discount>
-          </PriceRow>
-          <ReserveButton href="#reservation">예약하기</ReserveButton>
-          <CardFooter>디렉팅 포함 무제한 곡 녹음 상품입니다.</CardFooter>
-        </Card>
-        
-        {/* 음정보정 패키지 - 숨김 처리 */}
-        
         {/* 영상 패키지 */}
-        <Card>
+        <Card $mobileOrder={2}>
           <CardTitle>영상 패키지</CardTitle>
           <Table>
             <tbody>
@@ -205,6 +183,49 @@ export default function PriceSection() {
           <CardFooter>
             <span>녹음과 동시에 4K 영상 촬영까지 가능한</span>
             <span>올인원 패키지입니다.</span>
+          </CardFooter>
+        </Card>
+        
+        {/* 녹음실 대여 */}
+        <Card $mobileOrder={1}>
+          <CardTitle>녹음실 대여</CardTitle>
+          <Table>
+            <tbody>
+              <Tr><Th>이용 시간</Th><Td>1시간</Td></Tr>
+              <Tr><Th>엔지니어</Th><Td>포함</Td></Tr>
+              <Tr><Th>장비</Th><Td>고급 마이크/음향</Td></Tr>
+              <Tr><Th>인원</Th><Td>4인까지(초과 1인 5천원)</Td></Tr>
+              <Tr><Th>추가 옵션</Th><Td>없음</Td></Tr>
+            </tbody>
+          </Table>
+          <PriceRow>
+            <OldPrice>60,000</OldPrice>
+            <Price>50,000</Price>
+            <Discount>↓16%</Discount>
+          </PriceRow>
+          <ReserveButton href="#reservation">예약하기</ReserveButton>
+          <CardFooter>디렉팅 포함 무제한 곡 녹음 상품입니다.</CardFooter>
+        </Card>
+        
+        {/* YouTube 패키지 */}
+        <Card $mobileOrder={3}>
+          <CardTitle>YouTube 패키지</CardTitle>
+          <Table>
+            <tbody>
+              <Tr><Th>녹음 시간</Th><Td>맞춤형</Td></Tr>
+              <Tr><Th>엔지니어</Th><Td>포함</Td></Tr>
+              <Tr><Th>영상 편집</Th><Td>유튜브 최적화</Td></Tr>
+              <Tr><Th>썸네일</Th><Td>포함</Td></Tr>
+              <Tr><Th>채널 컨설팅</Th><Td>포함</Td></Tr>
+            </tbody>
+          </Table>
+          <PriceRow>
+            <Price>문의</Price>
+          </PriceRow>
+          <ReserveButton href="#reservation">문의하기</ReserveButton>
+          <CardFooter>
+            <span>유튜브 채널 운영에 필요한 모든 것을</span>
+            <span>한번에 해결해드립니다.</span>
           </CardFooter>
         </Card>
       </CardRow>
