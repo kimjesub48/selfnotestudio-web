@@ -280,22 +280,7 @@ const ScrollableOverlay = styled.div`
   width: 100%;
   height: 100%;
   z-index: 5;
-  
-  // 모바일에서만 적용
-  @media (max-width: 900px) {
-    pointer-events: none;
-    
-    // 컨트롤 영역만 포인터 이벤트 활성화
-    &::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 40px; // 컨트롤 영역 높이
-      pointer-events: auto;
-    }
-  }
+  pointer-events: none;
 `;
 
 // 리뷰 데이터
@@ -346,6 +331,10 @@ export default function Reviews() {
   const [isMobile, setIsMobile] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentVideoId, setCurrentVideoId] = useState('');
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+  
+  // origin 파라미터 추가 (SSR 안전)
+  const origin = typeof window !== 'undefined' ? window.location.origin : '';
   
   // 모바일 여부 체크
   useEffect(() => {
@@ -369,12 +358,14 @@ export default function Reviews() {
   const openVideoModal = (videoId) => {
     setCurrentVideoId(videoId);
     setIsModalOpen(true);
+    setIsVideoPlaying(false);
     document.body.style.overflow = 'hidden'; // 모달 열릴 때 스크롤 방지
   };
   
   // 비디오 모달 닫기
   const closeVideoModal = () => {
     setIsModalOpen(false);
+    setIsVideoPlaying(false);
     document.body.style.overflow = ''; // 모달 닫힐 때 스크롤 복원
   };
   

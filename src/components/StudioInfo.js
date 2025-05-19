@@ -131,22 +131,7 @@ const ScrollableOverlay = styled.div`
   width: 100%;
   height: 100%;
   z-index: 2;
-  
-  // 모바일에서만 적용
-  @media (max-width: 900px) {
-    pointer-events: none;
-    
-    // 컨트롤 영역만 포인터 이벤트 활성화
-    &::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 40px; // 컨트롤 영역 높이
-      pointer-events: auto;
-    }
-  }
+  pointer-events: none;
 `;
 
 const PlayButton = styled.button`
@@ -617,6 +602,8 @@ export default function StudioInfo() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageErrors, setImageErrors] = useState({});
   const galleryRef = React.useRef(null);
+  // origin 파라미터 추가 (SSR 안전)
+  const origin = typeof window !== 'undefined' ? window.location.origin : '';
 
   const handleImageError = (index) => {
     setImageErrors(prev => ({
@@ -666,7 +653,6 @@ export default function StudioInfo() {
                   title="셀프노트 스튜디오 시설 둘러보기"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
                   allowFullScreen
-                  playsinline="1"
                   loading="lazy"
                   fetchpriority="low"
                 ></iframe>
