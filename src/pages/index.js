@@ -13,11 +13,11 @@ export default function Home() {
   return (
     <main>
       <Hero />
+      <Reviews />
       <WhyChooseUs />
       <AudioComparison />
       <VideoPackages />
       <StudioInfo />
-      <Reviews />
       <PriceSection />
       <ReservationSection />
       <Footer />

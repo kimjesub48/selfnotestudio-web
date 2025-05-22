@@ -124,23 +124,18 @@ export default function Home() {
       <main>
         <div className="content-container">
           <Hero />
-          
-          <Suspense fallback={<SectionSkeleton height={600} />}>
-            <WhyChooseUs />
-          </Suspense>
-          
-          <Suspense fallback={<SectionSkeleton height={500} />}>
-            <AudioComparison />
-          </Suspense>
-          
-          <Suspense fallback={<SectionSkeleton height={500} />}>
-            <VideoPackages />
-          </Suspense>
-          
           <Suspense fallback={<SectionSkeleton height={400} />}>
             <Reviews />
           </Suspense>
-          
+          <Suspense fallback={<SectionSkeleton height={600} />}>
+            <WhyChooseUs />
+          </Suspense>
+          <Suspense fallback={<SectionSkeleton height={500} />}>
+            <AudioComparison />
+          </Suspense>
+          <Suspense fallback={<SectionSkeleton height={500} />}>
+            <VideoPackages />
+          </Suspense>
           <Suspense fallback={<SectionSkeleton height={600} />}>
             <StudioInfo />
           </Suspense>
