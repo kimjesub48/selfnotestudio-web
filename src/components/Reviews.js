@@ -386,9 +386,9 @@ export default function Reviews() {
   return (
     <Section id="reviews">
       <TitleWrapper>
-        <MainTitle>실제 이용 고객들의</MainTitle>
+        <MainTitle>100% 실제 이용 고객들의</MainTitle>
         <div style={{ height: '8px' }}></div>
-        <SubTitle>생생한 후기</SubTitle>
+        <SubTitle>생생한 리얼 후기</SubTitle>
       </TitleWrapper>
       
       <ReviewsRow>

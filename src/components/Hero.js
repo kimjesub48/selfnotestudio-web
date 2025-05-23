@@ -72,8 +72,8 @@ const VideoBackground = styled.video`
 const ContentContainer = styled.div`
   width: 100%;
   max-width: 900px;
-  text-align: left;
-  margin: ${props => props.$isMobile ? '0 auto' : '0 0 0 -315px'};
+  text-align: center;
+  margin: 0 auto;
   padding: 0 24px;
   position: relative;
   z-index: 5;
@@ -85,14 +85,15 @@ const ContentContainer = styled.div`
 
 const Title = styled.h1`
   font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
-  font-weight: 900;
-  font-size: ${props => props.$isMobile ? '2.3rem' : '5.2rem'};
+  font-weight: 700;
+  font-size: ${props => props.$isMobile ? '1.9rem' : '4.2rem'};
   line-height: 1.08;
   letter-spacing: -0.01em;
   margin: 0;
   position: relative;
   text-transform: uppercase;
-  margin-left: ${props => props.$isMobile ? '0' : '0px'};
+  margin-left: 0;
+  text-align: center;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   
@@ -105,11 +106,11 @@ const Title = styled.h1`
   
   /* 폰트 크기 안정화 */
   @media (min-width: 901px) {
-    font-size: 5.2rem;
+    font-size: 4.2rem;
   }
   
   @media (max-width: 900px) {
-    font-size: 2.3rem;
+    font-size: 1.9rem;
   }
 `;
 
@@ -126,10 +127,11 @@ const Description = styled.p`
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-weight: 400;
   font-size: ${props => props.$isMobile ? '1rem' : '1.1rem'};
-  color: #bfc7d1;
+  color: #ffffff;
   margin-top: 1.5rem;
-  margin-left: 2px;
+  margin-left: 0;
   letter-spacing: 0.04em;
+  text-align: center;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   
@@ -170,6 +172,37 @@ const ScrollArrow = styled.span`
   display: inline-block;
   width: 28px;
   height: 28px;
+`;
+
+const HighlightText = styled.span`
+  position: relative;
+  font-size: ${props => props.$isMobile ? '2.3rem' : '5rem'};
+  color: #3491FF;
+  font-weight: 900;
+  
+  &::before {
+    content: '•';
+    position: absolute;
+    top: ${props => props.$isMobile ? '-14px' : '-25px'};
+    left: ${props => props.$isMobile ? '25%' : '25%'};
+    transform: translateX(-50%);
+    font-size: ${props => props.$isMobile ? '0.9rem' : '1.5rem'};
+    color: #3491FF;
+    opacity: 1;
+    z-index: 10;
+  }
+  
+  &::after {
+    content: '•';
+    position: absolute;
+    top: ${props => props.$isMobile ? '-14px' : '-25px'};
+    left: ${props => props.$isMobile ? '75%' : '75%'};
+    transform: translateX(-50%);
+    font-size: ${props => props.$isMobile ? '0.9rem' : '1.5rem'};
+    color: #3491FF;
+    opacity: 1;
+    z-index: 10;
+  }
 `;
 
 export default function Hero() {
@@ -338,9 +371,8 @@ export default function Hero() {
             $isMobile={isMobile} 
             className={`${fontsLoaded ? 'fonts-loaded' : ''} ${initialRender ? 'initial-render' : ''}`}
           >
-            <TitleText>SELF_NOTE</TitleText>
-            <TitleText>STUDIO</TitleText>
-            <TitleText>RECORDING</TitleText>
+            <TitleText>누구나 쉽게, <HighlightText $isMobile={isMobile}>녹음</HighlightText> 하세요!</TitleText>
+            <TitleText></TitleText>
           </Title>
           <Description 
             $isMobile={isMobile} 
@@ -348,7 +380,7 @@ export default function Hero() {
           >
             NAVER 대중음악 인플루언서 공식 선정<br />
             YouTube 구독자 205만 채널 운영<br />
-            Creator Awards 수상<br />
+            Google Creator Awards 수상
           </Description>
         </ContentContainer>
 

@@ -9,11 +9,19 @@ import ReactDOM from 'react-dom/client';
 const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCard }) => {
   const videoRef = useRef(null);
   const [videoLoaded, setVideoLoaded] = useState(false);
+  const [isIOS, setIsIOS] = useState(false);
   const containerRef = useRef(null);
+
+  // iOS 감지
+  useEffect(() => {
+    const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    setIsIOS(iOS);
+  }, []);
 
   // 비디오 기본 스타일
   const videoStyle = {
     objectFit: 'cover',
+    objectPosition: 'center',
     width: '100%',
     height: '100%',
     position: 'absolute',
@@ -22,7 +30,8 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
     zIndex: 2,
     borderRadius: '32px',
     display: 'block',
-    opacity: 1
+    opacity: videoLoaded ? 1 : 0,
+    transition: 'opacity 0.3s ease'
   };
 
   // 비디오 컨테이너 스타일 (비디오를 감싸는 박스)
@@ -106,8 +115,39 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
     const video = videoRef.current;
     if (!video) return;
     
-    // iOS Safari에서도 작동하도록 muted 속성 확실히 설정
+    // iOS Safari에서도 작동하도록 설정
     video.muted = true;
+    video.defaultMuted = true;
+    video.volume = 0;
+    
+    // 비디오 이벤트 리스너
+    const handleCanPlay = () => {
+      setVideoLoaded(true);
+      // iOS에서 자동재생 시도
+      if (isIOS) {
+        const playPromise = video.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(error => {
+            console.log(`iOS Video ${index + 1} autoplay failed:`, error);
+            // 자동재생 실패시 포스터 이미지 유지
+            setVideoLoaded(false);
+          });
+        }
+      }
+    };
+
+    const handleLoadedData = () => {
+      setVideoLoaded(true);
+    };
+
+    const handleError = () => {
+      console.log(`Video ${index + 1} load error`);
+      setVideoLoaded(false);
+    };
+
+    video.addEventListener('canplay', handleCanPlay);
+    video.addEventListener('loadeddata', handleLoadedData);
+    video.addEventListener('error', handleError);
     
     // 비디오 로드
     video.load();
@@ -115,14 +155,18 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
     // IntersectionObserver를 사용하여 뷰포트에 들어올 때만 비디오 로드
     const observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting) {
-        // 비디오 재생 시도
-        const playPromise = video.play();
-        if (playPromise !== undefined) {
-          playPromise.catch(error => {
-            console.log(`Video ${index + 1} autoplay failed:`, error);
-          });
+        // 비디오 재생 시도 (iOS가 아닌 경우)
+        if (!isIOS) {
+          const playPromise = video.play();
+          if (playPromise !== undefined) {
+            playPromise.then(() => {
+              setVideoLoaded(true);
+            }).catch(error => {
+              console.log(`Video ${index + 1} autoplay failed:`, error);
+              setVideoLoaded(false);
+            });
+          }
         }
-        setVideoLoaded(true);
         observer.disconnect();
       }
     }, {
@@ -134,11 +178,14 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
     
     return () => {
       observer.disconnect();
+      video.removeEventListener('canplay', handleCanPlay);
+      video.removeEventListener('loadeddata', handleLoadedData);
+      video.removeEventListener('error', handleError);
       video.pause();
       video.src = '';
       video.load();
     };
-  }, [index]);
+  }, [index, isIOS]);
 
   return (
     <>
@@ -229,8 +276,9 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
               width: '100%',
               height: '100%',
               objectFit: 'cover',
+              objectPosition: 'center',
               borderRadius: '32px',
-              zIndex: 1
+              zIndex: videoLoaded ? 0 : 1
             }}
             loading="eager" // 모든 이미지 즉시 로드
           />
@@ -238,11 +286,12 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
           <video
             ref={videoRef}
             key={`card${index + 1}-video`}
-            autoPlay
+            autoPlay={!isIOS}
             loop
             muted
+            defaultMuted
             playsInline
-            preload="none"
+            preload="auto"
             poster={getPosterUrl()}
             style={videoStyle}
             playsinline="true"
@@ -252,6 +301,18 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
             x5-video-player-fullscreen="true"
             loading="lazy"
             fetchpriority="low"
+            onLoadedData={() => setVideoLoaded(true)}
+            onError={() => setVideoLoaded(false)}
+            onCanPlay={() => {
+              if (isIOS) {
+                const video = videoRef.current;
+                if (video) {
+                  video.play().catch(() => {
+                    setVideoLoaded(false);
+                  });
+                }
+              }
+            }}
           >
             <source src={getVideoUrl()} type="video/mp4" />
             동영상을 로드할 수 없습니다.
