@@ -32,6 +32,41 @@ class MyDocument extends Document {
     return (
       <Html lang="ko">
         <Head>
+          {/* 기본 SEO 메타 태그 */}
+          <title>셀프노트 스튜디오 - 전문 녹음실 | 1:1 디렉팅 | 음정보정 | 영상제작</title>
+          <meta name="description" content="셀프노트 스튜디오는 전문 엔지니어의 1:1 맞춤 디렉팅과 음정보정, 고품질 영상제작을 제공하는 녹음실입니다. 무제한 녹음으로 완벽한 음원을 만들어보세요." />
+          <meta name="keywords" content="녹음실, 셀프노트, 음정보정, 디렉팅, 영상제작, 노래녹음, 음원제작, 보컬코칭, 믹싱, 마스터링" />
+          <meta name="author" content="셀프노트 스튜디오" />
+          <meta name="robots" content="index, follow" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          <meta charset="UTF-8" />
+          
+          {/* Open Graph 메타 태그 (카카오톡, 페이스북 공유용) */}
+          <meta property="og:type" content="website" />
+          <meta property="og:title" content="셀프노트 스튜디오 - 전문 녹음실" />
+          <meta property="og:description" content="전문 엔지니어의 1:1 맞춤 디렉팅과 음정보정, 고품질 영상제작을 제공하는 녹음실" />
+          <meta property="og:image" content="https://selfnote.co.kr/images/og-image.jpg" />
+          <meta property="og:url" content="https://selfnote.co.kr" />
+          <meta property="og:site_name" content="셀프노트 스튜디오" />
+          <meta property="og:locale" content="ko_KR" />
+          
+          {/* Twitter Card 메타 태그 */}
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:title" content="셀프노트 스튜디오 - 전문 녹음실" />
+          <meta name="twitter:description" content="전문 엔지니어의 1:1 맞춤 디렉팅과 음정보정, 고품질 영상제작을 제공하는 녹음실" />
+          <meta name="twitter:image" content="https://selfnote.co.kr/images/og-image.jpg" />
+          
+          {/* 네이버 검색 최적화 */}
+          <meta name="naver-site-verification" content="" />
+          <meta name="google-site-verification" content="" />
+          
+          {/* 캐노니컬 URL */}
+          <link rel="canonical" href="https://selfnote.co.kr" />
+          
+          {/* 파비콘 */}
+          <link rel="icon" href="/favicon.ico" />
+          <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+          
           {/* Google Analytics 4 */}
           {process.env.NEXT_PUBLIC_GA_ID && (
             <>
