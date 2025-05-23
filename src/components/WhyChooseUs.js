@@ -5,11 +5,23 @@ import React from 'react';
 import Image from 'next/image';
 import ReactDOM from 'react-dom/client';
 
+// 전역 사용자 상호작용 상태
+let globalUserInteracted = false;
+const videoRefs = [];
+
+// iOS 감지 함수
+const isIOS = () => {
+  if (typeof window === 'undefined') return false;
+  return /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+         (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+};
+
 // 비디오 카드 컴포넌트: 각각의 특징을 소개하는 카드 섹션
 const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCard }) => {
   const videoRef = useRef(null);
   const [videoLoaded, setVideoLoaded] = useState(false);
   const containerRef = useRef(null);
+  const [isIOSDevice, setIsIOSDevice] = useState(false);
 
   // 비디오 기본 스타일
   const videoStyle = {
@@ -103,109 +115,143 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
     return `${baseUrl}/images/card${index + 1}-poster.jpg${index >= 2 ? '?v=3' : ''}`;
   };
 
-  // 비디오 재생 로직 - 모든 플랫폼 동일하게 처리
+  // 강력한 비디오 재생 함수
+  const forcePlayVideo = async () => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    try {
+      video.muted = true;
+      video.defaultMuted = true;
+      video.volume = 0;
+      
+      await video.play();
+      setVideoLoaded(true);
+    } catch (error) {
+      console.log(`Video ${index + 1} play failed:`, error);
+    }
+  };
+
+  // iOS 감지
+  useEffect(() => {
+    setIsIOSDevice(isIOS());
+  }, []);
+
+  // 전역 사용자 상호작용 감지 (모든 비디오에 적용)
+  useEffect(() => {
+    // 비디오 ref를 전역 배열에 추가
+    if (videoRef.current && !videoRefs.includes(videoRef.current)) {
+      videoRefs.push(videoRef.current);
+    }
+
+    const handleGlobalUserInteraction = () => {
+      if (!globalUserInteracted) {
+        globalUserInteracted = true;
+        
+        // 모든 비디오 즉시 재생 시도
+        videoRefs.forEach(video => {
+          if (video) {
+            video.muted = true;
+            video.volume = 0;
+            video.play().catch(() => {});
+          }
+        });
+      }
+    };
+
+    // 포괄적인 사용자 상호작용 감지
+    const events = ['click', 'touchstart', 'touchend', 'mousedown', 'keydown', 'scroll'];
+    events.forEach(event => {
+      document.addEventListener(event, handleGlobalUserInteraction, { 
+        once: true, 
+        passive: true,
+        capture: true 
+      });
+    });
+
+    return () => {
+      events.forEach(event => {
+        document.removeEventListener(event, handleGlobalUserInteraction, { capture: true });
+      });
+    };
+  }, []);
+
+  // 비디오 로딩 및 재생 로직
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
-    
-    // 강력한 음소거 설정
+
+    // 기본 설정
     video.muted = true;
     video.defaultMuted = true;
     video.volume = 0;
-    
-    // 비디오 이벤트 리스너
+
     const handleCanPlay = () => {
       setVideoLoaded(true);
+      if (globalUserInteracted) {
+        video.play().catch(() => {});
+      }
     };
 
     const handleLoadedData = () => {
       setVideoLoaded(true);
-      // 로드되자마자 재생 시도
-      const playPromise = video.play();
-      if (playPromise !== undefined) {
-        playPromise.catch(error => {
-          console.log(`Video ${index + 1} immediate play failed:`, error);
-        });
+      if (globalUserInteracted) {
+        video.play().catch(() => {});
+      } else if (!isIOSDevice) {
+        // 비iOS에서는 즉시 재생 시도
+        video.play().catch(() => {});
       }
     };
 
     const handleLoadedMetadata = () => {
-      // 메타데이터 로드 후에도 재생 시도
-      const playPromise = video.play();
-      if (playPromise !== undefined) {
-        playPromise.then(() => {
-          setVideoLoaded(true);
-        }).catch(error => {
-          console.log(`Video ${index + 1} metadata play failed:`, error);
-        });
+      // iOS에서도 적극적으로 재생 시도
+      if (globalUserInteracted || !isIOSDevice) {
+        video.play().catch(() => {});
       }
-    };
-
-    const handleError = () => {
-      console.log(`Video ${index + 1} load error`);
-      setVideoLoaded(false);
     };
 
     video.addEventListener('canplay', handleCanPlay);
     video.addEventListener('loadeddata', handleLoadedData);
     video.addEventListener('loadedmetadata', handleLoadedMetadata);
-    video.addEventListener('error', handleError);
     
-    // 비디오 즉시 로드
+    // 즉시 로드
     video.load();
     
-    // 짧은 딜레이 후 재생 시도
-    const immediatePlayTimer = setTimeout(() => {
-      const playPromise = video.play();
-      if (playPromise !== undefined) {
-        playPromise.then(() => {
-          setVideoLoaded(true);
-        }).catch(error => {
-          console.log(`Video ${index + 1} immediate timer play failed:`, error);
-        });
-      }
-    }, 100);
-    
-    // IntersectionObserver를 사용하여 뷰포트에 들어올 때 적극적으로 재생
+    // IntersectionObserver로 뷰포트 진입 시 재생
     const observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting) {
-        // 여러 번 재생 시도
-        const playAttempts = [0, 100, 300, 500];
+        setVideoLoaded(true);
         
-        playAttempts.forEach((delay) => {
+        // 여러 번 재생 시도 (iOS 대응)
+        const playAttempts = [0, 100, 300, 500];
+        playAttempts.forEach(delay => {
           setTimeout(() => {
-            const playPromise = video.play();
-            if (playPromise !== undefined) {
-              playPromise.then(() => {
-                setVideoLoaded(true);
-              }).catch(error => {
-                console.log(`Video ${index + 1} observer play attempt failed:`, error);
-              });
+            if (video && (globalUserInteracted || !isIOSDevice)) {
+              video.play().catch(() => {});
             }
           }, delay);
         });
-        
-        observer.disconnect();
       }
-    }, {
-      rootMargin: '50px',
-      threshold: 0.1
+    }, { 
+      threshold: 0.1,
+      rootMargin: '50px'
     });
     
     observer.observe(video);
-    
+
     return () => {
       observer.disconnect();
       video.removeEventListener('canplay', handleCanPlay);
       video.removeEventListener('loadeddata', handleLoadedData);
       video.removeEventListener('loadedmetadata', handleLoadedMetadata);
-      video.removeEventListener('error', handleError);
-      clearTimeout(immediatePlayTimer);
-      video.pause();
-      video.src = '';
-      video.load();
+      
+      // 전역 배열에서 제거
+      const videoIndex = videoRefs.indexOf(video);
+      if (videoIndex > -1) {
+        videoRefs.splice(videoIndex, 1);
+      }
     };
-  }, [index]);
+  }, [isIOSDevice, index]);
 
   return (
     <>
@@ -315,26 +361,8 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
             poster={getPosterUrl()}
             style={videoStyle}
             webkit-playsinline="true"
-            playsinline="true"
             x5-playsinline="true"
-            x5-video-player-type="h5"
-            x5-video-player-fullscreen="true"
             onLoadedData={() => setVideoLoaded(true)}
-            onCanPlay={() => {
-              const video = videoRef.current;
-              if (video) {
-                video.play().catch(() => {});
-              }
-            }}
-            onLoadStart={() => {
-              const video = videoRef.current;
-              if (video) {
-                setTimeout(() => {
-                  video.play().catch(() => {});
-                }, 50);
-              }
-            }}
-            onError={() => setVideoLoaded(false)}
           >
             <source src={getVideoUrl()} type="video/mp4" />
             동영상을 로드할 수 없습니다.
