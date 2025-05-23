@@ -5,23 +5,10 @@ import React from 'react';
 import Image from 'next/image';
 import ReactDOM from 'react-dom/client';
 
-// 전역 사용자 상호작용 상태
-let globalUserInteracted = false;
-const videoRefs = [];
-
-// iOS 감지 함수
-const isIOS = () => {
-  if (typeof window === 'undefined') return false;
-  return /iPad|iPhone|iPod/.test(navigator.userAgent) || 
-         (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-};
-
 // 비디오 카드 컴포넌트: 각각의 특징을 소개하는 카드 섹션
 const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCard }) => {
   const videoRef = useRef(null);
-  const [videoLoaded, setVideoLoaded] = useState(false);
   const containerRef = useRef(null);
-  const [isIOSDevice, setIsIOSDevice] = useState(false);
 
   // 비디오 기본 스타일
   const videoStyle = {
@@ -34,9 +21,7 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
     left: 0,
     zIndex: 2,
     borderRadius: '32px',
-    display: 'block',
-    opacity: videoLoaded ? 1 : 0,
-    transition: 'opacity 0.3s ease'
+    display: 'block'
   };
 
   // 비디오 컨테이너 스타일 (비디오를 감싸는 박스)
@@ -108,150 +93,6 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
     const videoFiles = ['card1.mp4', 'card2.mp4', 'card3.mp4', 'card4.mp4'];
     return `${baseUrl}/videos/${videoFiles[index]}`;
   };
-  
-  // 포스터 이미지 URL 생성
-  const getPosterUrl = () => {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || '';
-    return `${baseUrl}/images/card${index + 1}-poster.jpg${index >= 2 ? '?v=3' : ''}`;
-  };
-
-  // 강력한 비디오 재생 함수
-  const forcePlayVideo = async () => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    try {
-      video.muted = true;
-      video.defaultMuted = true;
-      video.volume = 0;
-      
-      await video.play();
-      setVideoLoaded(true);
-    } catch (error) {
-      console.log(`Video ${index + 1} play failed:`, error);
-    }
-  };
-
-  // iOS 감지
-  useEffect(() => {
-    setIsIOSDevice(isIOS());
-  }, []);
-
-  // 전역 사용자 상호작용 감지 (모든 비디오에 적용)
-  useEffect(() => {
-    // 비디오 ref를 전역 배열에 추가
-    if (videoRef.current && !videoRefs.includes(videoRef.current)) {
-      videoRefs.push(videoRef.current);
-    }
-
-    const handleGlobalUserInteraction = () => {
-      if (!globalUserInteracted) {
-        globalUserInteracted = true;
-        
-        // 모든 비디오 즉시 재생 시도
-        videoRefs.forEach(video => {
-          if (video) {
-            video.muted = true;
-            video.volume = 0;
-            video.play().catch(() => {});
-          }
-        });
-      }
-    };
-
-    // 포괄적인 사용자 상호작용 감지
-    const events = ['click', 'touchstart', 'touchend', 'mousedown', 'keydown', 'scroll'];
-    events.forEach(event => {
-      document.addEventListener(event, handleGlobalUserInteraction, { 
-        once: true, 
-        passive: true,
-        capture: true 
-      });
-    });
-
-    return () => {
-      events.forEach(event => {
-        document.removeEventListener(event, handleGlobalUserInteraction, { capture: true });
-      });
-    };
-  }, []);
-
-  // 비디오 로딩 및 재생 로직
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    // 기본 설정
-    video.muted = true;
-    video.defaultMuted = true;
-    video.volume = 0;
-
-    const handleCanPlay = () => {
-      setVideoLoaded(true);
-      if (globalUserInteracted) {
-        video.play().catch(() => {});
-      }
-    };
-
-    const handleLoadedData = () => {
-      setVideoLoaded(true);
-      if (globalUserInteracted) {
-        video.play().catch(() => {});
-      } else if (!isIOSDevice) {
-        // 비iOS에서는 즉시 재생 시도
-        video.play().catch(() => {});
-      }
-    };
-
-    const handleLoadedMetadata = () => {
-      // iOS에서도 적극적으로 재생 시도
-      if (globalUserInteracted || !isIOSDevice) {
-        video.play().catch(() => {});
-      }
-    };
-
-    video.addEventListener('canplay', handleCanPlay);
-    video.addEventListener('loadeddata', handleLoadedData);
-    video.addEventListener('loadedmetadata', handleLoadedMetadata);
-    
-    // 즉시 로드
-    video.load();
-    
-    // IntersectionObserver로 뷰포트 진입 시 재생
-    const observer = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) {
-        setVideoLoaded(true);
-        
-        // 여러 번 재생 시도 (iOS 대응)
-        const playAttempts = [0, 100, 300, 500];
-        playAttempts.forEach(delay => {
-          setTimeout(() => {
-            if (video && (globalUserInteracted || !isIOSDevice)) {
-              video.play().catch(() => {});
-            }
-          }, delay);
-        });
-      }
-    }, { 
-      threshold: 0.1,
-      rootMargin: '50px'
-    });
-    
-    observer.observe(video);
-
-    return () => {
-      observer.disconnect();
-      video.removeEventListener('canplay', handleCanPlay);
-      video.removeEventListener('loadeddata', handleLoadedData);
-      video.removeEventListener('loadedmetadata', handleLoadedMetadata);
-      
-      // 전역 배열에서 제거
-      const videoIndex = videoRefs.indexOf(video);
-      if (videoIndex > -1) {
-        videoRefs.splice(videoIndex, 1);
-      }
-    };
-  }, [isIOSDevice, index]);
 
   return (
     <>
@@ -331,38 +172,16 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
             marginTop: isMobile ? '-4px' : 0
           }}
         >
-          {/* 포스터 이미지 */}
-          <img 
-            src={getPosterUrl()}
-            alt={`Card ${index + 1}`}
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              objectPosition: 'center',
-              borderRadius: '32px',
-              zIndex: videoLoaded ? 0 : 1
-            }}
-            loading="eager"
-          />
-          
           <video
             ref={videoRef}
             key={`card${index + 1}-video`}
             autoPlay
             muted
-            defaultMuted
             loop
             playsInline
             preload="auto"
-            poster={getPosterUrl()}
             style={videoStyle}
-            webkit-playsinline="true"
-            x5-playsinline="true"
-            onLoadedData={() => setVideoLoaded(true)}
+            controls={false}
           >
             <source src={getVideoUrl()} type="video/mp4" />
             동영상을 로드할 수 없습니다.
