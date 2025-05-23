@@ -32,6 +32,30 @@ class MyDocument extends Document {
     return (
       <Html lang="ko">
         <Head>
+          {/* Google Analytics 4 */}
+          {process.env.NEXT_PUBLIC_GA_ID && (
+            <>
+              <script
+                async
+                src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
+              />
+              <script
+                dangerouslySetInnerHTML={{
+                  __html: `
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){dataLayer.push(arguments);}
+                    gtag('js', new Date());
+                    gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}', {
+                      page_title: document.title,
+                      page_location: window.location.href,
+                      send_page_view: true
+                    });
+                  `,
+                }}
+              />
+            </>
+          )}
+          
           {/* 폰트 사전 로딩 */}
           <link
             rel="preload"

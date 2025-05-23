@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import styled from 'styled-components';
 import Image from 'next/image';
+import { trackEvents, trackPageTime } from '../utils/analytics';
 
 // 폰트 로딩 관련 스타일 추가
 const FontOptimizationStyle = styled.style`
@@ -172,6 +173,12 @@ const ScrollArrow = styled.span`
   display: inline-block;
   width: 28px;
   height: 28px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  
+  &:hover {
+    transform: translateY(2px);
+  }
 `;
 
 const HighlightText = styled.span`
@@ -212,7 +219,19 @@ export default function Hero() {
   const [videoLoaded, setVideoLoaded] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const videoRef = useRef(null);
+  const pageTimeTracker = useRef(null);
   
+  // 페이지 체류시간 추적 시작
+  useEffect(() => {
+    pageTimeTracker.current = trackPageTime('Hero Section');
+    
+    return () => {
+      if (pageTimeTracker.current) {
+        pageTimeTracker.current();
+      }
+    };
+  }, []);
+
   // 모바일 체크 함수
   const checkMobile = useCallback(() => {
     return window.innerWidth <= 900;
@@ -386,7 +405,7 @@ export default function Hero() {
 
         <ScrollIndicator>
           <span style={{fontSize: '0.95rem', color: '#fff', marginBottom: '4px'}}>아래로 스크롤</span>
-          <ScrollArrow>
+          <ScrollArrow onClick={() => trackEvents.content.scrollToSection('Why Choose Us')}>
             <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M7 11L14 18L21 11" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
