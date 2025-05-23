@@ -9,6 +9,7 @@ import ReactDOM from 'react-dom/client';
 const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCard }) => {
   const videoRef = useRef(null);
   const containerRef = useRef(null);
+  const [videoLoaded, setVideoLoaded] = useState(false);
 
   // 비디오 기본 스타일
   const videoStyle = {
@@ -21,7 +22,9 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
     left: 0,
     zIndex: 2,
     borderRadius: '32px',
-    display: 'block'
+    display: 'block',
+    opacity: videoLoaded ? 1 : 0,
+    transition: 'opacity 0.3s ease'
   };
 
   // 비디오 컨테이너 스타일 (비디오를 감싸는 박스)
@@ -32,6 +35,20 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
     overflow: 'hidden',
     padding: 0,
     backgroundColor: '#272840',
+    borderRadius: '32px'
+  };
+
+  // 포스터 플레이스홀더 스타일
+  const posterStyle = {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    backgroundColor: '#272840',
+    zIndex: videoLoaded ? 0 : 1,
+    opacity: videoLoaded ? 0 : 1,
+    transition: 'opacity 0.3s ease',
     borderRadius: '32px'
   };
 
@@ -89,10 +106,42 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
   // 비디오 URL 생성
   const getVideoUrl = () => {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || '';
-    // 인덱스에 따라 올바른 파일명 반환
     const videoFiles = ['card1.mp4', 'card2.mp4', 'card3.mp4', 'card4.mp4'];
     return `${baseUrl}/videos/${videoFiles[index]}`;
   };
+
+  // 빠른 로딩을 위한 즉시 재생 처리
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const handleCanPlay = () => {
+      setVideoLoaded(true);
+      // 즉시 재생 시도
+      video.play().catch(() => {
+        console.log(`Card ${index + 1} autoplay prevented, but video loaded`);
+      });
+    };
+
+    const handleLoadedData = () => {
+      setVideoLoaded(true);
+      // 즉시 재생 시도
+      video.play().catch(() => {
+        console.log(`Card ${index + 1} autoplay prevented, but video loaded`);
+      });
+    };
+
+    video.addEventListener('canplay', handleCanPlay);
+    video.addEventListener('loadeddata', handleLoadedData);
+    
+    // 즉시 로드 시작
+    video.load();
+
+    return () => {
+      video.removeEventListener('canplay', handleCanPlay);
+      video.removeEventListener('loadeddata', handleLoadedData);
+    };
+  }, [index]);
 
   return (
     <>
@@ -174,18 +223,18 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
         >
           <video
             ref={videoRef}
-            key={`card${index + 1}-video`}
             autoPlay
             muted
             loop
             playsInline
             preload="auto"
             style={videoStyle}
-            controls={false}
+            webkit-playsinline="true"
+            x5-playsinline="true"
           >
             <source src={getVideoUrl()} type="video/mp4" />
-            동영상을 로드할 수 없습니다.
           </video>
+          <div style={posterStyle} />
         </div>
       </div>
     </>
