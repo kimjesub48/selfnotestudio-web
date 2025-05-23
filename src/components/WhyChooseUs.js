@@ -10,6 +10,7 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
   const videoRef = useRef(null);
   const [videoLoaded, setVideoLoaded] = useState(false);
   const [isIOS, setIsIOS] = useState(false);
+  const [userInteracted, setUserInteracted] = useState(false);
   const containerRef = useRef(null);
 
   // iOS 감지
@@ -27,10 +28,10 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
     position: 'absolute',
     top: 0,
     left: 0,
-    zIndex: 2,
+    zIndex: isIOS ? (userInteracted && videoLoaded ? 2 : 0) : 2,
     borderRadius: '32px',
     display: 'block',
-    opacity: videoLoaded ? 1 : 0,
+    opacity: isIOS ? (userInteracted && videoLoaded ? 1 : 0) : (videoLoaded ? 1 : 0),
     transition: 'opacity 0.3s ease'
   };
 
@@ -110,6 +111,24 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
     return `${baseUrl}/images/card${index + 1}-poster.jpg${index >= 2 ? '?v=3' : ''}`;
   };
 
+  // iOS에서 비디오 컨테이너 클릭 핸들러
+  const handleVideoClick = () => {
+    if (isIOS && videoRef.current) {
+      setUserInteracted(true);
+      const video = videoRef.current;
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise.then(() => {
+          setVideoLoaded(true);
+        }).catch(error => {
+          console.log(`iOS Video ${index + 1} play failed:`, error);
+          // 재생 실패 시 포스터 이미지 유지
+          setVideoLoaded(false);
+        });
+      }
+    }
+  };
+
   // 비디오 재생 로직 개선
   useEffect(() => {
     const video = videoRef.current;
@@ -122,22 +141,16 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
     
     // 비디오 이벤트 리스너
     const handleCanPlay = () => {
-      setVideoLoaded(true);
-      // iOS에서 자동재생 시도
-      if (isIOS) {
-        const playPromise = video.play();
-        if (playPromise !== undefined) {
-          playPromise.catch(error => {
-            console.log(`iOS Video ${index + 1} autoplay failed:`, error);
-            // 자동재생 실패시 포스터 이미지 유지
-            setVideoLoaded(false);
-          });
-        }
+      // iOS가 아닌 경우에만 자동으로 로드 상태 설정
+      if (!isIOS) {
+        setVideoLoaded(true);
       }
     };
 
     const handleLoadedData = () => {
-      setVideoLoaded(true);
+      if (!isIOS) {
+        setVideoLoaded(true);
+      }
     };
 
     const handleError = () => {
@@ -155,7 +168,7 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
     // IntersectionObserver를 사용하여 뷰포트에 들어올 때만 비디오 로드
     const observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting) {
-        // 비디오 재생 시도 (iOS가 아닌 경우)
+        // 비디오 재생 시도 (iOS가 아닌 경우만)
         if (!isIOS) {
           const playPromise = video.play();
           if (playPromise !== undefined) {
@@ -262,8 +275,10 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
             marginLeft: !isMobile && index % 2 === 0 ? styles.pcGap : 0,
             marginRight: !isMobile && index % 2 === 1 ? styles.pcGap : 0,
             padding: 0,
-            marginTop: isMobile ? '-4px' : 0
+            marginTop: isMobile ? '-4px' : 0,
+            cursor: isIOS ? 'pointer' : 'default'
           }}
+          onClick={handleVideoClick}
         >
           {/* 포스터 이미지 (동영상 로드 전 보여줄 이미지) */}
           <img 
@@ -278,10 +293,33 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
               objectFit: 'cover',
               objectPosition: 'center',
               borderRadius: '32px',
-              zIndex: videoLoaded ? 0 : 1
+              zIndex: isIOS ? (userInteracted && videoLoaded ? 0 : 1) : (videoLoaded ? 0 : 1)
             }}
             loading="eager" // 모든 이미지 즉시 로드
           />
+          
+          {/* iOS 재생 버튼 오버레이 */}
+          {isIOS && !userInteracted && (
+            <div style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              zIndex: 3,
+              background: 'rgba(0, 0, 0, 0.6)',
+              borderRadius: '50%',
+              width: '60px',
+              height: '60px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer'
+            }}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+                <path d="M8 5v14l11-7z"/>
+              </svg>
+            </div>
+          )}
           
           <video
             ref={videoRef}
@@ -301,18 +339,10 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
             x5-video-player-fullscreen="true"
             loading="lazy"
             fetchpriority="low"
-            onLoadedData={() => setVideoLoaded(true)}
-            onError={() => setVideoLoaded(false)}
-            onCanPlay={() => {
-              if (isIOS) {
-                const video = videoRef.current;
-                if (video) {
-                  video.play().catch(() => {
-                    setVideoLoaded(false);
-                  });
-                }
-              }
+            onLoadedData={() => {
+              if (!isIOS) setVideoLoaded(true);
             }}
+            onError={() => setVideoLoaded(false)}
           >
             <source src={getVideoUrl()} type="video/mp4" />
             동영상을 로드할 수 없습니다.
