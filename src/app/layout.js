@@ -5,13 +5,13 @@ export const metadata = {
   description: "셀프노트는 일반인을 위한 셀프녹음실입니다. 노래녹음, 유튜브 커버영상, 음원발매, 셀프축가, 식전영상, 축가녹음, 커버촬영, 뮤직비디오까지 가능한 서울 녹음실입니다.",
   keywords: "일반인 녹음실, 셀프녹음실, 유튜브 커버영상, 음원발매, 축가녹음, 노래녹음, 녹음실 대여, 셀프축가, 식전영상, 커버촬영, 뮤직비디오, 서울 녹음실",
   openGraph: {
-    title: "일반인 녹음실 · 유튜브 커버 · 축가녹음 | 셀프노트 스튜디오",
+    title: "셀프노트 녹음실 스튜디오",
     description: "셀프노트는 누구나 쉽게 녹음할 수 있는 셀프녹음실입니다. 노래녹음부터 커버영상, 축가, 음원발매까지 올인원 제공!",
     url: "https://selfnote.co.kr",
     siteName: "셀프노트 스튜디오",
     images: [
       {
-        url: "https://selfnote.co.kr/studio/studio02.webp?v=2",
+        url: "https://selfnote.co.kr/studio/studio02.webp",
         width: 1200,
         height: 630,
         alt: "셀프노트 스튜디오",
@@ -22,9 +22,9 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "일반인 녹음실 · 유튜브 커버 · 축가녹음 | 셀프노트 스튜디오",
+    title: "셀프노트 녹음실 스튜디오",
     description: "셀프노트는 누구나 쉽게 녹음할 수 있는 셀프녹음실입니다. 노래녹음부터 커버영상, 축가, 음원발매까지 올인원 제공!",
-    images: ["https://selfnote.co.kr/studio/studio02.webp?v=2"],
+    images: ["https://selfnote.co.kr/studio/studio02.webp"],
   },
   viewport: "width=device-width, initial-scale=1, maximum-scale=5",
   themeColor: "#3491FF",

@@ -43,18 +43,18 @@ class MyDocument extends Document {
           
           {/* Open Graph 메타 태그 (카카오톡, 페이스북 공유용) */}
           <meta property="og:type" content="website" />
-          <meta property="og:title" content="셀프노트 스튜디오 - 전문 녹음실" />
+          <meta property="og:title" content="셀프노트 녹음실 스튜디오" />
           <meta property="og:description" content="전문 엔지니어의 1:1 맞춤 디렉팅과 음정보정, 고품질 영상제작을 제공하는 녹음실" />
-          <meta property="og:image" content="https://selfnote.co.kr/images/og-image.jpg" />
+          <meta property="og:image" content="https://selfnote.co.kr/studio/studio02.webp" />
           <meta property="og:url" content="https://selfnote.co.kr" />
           <meta property="og:site_name" content="셀프노트 스튜디오" />
           <meta property="og:locale" content="ko_KR" />
           
           {/* Twitter Card 메타 태그 */}
           <meta name="twitter:card" content="summary_large_image" />
-          <meta name="twitter:title" content="셀프노트 스튜디오 - 전문 녹음실" />
+          <meta name="twitter:title" content="셀프노트 녹음실 스튜디오" />
           <meta name="twitter:description" content="전문 엔지니어의 1:1 맞춤 디렉팅과 음정보정, 고품질 영상제작을 제공하는 녹음실" />
-          <meta name="twitter:image" content="https://selfnote.co.kr/images/og-image.jpg" />
+          <meta name="twitter:image" content="https://selfnote.co.kr/studio/studio02.webp" />
           
           {/* 네이버 검색 최적화 */}
           <meta name="naver-site-verification" content="" />
