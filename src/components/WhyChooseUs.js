@@ -158,7 +158,7 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
       <div className={`why-card-simple ${index % 2 === 1 ? 'reverse' : ''}`} style={{ 
         display: 'flex',
         flexDirection: isMobile ? 'column' : 'row',
-        alignItems: isMobile ? 'center' : 'flex-start',
+        alignItems: 'center',
         justifyContent: 'center',
         width: '100%',
         padding: 0
@@ -228,7 +228,9 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
             marginLeft: !isMobile && index % 2 === 0 ? styles.pcGap : 0,
             marginRight: !isMobile && index % 2 === 1 ? styles.pcGap : 0,
             padding: 0,
-            marginTop: isMobile ? '-4px' : 0
+            marginTop: isMobile ? '-4px' : 0,
+            // 모바일에서 완전 중앙 정렬 강화
+            alignSelf: isMobile ? 'center' : 'auto'
           }}
         >
           <video
@@ -343,11 +345,20 @@ export default function WhyChooseUs() {
           flexDirection: 'column',
           padding: 0,
           gap: 0,
-          background: '#13151C'
+          background: '#13151C',
+          alignItems: 'center',
+          width: '100%',
+          maxWidth: isMobile ? '100vw' : 'none'
         }}>
           {[0, 1, 2, 3].map((index, i) => (
             <React.Fragment key={index}>
-              <div style={{ background: '#13151C' }}>
+              <div style={{ 
+                background: '#13151C',
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}>
                 <VideoCard
                   index={index}
                   isMobile={isMobile}
