@@ -299,8 +299,11 @@ export default function WhyChooseUs() {
       <style>{`
         @media (max-width: 900px) {
           .why-choose-us-video-container {
-            margin-left: auto !important;
-            margin-right: auto !important;
+            text-align: center !important;
+          }
+          .why-choose-us-video {
+            left: 50% !important;
+            transform: translate(-50%, -50%) !important;
           }
         }
       `}</style>
