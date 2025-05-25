@@ -14,17 +14,20 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
   // 비디오 기본 스타일
   const videoStyle = {
     objectFit: 'cover',
-    objectPosition: 'center',
+    objectPosition: 'center center',
     width: '100%',
     height: '100%',
     position: 'absolute',
-    top: 0,
-    left: 0,
+    top: '50%',
+    left: '50%',
     zIndex: 2,
     borderRadius: '32px',
     display: 'block',
     opacity: videoLoaded ? 1 : 0,
-    transition: 'opacity 0.3s ease'
+    transition: 'opacity 0.3s ease',
+    // 아이폰 Safari 특화 스타일
+    WebkitTransform: 'translate(-50%, -50%) translateZ(0)',
+    transform: 'translate(-50%, -50%) translateZ(0)'
   };
 
   // 비디오 컨테이너 스타일 (비디오를 감싸는 박스)
@@ -35,21 +38,28 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
     overflow: 'hidden',
     padding: 0,
     backgroundColor: '#272840',
-    borderRadius: '32px'
+    borderRadius: '32px',
+    // 모바일에서 중앙 정렬 강화
+    margin: isMobile ? '0 auto' : '0',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
   };
 
   // 포스터 플레이스홀더 스타일
   const posterStyle = {
     position: 'absolute',
-    top: 0,
-    left: 0,
+    top: '50%',
+    left: '50%',
     width: '100%',
     height: '100%',
     backgroundColor: '#272840',
     zIndex: videoLoaded ? 0 : 1,
     opacity: videoLoaded ? 0 : 1,
     transition: 'opacity 0.3s ease',
-    borderRadius: '32px'
+    borderRadius: '32px',
+    WebkitTransform: 'translate(-50%, -50%)',
+    transform: 'translate(-50%, -50%)'
   };
 
   // 더보기 버튼 스타일
