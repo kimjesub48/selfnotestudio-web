@@ -162,7 +162,9 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
         alignItems: 'center',
         justifyContent: 'center',
         width: '100%',
-        padding: 0
+        padding: 0,
+        maxWidth: isMobile ? '100%' : 'none',
+        margin: isMobile ? '0 auto' : '0'
       }}>
         <div className="why-card-text-simple" style={{ 
           textAlign: isMobile ? 'center' : (index % 2 === 1 ? 'right' : 'left'),
@@ -175,7 +177,8 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
           order: isMobile ? 0 : (index % 2 === 1 ? 1 : 0),
           justifyContent: 'center',
           gap: isMobile ? '8px' : '12px',
-          padding: 0
+          padding: 0,
+          margin: isMobile ? '0 auto' : '0'
         }}>
           {/* 배지 */}
           <span className="why-badge-simple" style={{
@@ -320,6 +323,27 @@ export default function WhyChooseUs() {
             max-width: ${styles.pcVideoSize}px !important;
             min-width: ${styles.pcVideoSize}px !important;
             margin: 0 auto !important;
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            position: relative !important;
+          }
+          #why-choose-us .why-cards-simple {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: center !important;
+            width: 100% !important;
+            padding: 0 20px !important;
+            box-sizing: border-box !important;
+          }
+          #why-choose-us .why-card-simple {
+            width: 100% !important;
+            max-width: 100% !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: center !important;
+            margin: 0 auto !important;
           }
         }
       `}</style>
@@ -381,7 +405,9 @@ export default function WhyChooseUs() {
                   width: '100%',
                   display: 'flex',
                   justifyContent: 'center',
-                  alignItems: 'center'
+                  alignItems: 'center',
+                  padding: isMobile ? '0 20px' : '0',
+                  boxSizing: 'border-box'
                 }}>
                   <VideoCard
                     index={index}
