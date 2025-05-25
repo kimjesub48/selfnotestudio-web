@@ -15,35 +15,40 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
   const videoStyle = {
     objectFit: 'cover',
     objectPosition: 'center center',
-    width: '100%',
-    height: '100%',
+    width: `${styles.pcVideoSize}px !important`,
+    height: `${styles.pcVideoSize}px !important`,
+    maxWidth: `${styles.pcVideoSize}px !important`,
     position: 'absolute',
     top: '50%',
     left: '50%',
     zIndex: 2,
     borderRadius: '32px',
-    display: 'block',
+    display: 'block !important',
     opacity: videoLoaded ? 1 : 0,
     transition: 'opacity 0.3s ease',
-    // 아이폰 Safari 특화 스타일
+    // 아이폰 Safari 특화 스타일 + 글로벌 CSS 오버라이드
     WebkitTransform: 'translate(-50%, -50%) translateZ(0)',
-    transform: 'translate(-50%, -50%) translateZ(0)'
+    transform: 'translate(-50%, -50%) translateZ(0)',
+    margin: '0 !important'
   };
 
   // 비디오 컨테이너 스타일 (비디오를 감싸는 박스)
   const videoContainerStyle = {
     position: 'relative',
-    width: `${styles.pcVideoSize}px`,
-    height: `${styles.pcVideoSize}px`,
+    width: `${styles.pcVideoSize}px !important`,
+    height: `${styles.pcVideoSize}px !important`,
+    maxWidth: `${styles.pcVideoSize}px !important`,
+    minWidth: `${styles.pcVideoSize}px !important`,
     overflow: 'hidden',
-    padding: 0,
+    padding: '0 !important',
     backgroundColor: '#272840',
     borderRadius: '32px',
     // 모바일에서 중앙 정렬 강화
-    margin: isMobile ? '0 auto' : '0',
+    margin: isMobile ? '0 auto !important' : '0 !important',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    flexShrink: 0
   };
 
   // 포스터 플레이스홀더 스타일
@@ -51,15 +56,17 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
     position: 'absolute',
     top: '50%',
     left: '50%',
-    width: '100%',
-    height: '100%',
+    width: `${styles.pcVideoSize}px !important`,
+    height: `${styles.pcVideoSize}px !important`,
+    maxWidth: `${styles.pcVideoSize}px !important`,
     backgroundColor: '#272840',
     zIndex: videoLoaded ? 0 : 1,
     opacity: videoLoaded ? 0 : 1,
     transition: 'opacity 0.3s ease',
     borderRadius: '32px',
     WebkitTransform: 'translate(-50%, -50%)',
-    transform: 'translate(-50%, -50%)'
+    transform: 'translate(-50%, -50%)',
+    margin: '0 !important'
   };
 
   // 더보기 버튼 스타일
