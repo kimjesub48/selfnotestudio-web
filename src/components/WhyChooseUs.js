@@ -25,9 +25,7 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
     display: 'block',
     opacity: videoLoaded ? 1 : 0,
     transition: 'opacity 0.3s ease',
-    // 아이폰 Safari 특화 스타일
-    WebkitTransform: 'translate(-50%, -50%) translateZ(0)',
-    transform: 'translate(-50%, -50%) translateZ(0)'
+    transform: 'translate(-50%, -50%)'
   };
 
   // 비디오 컨테이너 스타일 (비디오를 감싸는 박스)
@@ -39,12 +37,10 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
     padding: 0,
     backgroundColor: '#272840',
     borderRadius: '32px',
-    // 모바일에서 중앙 정렬 강화
     margin: isMobile ? '0 auto' : '0',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
-    flexShrink: 0
+    justifyContent: 'center'
   };
 
   // 포스터 플레이스홀더 스타일
@@ -59,7 +55,6 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
     opacity: videoLoaded ? 0 : 1,
     transition: 'opacity 0.3s ease',
     borderRadius: '32px',
-    WebkitTransform: 'translate(-50%, -50%)',
     transform: 'translate(-50%, -50%)'
   };
 
@@ -162,9 +157,7 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
         alignItems: 'center',
         justifyContent: 'center',
         width: '100%',
-        padding: 0,
-        maxWidth: isMobile ? '100%' : 'none',
-        margin: isMobile ? '0 auto' : '0'
+        padding: 0
       }}>
         <div className="why-card-text-simple" style={{ 
           textAlign: isMobile ? 'center' : (index % 2 === 1 ? 'right' : 'left'),
@@ -177,8 +170,7 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
           order: isMobile ? 0 : (index % 2 === 1 ? 1 : 0),
           justifyContent: 'center',
           gap: isMobile ? '8px' : '12px',
-          padding: 0,
-          margin: isMobile ? '0 auto' : '0'
+          padding: 0
         }}>
           {/* 배지 */}
           <span className="why-badge-simple" style={{
@@ -232,12 +224,7 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
             marginLeft: !isMobile && index % 2 === 0 ? styles.pcGap : 0,
             marginRight: !isMobile && index % 2 === 1 ? styles.pcGap : 0,
             padding: 0,
-            marginTop: isMobile ? '-4px' : 0,
-            // 모바일에서 완전 중앙 정렬 강화
-            alignSelf: isMobile ? 'center' : 'auto',
-            // 글로벌 CSS 오버라이드를 위한 추가 스타일
-            minWidth: isMobile ? `${styles.pcVideoSize}px` : 'auto',
-            maxWidth: isMobile ? `${styles.pcVideoSize}px` : 'none'
+            marginTop: isMobile ? '-4px' : 0
           }}
         >
           <video
@@ -307,122 +294,78 @@ export default function WhyChooseUs() {
 
   // 실제 렌더링
   return (
-    <>
-      {/* WhyChooseUs 전용 스타일 오버라이드 */}
-      <style>{`
-        .why-choose-us-video-container .why-choose-us-video {
-          width: ${styles.pcVideoSize}px !important;
-          height: ${styles.pcVideoSize}px !important;
-          max-width: ${styles.pcVideoSize}px !important;
-          min-width: ${styles.pcVideoSize}px !important;
-        }
-        @media (max-width: 900px) {
-          .why-choose-us-video-container {
-            width: ${styles.pcVideoSize}px !important;
-            height: ${styles.pcVideoSize}px !important;
-            max-width: ${styles.pcVideoSize}px !important;
-            min-width: ${styles.pcVideoSize}px !important;
-            margin: 0 auto !important;
-            left: 50% !important;
-            transform: translateX(-50%) !important;
-            position: relative !important;
-          }
-          #why-choose-us .why-cards-simple {
-            display: flex !important;
-            flex-direction: column !important;
-            align-items: center !important;
-            justify-content: center !important;
-            width: 100% !important;
-            padding: 0 20px !important;
-            box-sizing: border-box !important;
-          }
-          #why-choose-us .why-card-simple {
-            width: 100% !important;
-            max-width: 100% !important;
-            display: flex !important;
-            flex-direction: column !important;
-            align-items: center !important;
-            justify-content: center !important;
-            margin: 0 auto !important;
-          }
-        }
-      `}</style>
-      <section
-        className="why-section-simple" 
-        id="why-choose-us"
-        style={{ 
+    <section
+      className="why-section-simple" 
+      id="why-choose-us"
+      style={{ 
+        background: '#13151C',
+        padding: isMobile ? '60px 0' : '100px 0',
+        width: '100%',
+        margin: 0,
+        overflow: 'hidden'
+      }}
+    >
+      <div className="why-section-title jalnan" style={{ 
+        fontSize: isMobile ? '1.3rem' : '1.9rem',
+        color: '#FFFFFF',
+        fontWeight: 300,
+        fontFamily: 'JalnanGothic',
+        marginBottom: '15px',
+        textAlign: 'center'
+      }}>녹음실 고민되시나요?</div>
+
+      <div className="why-subtitle" style={{
+        fontSize: isMobile ? '1.8rem' : '2.5rem',
+        fontFamily: 'JalnanGothic',
+        fontWeight: 300,
+        background: 'linear-gradient(to right, #00DCDF, #3491FF)',
+        WebkitBackgroundClip: 'text',
+        WebkitTextFillColor: 'transparent',
+        backgroundClip: 'text',
+        lineHeight: 1.4,
+        textAlign: 'center',
+        maxWidth: '800px',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        marginBottom: isMobile ? '0px' : '40px'
+      }}>
+        셀프노트와 함께하면<br />녹음이 쉬워집니다!
+      </div>
+      
+      <Spacer height={{ mobile: 40, pc: 40 }} isMobile={isMobile} />
+
+      {mounted && (
+        <div className="why-cards-simple" style={{ 
+          display: 'flex',
+          flexDirection: 'column',
+          padding: 0,
+          gap: 0,
           background: '#13151C',
-          padding: isMobile ? '60px 0' : '100px 0',
-          width: '100%',
-          margin: 0,
-          overflow: 'hidden'
-        }}
-      >
-        <div className="why-section-title jalnan" style={{ 
-          fontSize: isMobile ? '1.3rem' : '1.9rem',
-          color: '#FFFFFF',
-          fontWeight: 300,
-          fontFamily: 'JalnanGothic',
-          marginBottom: '15px',
-          textAlign: 'center'
-        }}>녹음실 고민되시나요?</div>
-
-        <div className="why-subtitle" style={{
-          fontSize: isMobile ? '1.8rem' : '2.5rem',
-          fontFamily: 'JalnanGothic',
-          fontWeight: 300,
-          background: 'linear-gradient(to right, #00DCDF, #3491FF)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          backgroundClip: 'text',
-          lineHeight: 1.4,
-          textAlign: 'center',
-          maxWidth: '800px',
-          marginLeft: 'auto',
-          marginRight: 'auto',
-          marginBottom: isMobile ? '0px' : '40px'
+          alignItems: 'center',
+          width: '100%'
         }}>
-          셀프노트와 함께하면<br />녹음이 쉬워집니다!
+          {[0, 1, 2, 3].map((index, i) => (
+            <React.Fragment key={index}>
+              <div style={{ 
+                background: '#13151C',
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}>
+                <VideoCard
+                  index={index}
+                  isMobile={isMobile}
+                  styles={styles}
+                  expandedCards={expandedCards}
+                  toggleCard={toggleCard}
+                />
+              </div>
+              {index < 3 && <Spacer height={{ mobile: 80, pc: 100 }} isMobile={isMobile} />}
+            </React.Fragment>
+          ))}
         </div>
-        
-        <Spacer height={{ mobile: 40, pc: 40 }} isMobile={isMobile} />
-
-        {mounted && (
-          <div className="why-cards-simple" style={{ 
-            display: 'flex',
-            flexDirection: 'column',
-            padding: 0,
-            gap: 0,
-            background: '#13151C',
-            alignItems: 'center',
-            width: '100%',
-            maxWidth: isMobile ? '100vw' : 'none'
-          }}>
-            {[0, 1, 2, 3].map((index, i) => (
-              <React.Fragment key={index}>
-                <div style={{ 
-                  background: '#13151C',
-                  width: '100%',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  padding: isMobile ? '0 20px' : '0',
-                  boxSizing: 'border-box'
-                }}>
-                  <VideoCard
-                    index={index}
-                    isMobile={isMobile}
-                    styles={styles}
-                    expandedCards={expandedCards}
-                    toggleCard={toggleCard}
-                  />
-                </div>
-                {index < 3 && <Spacer height={{ mobile: 80, pc: 100 }} isMobile={isMobile} />}
-              </React.Fragment>
-            ))}
-          </div>
-        )}
-      </section>
-    </>
+      )}
+    </section>
   );
 }
