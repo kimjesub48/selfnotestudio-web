@@ -19,13 +19,15 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
     height: `${styles.pcVideoSize}px`,
     position: 'absolute',
     top: '50%',
-    left: '50%',
+    left: isMobile ? '50%' : '50%',
     zIndex: 2,
     borderRadius: '32px',
     display: 'block',
     opacity: videoLoaded ? 1 : 0,
     transition: 'opacity 0.3s ease',
-    transform: 'translate(-50%, -50%)'
+    transform: isMobile ? 'translate(-50%, -50%)' : 'translate(-50%, -50%)',
+    margin: '0',
+    padding: '0'
   };
 
   // 비디오 컨테이너 스타일 (비디오를 감싸는 박스)
@@ -40,7 +42,13 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
     margin: isMobile ? '0 auto' : '0',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    ...(isMobile && {
+      marginLeft: 'auto',
+      marginRight: 'auto',
+      left: 'auto',
+      right: 'auto'
+    })
   };
 
   // 포스터 플레이스홀더 스타일
