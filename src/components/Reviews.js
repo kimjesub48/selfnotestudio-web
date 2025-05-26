@@ -206,7 +206,9 @@ const CTAButton = styled.a`
 `;
 
 // 모달 컴포넌트 스타일
-const ModalOverlay = styled.div`
+const ModalOverlay = styled.div.withConfig({
+  shouldForwardProp: (prop) => prop !== 'isOpen'
+})`
   position: fixed;
   top: 0;
   left: 0;

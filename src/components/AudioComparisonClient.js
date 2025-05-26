@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import styled from 'styled-components';
 
 const TitleWrapper = styled.div`
@@ -37,7 +38,6 @@ const PlayerContainer = styled.div`
   
   /* CSS 격리 및 완전한 중앙 정렬 보장 */
   isolation: isolate;
-  contain: layout style;
   text-align: center;
   
   /* iOS Safari 호환성 개선 */
@@ -58,7 +58,6 @@ const CardsWrapper = styled.div`
   
   /* CSS 격리 및 완전한 중앙 정렬을 위한 스타일 */
   isolation: isolate;
-  contain: layout;
   margin: 0 auto;
   text-align: center;
   
@@ -79,7 +78,6 @@ const AlbumCard = styled.div`
   
   /* CSS 격리 및 중앙 정렬 */
   isolation: isolate;
-  contain: layout style;
   margin: 0 auto;
   display: block;
   
@@ -189,7 +187,6 @@ const AlbumInfo = styled.div`
   
   /* CSS 격리 및 중앙 정렬 */
   isolation: isolate;
-  contain: layout style;
   display: block;
   margin-left: auto;
   margin-right: auto;
@@ -226,7 +223,6 @@ const ToggleContainer = styled.div`
   
   /* CSS 격리 */
   isolation: isolate;
-  contain: layout style;
   
   /* iOS Safari 호환성 개선 */
   -webkit-box-pack: center;
@@ -318,7 +314,6 @@ const RentalCardSection = styled.div`
   
   /* CSS 격리 */
   isolation: isolate;
-  contain: layout style;
 `;
 
 const RentalCard = styled.div`
@@ -349,6 +344,7 @@ const RentalInfo = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
+  text-align: left;
 `;
 
 const RentalTitle = styled.h3`
@@ -356,6 +352,7 @@ const RentalTitle = styled.h3`
   color: white;
   margin: 0 0 5px;
   font-weight: 600;
+  text-align: left;
 `;
 
 const RentalDescription = styled.div`
@@ -363,6 +360,7 @@ const RentalDescription = styled.div`
   color: rgba(255, 255, 255, 0.8);
   margin-bottom: 0;
   line-height: 1.4;
+  text-align: left;
   
   @media (max-width: 900px) {
     margin-bottom: 15px;
@@ -416,9 +414,9 @@ const PriceUnit = styled.span`
 
 // 카카오톡 상담 버튼 스타일
 const KakaoButton = styled.a`
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
+  position: fixed !important;
+  bottom: 30px !important;
+  right: 30px !important;
   width: auto;
   height: 50px;
   border-radius: 25px;
@@ -427,20 +425,25 @@ const KakaoButton = styled.a`
   align-items: center;
   padding: 0 20px 0 15px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  z-index: 1000;
+  z-index: 9999 !important;
   transition: all 0.3s ease;
   text-decoration: none;
+  cursor: pointer;
+  
+  /* 고정 위치 강제 적용 */
+  transform: translateZ(0);
+  will-change: transform;
   
   &:hover {
-    transform: translateY(-5px);
+    transform: translateY(-5px) translateZ(0);
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
   }
   
   @media (max-width: 768px) {
     height: 45px;
     padding: 0 15px 0 10px;
-    bottom: 20px;
-    right: 20px;
+    bottom: 20px !important;
+    right: 20px !important;
   }
 `;
 
@@ -512,6 +515,25 @@ const PopularBadge = styled.div`
     font-size: 0.7rem;
   }
 `;
+
+// 플로팅 카카오톡 버튼 컴포넌트
+const FloatingKakaoButton = () => {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
+
+  return createPortal(
+    <KakaoButton href="http://pf.kakao.com/_NhDxfM/chat" target="_blank" rel="noopener noreferrer">
+      <KakaoIcon />
+      <KakaoText>예약하기</KakaoText>
+    </KakaoButton>,
+    document.body
+  );
+};
 
 export default function AudioComparisonClient() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -999,7 +1021,6 @@ export default function AudioComparisonClient() {
       overflow: 'hidden',
       // CSS 격리 및 완전한 중앙 정렬을 위한 스타일
       isolation: 'isolate',
-      contain: 'layout style',
       display: 'block',
       width: '100%',
       maxWidth: '100vw',
@@ -1134,11 +1155,8 @@ export default function AudioComparisonClient() {
         </RentalCard>
       </RentalCardSection>
       
-      {/* 카카오톡 상담 버튼 */}
-      <KakaoButton href="http://pf.kakao.com/_NhDxfM/chat" target="_blank" rel="noopener noreferrer">
-        <KakaoIcon />
-        <KakaoText>예약하기</KakaoText>
-      </KakaoButton>
+      {/* 플로팅 카카오톡 상담 버튼 */}
+      <FloatingKakaoButton />
     </section>
   );
 } 

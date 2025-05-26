@@ -15,17 +15,16 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
   const videoStyle = {
     objectFit: 'cover',
     objectPosition: 'center center',
-    width: `${styles.pcVideoSize}px`,
-    height: `${styles.pcVideoSize}px`,
+    width: '100%',
+    height: '100%',
     position: 'absolute',
-    top: '50%',
-    left: '50%',
+    top: 0,
+    left: 0,
     zIndex: 2,
     borderRadius: '32px',
     display: 'block',
     opacity: videoLoaded ? 1 : 0,
-    transition: 'opacity 0.3s ease',
-    transform: 'translate(-50%, -50%)'
+    transition: 'opacity 0.3s ease'
   };
 
   // 비디오 컨테이너 스타일 (비디오를 감싸는 박스)
@@ -34,33 +33,24 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
     width: `${styles.pcVideoSize}px`,
     height: `${styles.pcVideoSize}px`,
     overflow: 'hidden',
-    padding: 0,
     backgroundColor: '#272840',
     borderRadius: '32px',
     margin: '0 auto',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    // 모바일 정렬 보정
-    left: isMobile ? '50%' : 'auto',
-    transform: isMobile ? 'translateX(-50%)' : 'none',
-    marginLeft: isMobile ? 0 : 'auto',
-    marginRight: isMobile ? 0 : 'auto'
+    flexShrink: 0
   };
 
   // 포스터 플레이스홀더 스타일
   const posterStyle = {
     position: 'absolute',
-    top: '50%',
-    left: '50%',
-    width: `${styles.pcVideoSize}px`,
-    height: `${styles.pcVideoSize}px`,
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
     backgroundColor: '#272840',
     zIndex: videoLoaded ? 0 : 1,
     opacity: videoLoaded ? 0 : 1,
     transition: 'opacity 0.3s ease',
-    borderRadius: '32px',
-    transform: 'translate(-50%, -50%)'
+    borderRadius: '32px'
   };
 
   // 더보기 버튼 스타일
@@ -116,72 +106,120 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
 
   // 비디오 URL 생성
   const getVideoUrl = () => {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || '';
     const videoFiles = ['card1.mp4', 'card2.mp4', 'card3.mp4', 'card4.mp4'];
-    return `${baseUrl}/videos/${videoFiles[index]}`;
+    const videoPath = `/videos/${videoFiles[index]}`;
+    console.log(`Getting video URL for card ${index + 1}:`, videoPath);
+    return videoPath;
   };
 
-  // 아이폰 호환 비디오 로딩 및 자동재생 처리
+    // PC 브라우저 호환 비디오 로딩
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
-    const handleCanPlay = () => {
-      setVideoLoaded(true);
-      // 아이폰에서 자동재생을 위한 특별 처리
-      const playVideo = async () => {
-        try {
-          // iOS Safari에서 무음 재생 확인
-          video.muted = true;
-          video.volume = 0;
-          await video.play();
-          console.log(`Card ${index + 1} autoplay success`);
-        } catch (error) {
-          console.log(`Card ${index + 1} autoplay prevented:`, error);
-          // 자동재생이 차단된 경우에도 비디오는 로드된 상태로 표시
-        }
-      };
-      playVideo();
-    };
-
-    const handleLoadedData = () => {
-      setVideoLoaded(true);
-      // 데이터 로드 완료 시에도 재생 시도
-      const playVideo = async () => {
-        try {
-          video.muted = true;
-          video.volume = 0;
-          await video.play();
-          console.log(`Card ${index + 1} loadeddata autoplay success`);
-        } catch (error) {
-          console.log(`Card ${index + 1} loadeddata autoplay prevented:`, error);
-        }
-      };
-      playVideo();
-    };
-
-    const handleLoadStart = () => {
-      // iOS Safari에서 비디오 속성 강제 설정
-      video.muted = true;
-      video.playsInline = true;
-      video.setAttribute('playsinline', 'true');
-      video.setAttribute('webkit-playsinline', 'true');
-    };
-
-    video.addEventListener('canplay', handleCanPlay);
-    video.addEventListener('loadeddata', handleLoadedData);
-    video.addEventListener('loadstart', handleLoadStart);
+    console.log(`Card ${index + 1} PC video initialization`);
     
-    // 초기 설정 및 로드 시작
-    video.muted = true;
-    video.playsInline = true;
-    video.load();
-
-    return () => {
-      video.removeEventListener('canplay', handleCanPlay);
-      video.removeEventListener('loadeddata', handleLoadedData);
-      video.removeEventListener('loadstart', handleLoadStart);
+    // PC 브라우저에서 확실한 재생을 위한 설정
+    const setupVideo = async () => {
+      try {
+        // 비디오 기본 속성 강제 설정
+        video.muted = true;
+        video.volume = 0;
+        video.playsInline = true;
+        video.autoplay = true;
+        video.loop = true;
+        video.controls = false;
+        
+        // PC 브라우저 호환성을 위한 추가 속성
+        video.setAttribute('muted', 'true');
+        video.setAttribute('playsinline', 'true');
+        video.setAttribute('autoplay', 'true');
+        
+        console.log(`Card ${index + 1} video source:`, video.src);
+        console.log(`Card ${index + 1} video ready state:`, video.readyState);
+        
+        // 비디오 로드 이벤트들
+        const handleLoadStart = () => {
+          console.log(`Card ${index + 1} load started`);
+        };
+        
+        const handleLoadedMetadata = () => {
+          console.log(`Card ${index + 1} metadata loaded`);
+          setVideoLoaded(true);
+        };
+        
+        const handleLoadedData = () => {
+          console.log(`Card ${index + 1} data loaded`);
+          setVideoLoaded(true);
+          
+          // 데이터 로드 후 즉시 재생 시도
+          video.play().then(() => {
+            console.log(`Card ${index + 1} playing after data load`);
+          }).catch(error => {
+            console.log(`Card ${index + 1} play failed after data load:`, error);
+          });
+        };
+        
+        const handleCanPlay = () => {
+          console.log(`Card ${index + 1} can play`);
+          setVideoLoaded(true);
+          
+          // 재생 가능할 때 재생 시도
+          video.play().then(() => {
+            console.log(`Card ${index + 1} playing successfully`);
+          }).catch(error => {
+            console.log(`Card ${index + 1} autoplay prevented:`, error);
+          });
+        };
+        
+        const handleError = (e) => {
+          console.error(`Card ${index + 1} video error:`, e.target.error);
+          console.error(`Card ${index + 1} video src:`, video.src);
+          console.error(`Card ${index + 1} video current src:`, video.currentSrc);
+          setVideoLoaded(true); // 에러가 나도 표시
+        };
+        
+        // 이벤트 리스너 등록
+        video.addEventListener('loadstart', handleLoadStart);
+        video.addEventListener('loadedmetadata', handleLoadedMetadata);
+        video.addEventListener('loadeddata', handleLoadedData);
+        video.addEventListener('canplay', handleCanPlay);
+        video.addEventListener('error', handleError);
+        
+        // 비디오 로드 시작
+        video.load();
+        
+        // 2초 후 강제 표시 (PC에서 로딩이 느릴 수 있음)
+        const fallbackTimer = setTimeout(() => {
+          console.log(`Card ${index + 1} fallback - forcing display`);
+          setVideoLoaded(true);
+          
+          // 강제 재생 시도
+          if (video.paused) {
+            video.play().catch(error => {
+              console.log(`Card ${index + 1} fallback play failed:`, error);
+            });
+          }
+        }, 2000);
+        
+        return () => {
+          video.removeEventListener('loadstart', handleLoadStart);
+          video.removeEventListener('loadedmetadata', handleLoadedMetadata);
+          video.removeEventListener('loadeddata', handleLoadedData);
+          video.removeEventListener('canplay', handleCanPlay);
+          video.removeEventListener('error', handleError);
+          clearTimeout(fallbackTimer);
+        };
+        
+      } catch (error) {
+        console.error(`Card ${index + 1} setup error:`, error);
+        setVideoLoaded(true);
+      }
     };
+
+    const cleanup = setupVideo();
+    
+    return cleanup;
   }, [index]);
 
   return (
@@ -260,33 +298,25 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
             order: isMobile ? 1 : (index % 2 === 1 ? 0 : 1),
             marginLeft: !isMobile && index % 2 === 0 ? styles.pcGap : 0,
             marginRight: !isMobile && index % 2 === 1 ? styles.pcGap : 0,
-            padding: 0,
-            marginTop: isMobile ? '20px' : 0,
-            // 모바일에서 추가 중앙 정렬 보장
-            position: isMobile ? 'relative' : 'static',
-            width: isMobile ? '100%' : `${styles.pcVideoSize}px`,
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center'
+            marginTop: isMobile ? '20px' : 0
           }}
         >
           <video
             ref={videoRef}
-            autoPlay
-            muted
-            loop
-            playsInline
+            autoPlay={true}
+            muted={true}
+            loop={true}
+            playsInline={true}
             preload="auto"
             style={videoStyle}
             className="why-choose-us-video"
-            webkit-playsinline="true"
-            x5-playsinline="true"
-            x5-video-player-type="h5"
-            x5-video-player-fullscreen="true"
-            x-webkit-airplay="allow"
+            src={getVideoUrl()}
             controls={false}
+            disablePictureInPicture={true}
+            disableRemotePlayback={true}
           >
             <source src={getVideoUrl()} type="video/mp4" />
+            Your browser does not support the video tag.
           </video>
           <div style={posterStyle} />
         </div>
@@ -312,9 +342,6 @@ export default function WhyChooseUs() {
   useEffect(() => {
     setMounted(true);
     setIsMobile(checkMobile());
-    
-    // Reviews 섹션의 body overflow 간섭 차단
-    document.body.style.overflow = '';
     
     const handleResize = () => {
       setIsMobile(checkMobile());
