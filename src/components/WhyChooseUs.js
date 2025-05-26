@@ -230,9 +230,10 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
         alignItems: 'center',
         justifyContent: 'center',
         width: '100%',
-        maxWidth: isMobile ? '100%' : '1200px',
+        maxWidth: isMobile ? 'calc(100vw - 40px)' : '1200px',
         margin: '0 auto',
-        padding: isMobile ? '0 20px' : 0
+        padding: isMobile ? '0' : 0,
+        boxSizing: 'border-box'
       }}>
         <div className="why-card-text-simple" style={{ 
           textAlign: isMobile ? 'center' : (index % 2 === 1 ? 'right' : 'left'),
@@ -376,10 +377,17 @@ export default function WhyChooseUs() {
       id="why-choose-us"
       style={{ 
         background: '#13151C',
-        padding: isMobile ? '60px 0' : '100px 0',
+        padding: isMobile ? '60px env(safe-area-inset-left, 20px) 60px env(safe-area-inset-right, 20px)' : '100px 0',
+        paddingTop: isMobile ? 'max(60px, env(safe-area-inset-top, 0px) + 60px)' : '100px',
+        paddingBottom: isMobile ? 'max(60px, env(safe-area-inset-bottom, 0px) + 60px)' : '100px',
         width: '100%',
+        maxWidth: '100vw',
         margin: 0,
-        overflow: 'hidden'
+        overflow: 'hidden',
+        boxSizing: 'border-box',
+        // iOS Safari 뷰포트 문제 해결
+        minHeight: isMobile ? '-webkit-fill-available' : 'auto',
+        WebkitOverflowScrolling: 'touch'
       }}
     >
       <div className="why-section-title jalnan" style={{ 
@@ -415,20 +423,25 @@ export default function WhyChooseUs() {
         <div className="why-cards-simple" style={{ 
           display: 'flex',
           flexDirection: 'column',
-          padding: 0,
+          padding: isMobile ? '0 env(safe-area-inset-left, 20px) 0 env(safe-area-inset-right, 20px)' : 0,
           gap: 0,
           background: '#13151C',
           alignItems: 'center',
-          width: '100%'
+          width: '100%',
+          maxWidth: '100vw',
+          boxSizing: 'border-box'
         }}>
           {[0, 1, 2, 3].map((index, i) => (
             <React.Fragment key={index}>
               <div style={{ 
                 background: '#13151C',
                 width: '100%',
+                maxWidth: '100vw',
                 display: 'flex',
                 justifyContent: 'center',
-                alignItems: 'center'
+                alignItems: 'center',
+                padding: isMobile ? '0 20px' : '0',
+                boxSizing: 'border-box'
               }}>
                 <VideoCard
                   index={index}
