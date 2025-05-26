@@ -38,7 +38,7 @@ class MyDocument extends Document {
           <meta name="keywords" content="녹음실, 셀프노트, 음정보정, 디렉팅, 영상제작, 노래녹음, 음원제작, 보컬코칭, 믹싱, 마스터링" />
           <meta name="author" content="셀프노트 스튜디오" />
           <meta name="robots" content="index, follow" />
-          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
           <meta charset="UTF-8" />
           
           {/* Open Graph 메타 태그 (카카오톡, 페이스북 공유용) */}
@@ -144,6 +144,23 @@ class MyDocument extends Document {
             html {
               visibility: visible;
               opacity: 1;
+            }
+            
+            /* iOS Safari 호환성을 위한 CSS 변수 */
+            :root {
+              --vh: 1vh;
+              --vw: 1vw;
+              --safe-area-inset-top: env(safe-area-inset-top);
+              --safe-area-inset-right: env(safe-area-inset-right);
+              --safe-area-inset-bottom: env(safe-area-inset-bottom);
+              --safe-area-inset-left: env(safe-area-inset-left);
+            }
+            
+            /* iOS Safari에서 100vh 문제 해결 */
+            @supports (-webkit-touch-callout: none) {
+              :root {
+                --vh: calc(var(--vh, 1vh) * 100);
+              }
             }
           ` }} />
           

@@ -15,6 +15,13 @@ const GlobalStyle = createGlobalStyle`
     overflow-x: hidden;
     width: 100%;
     position: relative;
+    
+    /* iOS Safari 호환성 개선 */
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
   }
 
   body {
@@ -22,6 +29,27 @@ const GlobalStyle = createGlobalStyle`
     color: #333;
     line-height: 1.6;
     max-width: 100vw;
+    
+    /* iOS Safari 레이아웃 안정화 */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+  
+  /* iOS Safari에서 flexbox 호환성 개선 */
+  .audio-comparison-section {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+  
+  /* iOS Safari에서 중앙 정렬 강화 */
+  @supports (-webkit-appearance: none) {
+    .audio-comparison-section * {
+      -webkit-transform: translateZ(0);
+      transform: translateZ(0);
+    }
   }
 `;
 
@@ -32,13 +60,41 @@ function MyApp({ Component, pageProps }) {
       document.documentElement.style.visibility = 'visible';
     };
     
+    // iOS Safari viewport 높이 계산 및 CSS 변수 설정
+    const setVhProperty = () => {
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
+    };
+    
+    // 초기 설정
+    setVhProperty();
+    
+    // 리사이즈 및 오리엔테이션 변경 시 재계산
+    const handleResize = () => {
+      setVhProperty();
+    };
+    
+    const handleOrientationChange = () => {
+      // 오리엔테이션 변경 후 약간의 지연을 두고 재계산
+      setTimeout(setVhProperty, 100);
+    };
+    
     // 페이지가 이미 로드되었으면 즉시 실행, 아니면 이벤트 리스너 추가
     if (document.readyState === 'complete') {
       handleLoad();
     } else {
       window.addEventListener('load', handleLoad);
-      return () => window.removeEventListener('load', handleLoad);
     }
+    
+    // 이벤트 리스너 추가
+    window.addEventListener('resize', handleResize);
+    window.addEventListener('orientationchange', handleOrientationChange);
+    
+    return () => {
+      window.removeEventListener('load', handleLoad);
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('orientationchange', handleOrientationChange);
+    };
   }, []);
 
   return (

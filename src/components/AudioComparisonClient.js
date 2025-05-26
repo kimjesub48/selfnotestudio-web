@@ -34,6 +34,16 @@ const PlayerContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  
+  /* 완전한 중앙 정렬 보장 */
+  text-align: center;
+  
+  /* iOS Safari 호환성 개선 */
+  -webkit-box-align: center;
+  -webkit-box-pack: center;
+  -webkit-flex-direction: column;
+  -webkit-align-items: center;
+  -webkit-justify-content: center;
 `;
 
 const CardsWrapper = styled.div`
@@ -43,6 +53,16 @@ const CardsWrapper = styled.div`
   width: 100%;
   position: relative;
   padding: 0 20px;
+  
+  /* 완전한 중앙 정렬을 위한 스타일 */
+  margin: 0 auto;
+  text-align: center;
+  
+  /* iOS Safari 호환성 개선 */
+  -webkit-box-align: center;
+  -webkit-box-pack: center;
+  -webkit-align-items: center;
+  -webkit-justify-content: center;
 `;
 
 const AlbumCard = styled.div`
@@ -52,6 +72,10 @@ const AlbumCard = styled.div`
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
   position: relative;
+  
+  /* 완전한 중앙 정렬을 위한 스타일 */
+  margin: 0 auto;
+  display: block;
   
   @media (max-width: 768px) {
     width: 320px;
@@ -156,6 +180,12 @@ const AlbumInfo = styled.div`
   color: #333;
   padding: 0 20px;
   width: 100%;
+  
+  /* 완전한 중앙 정렬을 위한 스타일 */
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 600px;
 `;
 
 const AlbumTitle = styled.h3`
@@ -176,17 +206,20 @@ const AlbumArtist = styled.p`
 const ToggleContainer = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 25px;
-  margin-bottom: 15px;
+  align-items: center;
+  margin: 25px auto 15px auto;
   position: relative;
   width: 300px;
   height: 50px;
-  margin-left: auto;
-  margin-right: auto;
   border-radius: 30px;
   background: #f0f0f0;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   padding: 4px;
+  
+  /* iOS Safari 호환성 개선 */
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -webkit-align-items: center;
 `;
 
 const ToggleOption = styled.div`
@@ -265,12 +298,11 @@ const LoadingStatus = styled.div`
 
 // 녹음실 대여 카드 스타일
 const RentalCardSection = styled.div`
-  margin-top: 40px;
+  margin: 40px auto 0 auto;
   width: 100%;
   max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
   padding: 0 20px;
+  text-align: center;
 `;
 
 const RentalCard = styled.div`
@@ -946,9 +978,17 @@ export default function AudioComparisonClient() {
   return (
     <section className="audio-comparison-section" id="audio-comparison" style={{ 
       background: '#FFFFFF', 
-      padding: isMobile ? '60px 0 80px' : '80px 0 100px', 
+      padding: isMobile ? '60px 20px 80px' : '80px 20px 100px', 
       color: '#333',
-      overflow: 'hidden'
+      overflow: 'hidden',
+      // 완전한 중앙 정렬을 위한 스타일
+      display: 'block',
+      width: '100%',
+      maxWidth: '100vw',
+      textAlign: 'center',
+      margin: '0 auto',
+      WebkitTextSizeAdjust: '100%',
+      WebkitTapHighlightColor: 'transparent'
     }}>
       {/* 1x1 투명 GIF - 모바일 자동재생 정책을 우회하기 위한 더미 요소 */}
       <img 
