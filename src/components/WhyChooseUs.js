@@ -37,10 +37,15 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
     padding: 0,
     backgroundColor: '#272840',
     borderRadius: '32px',
-    margin: isMobile ? '0 auto' : '0',
+    margin: '0 auto',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    // 모바일 정렬 보정
+    left: isMobile ? '50%' : 'auto',
+    transform: isMobile ? 'translateX(-50%)' : 'none',
+    marginLeft: isMobile ? 0 : 'auto',
+    marginRight: isMobile ? 0 : 'auto'
   };
 
   // 포스터 플레이스홀더 스타일
@@ -116,36 +121,66 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
     return `${baseUrl}/videos/${videoFiles[index]}`;
   };
 
-  // 빠른 로딩을 위한 즉시 재생 처리
+  // 아이폰 호환 비디오 로딩 및 자동재생 처리
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
     const handleCanPlay = () => {
       setVideoLoaded(true);
-      // 즉시 재생 시도
-      video.play().catch(() => {
-        console.log(`Card ${index + 1} autoplay prevented, but video loaded`);
-      });
+      // 아이폰에서 자동재생을 위한 특별 처리
+      const playVideo = async () => {
+        try {
+          // iOS Safari에서 무음 재생 확인
+          video.muted = true;
+          video.volume = 0;
+          await video.play();
+          console.log(`Card ${index + 1} autoplay success`);
+        } catch (error) {
+          console.log(`Card ${index + 1} autoplay prevented:`, error);
+          // 자동재생이 차단된 경우에도 비디오는 로드된 상태로 표시
+        }
+      };
+      playVideo();
     };
 
     const handleLoadedData = () => {
       setVideoLoaded(true);
-      // 즉시 재생 시도
-      video.play().catch(() => {
-        console.log(`Card ${index + 1} autoplay prevented, but video loaded`);
-      });
+      // 데이터 로드 완료 시에도 재생 시도
+      const playVideo = async () => {
+        try {
+          video.muted = true;
+          video.volume = 0;
+          await video.play();
+          console.log(`Card ${index + 1} loadeddata autoplay success`);
+        } catch (error) {
+          console.log(`Card ${index + 1} loadeddata autoplay prevented:`, error);
+        }
+      };
+      playVideo();
+    };
+
+    const handleLoadStart = () => {
+      // iOS Safari에서 비디오 속성 강제 설정
+      video.muted = true;
+      video.playsInline = true;
+      video.setAttribute('playsinline', 'true');
+      video.setAttribute('webkit-playsinline', 'true');
     };
 
     video.addEventListener('canplay', handleCanPlay);
     video.addEventListener('loadeddata', handleLoadedData);
+    video.addEventListener('loadstart', handleLoadStart);
     
-    // 즉시 로드 시작
+    // 초기 설정 및 로드 시작
+    video.muted = true;
+    video.playsInline = true;
     video.load();
 
     return () => {
       video.removeEventListener('canplay', handleCanPlay);
       video.removeEventListener('loadeddata', handleLoadedData);
+      video.removeEventListener('loadstart', handleLoadStart);
     };
   }, [index]);
 
@@ -157,7 +192,9 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
         alignItems: 'center',
         justifyContent: 'center',
         width: '100%',
-        padding: 0
+        maxWidth: isMobile ? '100%' : '1200px',
+        margin: '0 auto',
+        padding: isMobile ? '0 20px' : 0
       }}>
         <div className="why-card-text-simple" style={{ 
           textAlign: isMobile ? 'center' : (index % 2 === 1 ? 'right' : 'left'),
@@ -224,7 +261,13 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
             marginLeft: !isMobile && index % 2 === 0 ? styles.pcGap : 0,
             marginRight: !isMobile && index % 2 === 1 ? styles.pcGap : 0,
             padding: 0,
-            marginTop: isMobile ? '-4px' : 0
+            marginTop: isMobile ? '20px' : 0,
+            // 모바일에서 추가 중앙 정렬 보장
+            position: isMobile ? 'relative' : 'static',
+            width: isMobile ? '100%' : `${styles.pcVideoSize}px`,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center'
           }}
         >
           <video
@@ -238,6 +281,10 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
             className="why-choose-us-video"
             webkit-playsinline="true"
             x5-playsinline="true"
+            x5-video-player-type="h5"
+            x5-video-player-fullscreen="true"
+            x-webkit-airplay="allow"
+            controls={false}
           >
             <source src={getVideoUrl()} type="video/mp4" />
           </video>

@@ -42,6 +42,17 @@ const GlobalStyle = createGlobalStyle`
     transform: translateZ(0);
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
+    
+    /* 다른 섹션의 영향 차단 */
+    isolation: isolate !important;
+    contain: layout style !important;
+    position: relative !important;
+    z-index: 1 !important;
+  }
+  
+  /* 오디오 섹션 내부 요소들 보호 */
+  .audio-comparison-section * {
+    box-sizing: border-box !important;
   }
   
   /* iOS Safari에서 중앙 정렬 강화 */
@@ -49,6 +60,15 @@ const GlobalStyle = createGlobalStyle`
     .audio-comparison-section * {
       -webkit-transform: translateZ(0);
       transform: translateZ(0);
+    }
+  }
+  
+  /* 아이폰 Safari 전용 중앙 정렬 보정 */
+  @supports (-webkit-touch-callout: none) {
+    .audio-comparison-section {
+      display: block !important;
+      width: 100% !important;
+      text-align: center !important;
     }
   }
 `;

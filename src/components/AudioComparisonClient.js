@@ -35,7 +35,9 @@ const PlayerContainer = styled.div`
   align-items: center;
   justify-content: center;
   
-  /* 완전한 중앙 정렬 보장 */
+  /* CSS 격리 및 완전한 중앙 정렬 보장 */
+  isolation: isolate;
+  contain: layout style;
   text-align: center;
   
   /* iOS Safari 호환성 개선 */
@@ -52,9 +54,11 @@ const CardsWrapper = styled.div`
   justify-content: center;
   width: 100%;
   position: relative;
-  padding: 0 20px;
+  padding: 0;
   
-  /* 완전한 중앙 정렬을 위한 스타일 */
+  /* CSS 격리 및 완전한 중앙 정렬을 위한 스타일 */
+  isolation: isolate;
+  contain: layout;
   margin: 0 auto;
   text-align: center;
   
@@ -73,7 +77,9 @@ const AlbumCard = styled.div`
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
   position: relative;
   
-  /* 완전한 중앙 정렬을 위한 스타일 */
+  /* CSS 격리 및 중앙 정렬 */
+  isolation: isolate;
+  contain: layout style;
   margin: 0 auto;
   display: block;
   
@@ -181,7 +187,9 @@ const AlbumInfo = styled.div`
   padding: 0 20px;
   width: 100%;
   
-  /* 완전한 중앙 정렬을 위한 스타일 */
+  /* CSS 격리 및 중앙 정렬 */
+  isolation: isolate;
+  contain: layout style;
   display: block;
   margin-left: auto;
   margin-right: auto;
@@ -215,6 +223,10 @@ const ToggleContainer = styled.div`
   background: #f0f0f0;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   padding: 4px;
+  
+  /* CSS 격리 */
+  isolation: isolate;
+  contain: layout style;
   
   /* iOS Safari 호환성 개선 */
   -webkit-box-pack: center;
@@ -303,6 +315,10 @@ const RentalCardSection = styled.div`
   max-width: 600px;
   padding: 0 20px;
   text-align: center;
+  
+  /* CSS 격리 */
+  isolation: isolate;
+  contain: layout style;
 `;
 
 const RentalCard = styled.div`
@@ -981,12 +997,16 @@ export default function AudioComparisonClient() {
       padding: isMobile ? '60px 20px 80px' : '80px 20px 100px', 
       color: '#333',
       overflow: 'hidden',
-      // 완전한 중앙 정렬을 위한 스타일
+      // CSS 격리 및 완전한 중앙 정렬을 위한 스타일
+      isolation: 'isolate',
+      contain: 'layout style',
       display: 'block',
       width: '100%',
       maxWidth: '100vw',
       textAlign: 'center',
       margin: '0 auto',
+      position: 'relative',
+      zIndex: 1,
       WebkitTextSizeAdjust: '100%',
       WebkitTapHighlightColor: 'transparent'
     }}>
