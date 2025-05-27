@@ -300,13 +300,10 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
             marginLeft: !isMobile && index % 2 === 0 ? styles.pcGap : 0,
             marginRight: !isMobile && index % 2 === 1 ? styles.pcGap : 0,
             marginTop: isMobile ? '20px' : 0,
-            // 아이폰에서만 좌측 솔림 방지를 위한 중앙 정렬 강화
+            // 아이폰에서만 좌측 솔림 방지를 위한 중앙 정렬
             ...(isMobile && {
-              marginLeft: 'auto',
-              marginRight: 'auto',
-              position: 'relative',
-              left: '50%',
-              transform: 'translateX(-50%)'
+              margin: '20px auto 0 auto',
+              display: 'block'
             })
           }}
         >
