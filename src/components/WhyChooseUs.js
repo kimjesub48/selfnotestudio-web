@@ -193,7 +193,9 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
         boxSizing: 'border-box',
         // 아이폰에서 강력한 중앙 정렬
         ...(isMobile && isIPhone() && {
-          textAlign: 'center'
+          textAlign: 'center',
+          position: 'relative',
+          height: `${styles.pcVideoSize + 40}px`
         })
       }}>
         <div className="why-card-text-simple" style={{ 
@@ -261,18 +263,15 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
             marginLeft: !isMobile && index % 2 === 0 ? styles.pcGap : 0,
             marginRight: !isMobile && index % 2 === 1 ? styles.pcGap : 0,
             marginTop: isMobile ? '20px' : 0,
-            // 아이폰에서만 강력한 중앙 정렬 조합
+            // 아이폰에서만 절대적 중앙 정렬
             ...(isMobile && isIPhone() && {
-              position: 'relative',
+              position: 'absolute',
               left: '50%',
               transform: 'translateX(-50%)',
-              margin: '20px auto 0 auto',
-              display: 'block',
-              width: `${styles.pcVideoSize}px`,
-              marginLeft: 'auto',
-              marginRight: 'auto',
-              alignSelf: 'center',
-              justifySelf: 'center'
+              marginLeft: '0',
+              marginRight: '0',
+              margin: '0',
+              top: '20px'
             })
           }}
         >
