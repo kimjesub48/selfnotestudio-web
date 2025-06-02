@@ -111,6 +111,11 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
     return videoPath;
   };
 
+  // 아이폰 감지 함수
+  const isIPhone = () => {
+    return /iPhone|iPod/.test(navigator.userAgent);
+  };
+
   // 기본 비디오 로딩
   useEffect(() => {
     const video = videoRef.current;
@@ -219,7 +224,13 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
             order: isMobile ? 1 : (index % 2 === 1 ? 0 : 1),
             marginLeft: !isMobile && index % 2 === 0 ? styles.pcGap : 0,
             marginRight: !isMobile && index % 2 === 1 ? styles.pcGap : 0,
-            marginTop: isMobile ? '20px' : 0
+            marginTop: isMobile ? '20px' : 0,
+            ...(isMobile && isIPhone() && {
+              position: 'relative',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              margin: '20px 0 0 0'
+            })
           }}
         >
           <video
