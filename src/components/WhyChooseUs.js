@@ -121,8 +121,40 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
     const video = videoRef.current;
     if (!video) return;
 
+    // 아이폰에서 강력한 자동재생 설정
+    if (isIPhone()) {
+      video.setAttribute('webkit-playsinline', 'true');
+      video.setAttribute('playsinline', 'true');
+      video.setAttribute('muted', 'true');
+      video.setAttribute('autoplay', 'true');
+      video.setAttribute('loop', 'true');
+      video.muted = true;
+      video.defaultMuted = true;
+      video.volume = 0;
+      
+      // 아이폰 터치 이벤트로 강제 재생
+      const forcePlay = () => {
+        video.play().catch(() => {});
+      };
+      
+      // 다양한 이벤트에서 재생 시도
+      document.addEventListener('touchstart', forcePlay, { once: true, passive: true });
+      document.addEventListener('click', forcePlay, { once: true, passive: true });
+      
+      // 일정 시간 후 재생 시도
+      setTimeout(() => {
+        video.play().catch(() => {});
+      }, 500);
+    }
+
     const handleLoadedData = () => {
       setVideoLoaded(true);
+      if (isIPhone()) {
+        // 아이폰에서 데이터 로드 후 즉시 재생 시도
+        setTimeout(() => {
+          video.play().catch(() => {});
+        }, 100);
+      }
     };
 
     const handleCanPlay = () => {
@@ -158,7 +190,11 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
         maxWidth: isMobile ? 'calc(100vw - 40px)' : '1200px',
         margin: '0 auto',
         padding: isMobile ? '0' : 0,
-        boxSizing: 'border-box'
+        boxSizing: 'border-box',
+        // 아이폰에서 강력한 중앙 정렬
+        ...(isMobile && isIPhone() && {
+          textAlign: 'center'
+        })
       }}>
         <div className="why-card-text-simple" style={{ 
           textAlign: isMobile ? 'center' : (index % 2 === 1 ? 'right' : 'left'),
@@ -225,11 +261,18 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
             marginLeft: !isMobile && index % 2 === 0 ? styles.pcGap : 0,
             marginRight: !isMobile && index % 2 === 1 ? styles.pcGap : 0,
             marginTop: isMobile ? '20px' : 0,
+            // 아이폰에서만 강력한 중앙 정렬 조합
             ...(isMobile && isIPhone() && {
               position: 'relative',
               left: '50%',
               transform: 'translateX(-50%)',
-              margin: '20px 0 0 0'
+              margin: '20px auto 0 auto',
+              display: 'block',
+              width: `${styles.pcVideoSize}px`,
+              marginLeft: 'auto',
+              marginRight: 'auto',
+              alignSelf: 'center',
+              justifySelf: 'center'
             })
           }}
         >
@@ -240,12 +283,26 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
             loop={true}
             playsInline={true}
             preload="auto"
-            style={videoStyle}
+            style={{
+              ...videoStyle,
+              // 아이폰에서 동영상 자체도 중앙 정렬
+              ...(isMobile && isIPhone() && {
+                margin: '0 auto',
+                display: 'block',
+                left: '50%',
+                transform: 'translateX(-50%)'
+              })
+            }}
             className="why-choose-us-video"
             src={getVideoUrl()}
             controls={false}
             disablePictureInPicture={true}
-            disableRemotePlayback={true}
+            disableRemotePlaybook={true}
+            // 아이폰 전용 속성들
+            webkit-playsinline="true"
+            x5-playsinline="true"
+            x5-video-player-type="h5"
+            x5-video-player-fullscreen="true"
           >
             <source src={getVideoUrl()} type="video/mp4" />
             Your browser does not support the video tag.
