@@ -190,13 +190,7 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
         maxWidth: isMobile ? 'calc(100vw - 40px)' : '1200px',
         margin: '0 auto',
         padding: isMobile ? '0' : 0,
-        boxSizing: 'border-box',
-        // 아이폰에서 강력한 중앙 정렬
-        ...(isMobile && isIPhone() && {
-          textAlign: 'center',
-          position: 'relative',
-          height: `${styles.pcVideoSize + 40}px`
-        })
+        boxSizing: 'border-box'
       }}>
         <div className="why-card-text-simple" style={{ 
           textAlign: isMobile ? 'center' : (index % 2 === 1 ? 'right' : 'left'),
@@ -263,15 +257,13 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
             marginLeft: !isMobile && index % 2 === 0 ? styles.pcGap : 0,
             marginRight: !isMobile && index % 2 === 1 ? styles.pcGap : 0,
             marginTop: isMobile ? '20px' : 0,
-            // 아이폰에서만 절대적 중앙 정렬
+            // 아이폰에서만 간단한 중앙 정렬
             ...(isMobile && isIPhone() && {
-              position: 'absolute',
-              left: '50%',
-              transform: 'translateX(-50%)',
-              marginLeft: '0',
-              marginRight: '0',
-              margin: '0',
-              top: '20px'
+              width: `${styles.pcVideoSize}px`,
+              marginLeft: 'auto',
+              marginRight: 'auto',
+              display: 'block',
+              textAlign: 'center'
             })
           }}
         >
@@ -287,9 +279,7 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
               // 아이폰에서 동영상 자체도 중앙 정렬
               ...(isMobile && isIPhone() && {
                 margin: '0 auto',
-                display: 'block',
-                left: '50%',
-                transform: 'translateX(-50%)'
+                display: 'block'
               })
             }}
             className="why-choose-us-video"
