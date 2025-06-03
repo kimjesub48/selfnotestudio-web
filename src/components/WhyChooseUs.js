@@ -18,8 +18,6 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
     width: '100%',
     height: '100%',
     position: 'absolute',
-    top: 0,
-    left: 0,
     zIndex: 2,
     borderRadius: '32px',
     display: 'block',
