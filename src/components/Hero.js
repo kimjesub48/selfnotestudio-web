@@ -595,8 +595,8 @@ export default function Hero() {
       const searchQueryMR = `${query} MR 반주 instrumental karaoke`;
       
       // API 키가 유효한지 확인
-      if (!YOUTUBE_API_KEY || YOUTUBE_API_KEY.includes('XqXqXqXqXqXqXqXqXqXqXqXqXqXqXqXq')) {
-        console.error('유효하지 않은 YouTube API 키');
+      if (!YOUTUBE_API_KEY) {
+        console.error('YouTube API 키가 설정되지 않았습니다');
         setSearchResults([]);
         setShowResults(false);
         return;
@@ -723,7 +723,8 @@ export default function Hero() {
             <TitleText></TitleText>
           </Title>
 
-          {/* 유튜브 검색창 추가 */}
+          {/* 유튜브 검색창 (개발 중 숨김) */}
+          {/* 
           <SearchContainer className="search-container">
             <SearchForm onSubmit={handleSearchSubmit}>
               <SearchInput
@@ -735,7 +736,7 @@ export default function Hero() {
               />
               <SearchButton type="submit">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M21 21L16.514 16.506L21 21ZM19 10.5C19 15.194 15.194 19 10.5 19C5.806 19 2 15.194 2 10.5C2 5.806 5.806 2 10.5 2C15.194 2 19 5.806 19 10.5Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M21 21L16.514 16.506L21 21ZM19 10.5C19 15.194 15.194 19 10.5 19C5.806 19 2 5.194 2 10.5C2 5.806 5.806 2 10.5 2C15.194 2 19 5.806 19 10.5Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               </SearchButton>
             </SearchForm>
@@ -772,6 +773,7 @@ export default function Hero() {
               ) : null}
             </SearchResults>
           </SearchContainer>
+          */}
 
           <Description 
             $isMobile={isMobile} 
@@ -781,6 +783,27 @@ export default function Hero() {
             YouTube 구독자 205만 채널 운영<br />
             Google Creator Awards 수상
           </Description>
+          
+          {/* 임시 테스트 버튼 (개발 중 숨김) */}
+          {/* 
+          <div style={{ marginTop: '20px' }}>
+            <button 
+              onClick={() => router.push('/order')}
+              style={{
+                background: '#3491FF',
+                color: 'white',
+                border: 'none',
+                padding: '12px 24px',
+                borderRadius: '8px',
+                fontSize: '16px',
+                cursor: 'pointer',
+                fontWeight: '600'
+              }}
+            >
+              상담폼 테스트 (임시)
+            </button>
+          </div>
+          */}
         </ContentContainer>
 
         <ScrollIndicator>
