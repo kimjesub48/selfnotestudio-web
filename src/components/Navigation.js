@@ -286,6 +286,7 @@ export default function Navigation() {
     { name: '스튜디오 소개', href: '#studio-info', marginLeft: '0px', marginRight: '0px' },
     { name: '고객 후기', href: '#reviews', marginLeft: '0px', marginRight: '0px' },
     { name: '가격 안내', href: '#price-section', marginLeft: '0px', marginRight: '0px' },
+    { name: '결혼식 음원편집', href: '/wedding-edit', marginLeft: '0px', marginRight: '0px', isExternal: true },
   ];
 
   return (
@@ -303,11 +304,13 @@ export default function Navigation() {
             <NavLink 
               key={index} 
               href={item.href}
-              onClick={(e) => handleSmoothScroll(e, item.href.substring(1))}
+              onClick={item.isExternal ? undefined : (e) => handleSmoothScroll(e, item.href.substring(1))}
               $marginLeft={item.marginLeft} 
               $marginRight={item.marginRight}
               $paddingLeft={item.paddingLeft}
               $paddingRight={item.paddingRight}
+              as={item.isExternal ? Link : 'a'}
+              style={{ textDecoration: 'none' }}
             >
               {item.name}
             </NavLink>
@@ -334,8 +337,9 @@ export default function Navigation() {
               <MobileNavLink 
                 key={index} 
                 href={item.href}
-                onClick={(e) => handleSmoothScroll(e, item.href.substring(1))}
+                onClick={item.isExternal ? () => setIsMobileMenuOpen(false) : (e) => handleSmoothScroll(e, item.href.substring(1))}
                 $isOpen={isMobileMenuOpen}
+                as={item.isExternal ? Link : 'a'}
                 style={{ textDecoration: 'none', width: '100%' }}
               >
                 <MenuIcon>•</MenuIcon>

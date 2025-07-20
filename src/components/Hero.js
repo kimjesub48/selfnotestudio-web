@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import styled from 'styled-components';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import { trackEvents, trackPageTime } from '../utils/analytics';
 
 // 폰트 로딩 관련 스타일 추가
@@ -212,6 +213,207 @@ const HighlightText = styled.span`
   }
 `;
 
+// 유튜브 검색창 스타일 컴포넌트들
+const SearchContainer = styled.div`
+  width: 100%;
+  max-width: 600px;
+  margin: 2rem auto 0;
+  position: relative;
+  z-index: 6;
+`;
+
+const SearchForm = styled.form`
+  position: relative;
+  width: 100%;
+`;
+
+const SearchInput = styled.input`
+  width: 100%;
+  padding: 16px 60px 16px 24px;
+  font-size: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50px;
+  color: #fff;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  outline: none;
+  
+  &::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+  }
+  
+  &:focus {
+    border-color: #3491FF;
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 0 4px rgba(52, 145, 255, 0.1);
+  }
+  
+  @media (max-width: 900px) {
+    padding: 14px 50px 14px 20px;
+    font-size: 0.9rem;
+  }
+`;
+
+const SearchButton = styled.button`
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: #3491FF;
+  border-radius: 50%;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background: #2176e6;
+    transform: translateY(-50%) scale(1.05);
+  }
+  
+  @media (max-width: 900px) {
+    width: 36px;
+    height: 36px;
+    right: 6px;
+  }
+`;
+
+const SearchResults = styled.div`
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: rgba(17, 18, 22, 0.95);
+  backdrop-filter: blur(20px);
+  border-radius: 16px;
+  max-height: 400px;
+  overflow-y: auto;
+  z-index: 10;
+  margin-top: 8px;
+  display: ${props => props.$show ? 'block' : 'none'};
+  
+  /* 커스텀 스크롤바 */
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+  }
+  
+  &::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.5);
+  }
+`;
+
+const SearchResultItem = styled.div`
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  transition: background 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+  
+  &:last-child {
+    border-bottom: none;
+  }
+`;
+
+const VideoThumbnail = styled.img`
+  width: 80px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+  flex-shrink: 0;
+  
+  @media (max-width: 900px) {
+    width: 60px;
+    height: 45px;
+  }
+`;
+
+const VideoInfo = styled.div`
+  flex: 1;
+  min-width: 0;
+`;
+
+const VideoTitle = styled.div`
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1.3;
+  margin-bottom: 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  
+  @media (max-width: 900px) {
+    font-size: 0.85rem;
+  }
+`;
+
+const VideoChannel = styled.div`
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.8rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  
+  @media (max-width: 900px) {
+    font-size: 0.75rem;
+  }
+`;
+
+const VideoTitleContainer = styled.div`
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 4px;
+`;
+
+const MRBadge = styled.span`
+  background: #FF6B6B;
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 12px;
+  flex-shrink: 0;
+  
+  @media (max-width: 900px) {
+    font-size: 0.65rem;
+    padding: 1px 5px;
+  }
+`;
+
+const LoadingSpinner = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+`;
+
 export default function Hero() {
   const [isMobile, setIsMobile] = useState(false);
   const [fontsLoaded, setFontsLoaded] = useState(false);
@@ -221,6 +423,17 @@ export default function Hero() {
   const videoRef = useRef(null);
   const pageTimeTracker = useRef(null);
   
+  // 유튜브 검색 관련 상태
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const [showResults, setShowResults] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
+  const searchTimeoutRef = useRef(null);
+  const router = useRouter();
+
+  // 유튜브 API 키 (환경변수에서 가져오거나 하드코딩)
+  const YOUTUBE_API_KEY = 'AIzaSyAVz0C91E_VUu16gl9-KyWyA1PZOcxoY3Y'; // 새로운 API 키
+
   // 페이지 체류시간 추적 시작
   useEffect(() => {
     pageTimeTracker.current = trackPageTime('Hero Section');
@@ -363,6 +576,118 @@ export default function Hero() {
     };
   }, [checkMobile]);
 
+  // 유튜브 검색 함수
+  const searchYoutube = async (query) => {
+    if (!query.trim()) {
+      setSearchResults([]);
+      setShowResults(false);
+      return;
+    }
+
+    setIsSearching(true);
+    
+    try {
+      // 검색 모드에 따라 검색어 조정
+      const searchQueryMR = `${query} MR 반주 instrumental karaoke`;
+      
+      // API 키가 유효한지 확인
+      if (!YOUTUBE_API_KEY || YOUTUBE_API_KEY.includes('XqXqXqXqXqXqXqXqXqXqXqXqXqXqXqXq')) {
+        console.error('유효하지 않은 YouTube API 키');
+        setSearchResults([]);
+        setShowResults(false);
+        return;
+      }
+      
+      const response = await fetch(
+        `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=10&q=${encodeURIComponent(searchQueryMR)}&key=${YOUTUBE_API_KEY}`
+      );
+      
+      if (response.ok) {
+        const data = await response.json();
+        setSearchResults(data.items || []);
+        setShowResults(true);
+        
+        // 검색 이벤트 추적
+        trackEvents.content.youtubeSearch(`MR: ${query}`);
+      } else {
+        const errorData = await response.json().catch(() => ({}));
+        console.error('YouTube API error:', response.status, errorData);
+        
+        // API 키 에러인 경우 사용자에게 알림
+        if (response.status === 400 || response.status === 403) {
+          setSearchResults([]);
+          setShowResults(false);
+        }
+      }
+    } catch (error) {
+      console.error('YouTube search error:', error);
+      setSearchResults([]);
+      setShowResults(false);
+    } finally {
+      setIsSearching(false);
+    }
+  };
+
+  // 검색 입력 핸들러 (디바운스 적용)
+  const handleSearchInput = (e) => {
+    const value = e.target.value;
+    setSearchQuery(value);
+
+    // 이전 타이머 취소
+    if (searchTimeoutRef.current) {
+      clearTimeout(searchTimeoutRef.current);
+    }
+
+    // 새로운 타이머 설정 (300ms 후 검색 실행)
+    searchTimeoutRef.current = setTimeout(() => {
+      searchYoutube(value);
+    }, 300);
+  };
+
+  // 검색 폼 제출 핸들러
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      searchYoutube(searchQuery);
+    }
+  };
+
+  // 비디오 선택 핸들러
+  const handleVideoSelect = (video) => {
+    const videoUrl = `https://www.youtube.com/watch?v=${video.id.videoId}`;
+    const videoTitle = video.snippet.title;
+    
+    // 선택 이벤트 추적
+    trackEvents.content.youtubeVideoSelected(videoTitle, videoUrl);
+    
+    // 주문 페이지로 이동 (선택된 비디오 정보와 함께)
+    router.push({
+      pathname: '/order',
+      query: {
+        youtube: videoUrl,
+        title: videoTitle
+      }
+    });
+    
+    // 검색 결과 숨기기
+    setShowResults(false);
+    setSearchQuery('');
+  };
+
+  // 검색 결과 외부 클릭 시 숨기기
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!event.target.closest('.search-container')) {
+        setShowResults(false);
+      }
+    };
+
+    document.addEventListener('click', handleClickOutside);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, []);
+
   return (
     <>
       {/* 폰트 최적화를 위한 스타일 */}
@@ -393,6 +718,57 @@ export default function Hero() {
             <TitleText>누구나 쉽게, <HighlightText $isMobile={isMobile}>녹음</HighlightText> 하세요!</TitleText>
             <TitleText></TitleText>
           </Title>
+
+          {/* 유튜브 검색창 추가 */}
+          <SearchContainer className="search-container">
+            <SearchForm onSubmit={handleSearchSubmit}>
+              <SearchInput
+                type="text"
+                placeholder="MR 반주를 검색해보세요 (예: 아이유 좋은날 MR)"
+                value={searchQuery}
+                onChange={handleSearchInput}
+                autoComplete="off"
+              />
+              <SearchButton type="submit">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M21 21L16.514 16.506L21 21ZM19 10.5C19 15.194 15.194 19 10.5 19C5.806 19 2 15.194 2 10.5C2 5.806 5.806 2 10.5 2C15.194 2 19 5.806 19 10.5Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </SearchButton>
+            </SearchForm>
+
+            <SearchResults $show={showResults}>
+              {isSearching ? (
+                <LoadingSpinner>검색 중...</LoadingSpinner>
+              ) : searchResults.length > 0 ? (
+                searchResults.map((video) => {
+                  // MR 여부 확인 (제목에 MR, 반주, instrumental, karaoke 등이 포함되어 있는지)
+                  const isMR = /MR|반주|instrumental|karaoke|backing track/i.test(video.snippet.title);
+                  
+                  return (
+                    <SearchResultItem
+                      key={video.id.videoId}
+                      onClick={() => handleVideoSelect(video)}
+                    >
+                      <VideoThumbnail
+                        src={video.snippet.thumbnails.default.url}
+                        alt={video.snippet.title}
+                      />
+                      <VideoInfo>
+                        <VideoTitleContainer>
+                          <VideoTitle style={{ flex: 1 }}>{video.snippet.title}</VideoTitle>
+                          {isMR && <MRBadge>MR</MRBadge>}
+                        </VideoTitleContainer>
+                        <VideoChannel>{video.snippet.channelTitle}</VideoChannel>
+                      </VideoInfo>
+                    </SearchResultItem>
+                  );
+                })
+              ) : searchQuery && !isSearching ? (
+                <LoadingSpinner>검색 결과가 없습니다</LoadingSpinner>
+              ) : null}
+            </SearchResults>
+          </SearchContainer>
+
           <Description 
             $isMobile={isMobile} 
             className={`${fontsLoaded ? 'fonts-loaded' : ''} ${initialRender ? 'initial-render' : ''}`}

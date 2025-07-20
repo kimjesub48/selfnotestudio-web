@@ -79,6 +79,17 @@ export const trackEvents = {
       action: 'download_price_list',
       category: 'engagement',
       label: '가격표 다운로드'
+    }),
+    youtubeSearch: (query) => event({
+      action: 'youtube_search',
+      category: 'engagement',
+      label: query
+    }),
+    youtubeVideoSelected: (title, url) => event({
+      action: 'youtube_video_selected',
+      category: 'conversion',
+      label: title,
+      value: url
     })
   },
   

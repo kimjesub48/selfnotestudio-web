@@ -1,0 +1,15 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 상담 신청 컬렉션
+    match /consultations/{consultationId} {
+      allow read: if request.auth != null; // 인증된 사용자만 읽기
+      allow write: if true; // 누구나 상담 신청 가능
+    }
+    
+    // 관리자 전용 컬렉션
+    match /admin/{document=**} {
+      allow read, write: if request.auth != null && request.auth.token.admin == true;
+    }
+  }
+} 
