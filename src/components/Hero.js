@@ -431,8 +431,12 @@ export default function Hero() {
   const searchTimeoutRef = useRef(null);
   const router = useRouter();
 
-  // 유튜브 API 키 (환경변수에서 가져오거나 하드코딩)
-  const YOUTUBE_API_KEY = 'AIzaSyAVz0C91E_VUu16gl9-KyWyA1PZOcxoY3Y'; // 새로운 API 키
+  // YouTube API 키 제거 - 보안상 환경변수로만 사용
+  const YOUTUBE_API_KEY = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY;
+  
+  if (!YOUTUBE_API_KEY) {
+    console.warn('YouTube API 키가 설정되지 않았습니다. YouTube 검색 기능이 제한됩니다.');
+  }
 
   // 페이지 체류시간 추적 시작
   useEffect(() => {
