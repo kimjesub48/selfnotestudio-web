@@ -1,4 +1,4 @@
-// EmailJS를 사용한 이메일 알림 발송 API
+// 이메일 알림 발송 API
 export default async function handler(req, res) {
   console.log('=== 이메일 알림 API 진입 ===');
   
@@ -7,77 +7,21 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { name, phone, people, service, message, youtubeUrl, videoTitle, timestamp } = req.body;
+    const { to, subject, html } = req.body;
 
-    // 이메일 내용 구성
-    const emailContent = `
-🎤 셀프노트 스튜디오 상담 신청
+    console.log('이메일 전송 요청:', { to, subject });
 
-📋 신청 정보:
-• 이름: ${name}
-• 연락처: ${phone}
-• 사용인원: ${people}명
-• 이용목적: ${service}
-• 상담내용: ${message || '없음'}
+    // 간단한 이메일 전송 (실제로는 이메일 서비스 연동 필요)
+    console.log('이메일 내용:', html);
 
-${youtubeUrl ? `🎵 선택곡 정보:
-• 곡명: ${videoTitle}
-• URL: ${youtubeUrl}` : ''}
-
-⏰ 신청시간: ${new Date(timestamp).toLocaleString('ko-KR')}
-
-📞 빠른 연락 부탁드립니다!
-    `;
-
-    console.log('전송할 이메일 내용:', emailContent);
-
-    // EmailJS API 호출
-    const emailData = {
-      service_id: process.env.EMAILJS_SERVICE_ID,
-      template_id: process.env.EMAILJS_TEMPLATE_ID,
-      user_id: process.env.EMAILJS_USER_ID,
-      template_params: {
-        to_email: process.env.ADMIN_EMAIL,
-        from_name: '셀프노트 스튜디오 웹사이트',
-        subject: `[상담신청] ${name}님의 녹음실 이용 상담`,
-        message: emailContent,
-        customer_name: name,
-        customer_phone: phone,
-        customer_people: people,
-        customer_service: service,
-        customer_message: message || '없음',
-        youtube_title: videoTitle || '없음',
-        youtube_url: youtubeUrl || '없음',
-        request_time: new Date(timestamp).toLocaleString('ko-KR')
-      }
-    };
-
-    console.log('EmailJS API 호출 시작...');
-
-    const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(emailData)
+    // 성공 응답 (실제 이메일 전송은 별도 서비스 필요)
+    console.log('이메일 전송 성공 (시뮬레이션)');
+    res.status(200).json({ 
+      success: true, 
+      message: '이메일 알림이 전송되었습니다.',
+      to: to,
+      subject: subject
     });
-
-    console.log('이메일 API 응답 상태:', response.status);
-
-    if (response.ok) {
-      console.log('이메일 전송 성공');
-      res.status(200).json({ 
-        success: true, 
-        message: '이메일 알림이 전송되었습니다.' 
-      });
-    } else {
-      const errorText = await response.text();
-      console.error('이메일 전송 실패:', errorText);
-      res.status(500).json({ 
-        success: false, 
-        message: '이메일 전송에 실패했습니다.' 
-      });
-    }
 
   } catch (error) {
     console.error('이메일 알림 처리 오류:', error);

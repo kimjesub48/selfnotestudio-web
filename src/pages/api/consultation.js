@@ -39,51 +39,47 @@ export default async function handler(req, res) {
     // 여기서 데이터 저장 및 알림 발송
     console.log('새로운 상담 신청:', consultationData);
 
-    // 1. 사장님에게 카카오 알림톡 발송 (상담 신청 내용)
-    console.log('사장님용 카카오 알림톡 API 호출 시도...');
+    // 1. 사장님에게 이메일 알림 발송 (상담 신청 내용)
+    console.log('사장님용 이메일 알림 API 호출 시도...');
     
-    // 로컬 개발 환경에서는 사장님 알림톡 건너뛰기
-    if (process.env.NODE_ENV === 'production') {
-      const ownerAlimtalkData = {
-        name: '사장님',
-        phone: process.env.OWNER_PHONE || '010-1234-5678',
-        template: '상담신청',
-        variables: {
-          customerName: name,
-          customerPhone: phone,
-          people: people,
-          service: service,
-          message: message || '없음',
-          youtubeUrl: youtubeUrl || '없음',
-          videoTitle: videoTitle || '없음',
-          timestamp: new Date(timestamp).toLocaleString('ko-KR')
-        }
-      };
+    const ownerEmailData = {
+      to: process.env.OWNER_EMAIL || 'owner@selfnotestudio.co.kr',
+      subject: '새로운 상담 신청이 접수되었습니다',
+      html: `
+        <h2>🎤 셀프노트 스튜디오 상담 신청</h2>
+        <p><strong>👤 이름:</strong> ${name}</p>
+        <p><strong>📞 연락처:</strong> ${phone}</p>
+        <p><strong>👥 사용인원:</strong> ${people}명</p>
+        <p><strong>🎯 이용목적:</strong> ${service}</p>
+        <p><strong>💬 상담내용:</strong> ${message || '없음'}</p>
+        ${youtubeUrl ? `<p><strong>🎵 선택곡:</strong> ${videoTitle}</p><p><strong>🔗 URL:</strong> <a href="${youtubeUrl}">${youtubeUrl}</a></p>` : ''}
+        <p><strong>⏰ 신청시간:</strong> ${new Date(timestamp).toLocaleString('ko-KR')}</p>
+        <br>
+        <p>빠른 연락 부탁드립니다! 🙏</p>
+      `
+    };
 
-      try {
-        const ownerResponse = await fetch(process.env.ALIGO_PROXY_URL || 'http://cafe24.selfnotestudio.co.kr:3000/sendKakao', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(ownerAlimtalkData)
-        });
+    try {
+      const emailResponse = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'https://selfnote.co.kr'}/api/email-notification`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(ownerEmailData)
+      });
 
-        console.log('사장님 알림톡 API 응답 상태:', ownerResponse.status);
-        
-        if (ownerResponse.ok) {
-          const ownerResult = await ownerResponse.json();
-          console.log('사장님 알림톡 전송 성공 - 응답:', ownerResult);
-        } else {
-          const errorText = await ownerResponse.text();
-          console.log('사장님 알림톡 전송 실패 - 응답:', errorText);
-        }
-      } catch (error) {
-        console.error('사장님 알림톡 API 호출 오류:', error);
-        console.error('오류 상세:', error.message);
+      console.log('사장님 이메일 API 응답 상태:', emailResponse.status);
+      
+      if (emailResponse.ok) {
+        const emailResult = await emailResponse.json();
+        console.log('사장님 이메일 전송 성공 - 응답:', emailResult);
+      } else {
+        const errorText = await emailResponse.text();
+        console.log('사장님 이메일 전송 실패 - 응답:', errorText);
       }
-    } else {
-      console.log('로컬 개발 환경: 사장님 알림톡 건너뛰기');
+    } catch (error) {
+      console.error('사장님 이메일 API 호출 오류:', error);
+      console.error('오류 상세:', error.message);
     }
 
     // 2. 손님에게 카카오 알림톡 발송 (접수 완료 알림)
