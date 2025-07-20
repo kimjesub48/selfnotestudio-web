@@ -85,8 +85,8 @@ export default async function handler(req, res) {
     // 2. 손님에게 카카오 알림톡 발송 (접수 완료 알림)
     console.log('손님용 카카오 알림톡 API 호출 시도...');
     try {
-      // Cafe24 고정 IP 서버의 실제 API 엔드포인트
-      const alimtalkUrl = process.env.ALIMTALK_SERVER_URL || 'http://175.125.92.29:3000/sendKakao';
+      // 올바른 환경변수 사용
+      const alimtalkUrl = process.env.ALIGO_PROXY_URL || 'http://cafe24.selfnotestudio.co.kr:3000/sendKakao';
       
       // 서버에서 요구하는 형식으로 데이터 전송
       const formData = new URLSearchParams();
