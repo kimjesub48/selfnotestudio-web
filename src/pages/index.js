@@ -7,6 +7,7 @@ import WhyChooseUs from '../components/WhyChooseUs';
 import VideoPackages from '../components/VideoPackages';
 import Reviews from '../components/Reviews';
 import StudioInfo from '../components/StudioInfo';
+import CalendarSection from '../components/CalendarSection';
 import ReservationSection from '../components/ReservationSection';
 import Footer from '../components/Footer';
 import PriceSection from '../components/PriceSection';
@@ -29,6 +30,7 @@ export default function Home() {
         <AudioComparison />
         <VideoPackages />
         <StudioInfo />
+        <CalendarSection />
         <PriceSection />
         <ReservationSection />
         <Footer />

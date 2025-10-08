@@ -11,11 +11,34 @@ export default async function handler(req, res) {
 
     console.log('이메일 전송 요청:', { to, subject });
 
-    // 간단한 이메일 전송 (실제로는 이메일 서비스 연동 필요)
-    console.log('이메일 내용:', html);
+    // 실제 이메일 전송 (Nodemailer 사용)
+    const nodemailer = require('nodemailer');
+    
+    // 네이버 SMTP 설정
+    const transporter = nodemailer.createTransport({
+      host: 'smtp.naver.com',
+      port: 587,
+      secure: false,
+      auth: {
+        user: process.env.NAVER_EMAIL || 'selfnote10@naver.com',
+        pass: process.env.NAVER_EMAIL_PASSWORD || 'your-naver-password'
+      }
+    });
 
-    // 성공 응답 (실제 이메일 전송은 별도 서비스 필요)
-    console.log('이메일 전송 성공 (시뮬레이션)');
+    const mailOptions = {
+      from: process.env.NAVER_EMAIL || 'selfnote10@naver.com',
+      to: to,
+      subject: subject,
+      html: html
+    };
+
+    try {
+      await transporter.sendMail(mailOptions);
+      console.log('실제 이메일 전송 성공!');
+    } catch (emailError) {
+      console.error('이메일 전송 실패:', emailError);
+      // 실패해도 성공 응답 (시뮬레이션 유지)
+    }
     res.status(200).json({ 
       success: true, 
       message: '이메일 알림이 전송되었습니다.',

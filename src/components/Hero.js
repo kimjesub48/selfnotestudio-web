@@ -783,27 +783,6 @@ export default function Hero() {
             YouTube 구독자 205만 채널 운영<br />
             Google Creator Awards 수상
           </Description>
-          
-          {/* 임시 테스트 버튼 (개발 중 숨김) */}
-          {/* 
-          <div style={{ marginTop: '20px' }}>
-            <button 
-              onClick={() => router.push('/order')}
-              style={{
-                background: '#3491FF',
-                color: 'white',
-                border: 'none',
-                padding: '12px 24px',
-                borderRadius: '8px',
-                fontSize: '16px',
-                cursor: 'pointer',
-                fontWeight: '600'
-              }}
-            >
-              상담폼 테스트 (임시)
-            </button>
-          </div>
-          */}
         </ContentContainer>
 
         <ScrollIndicator>

@@ -280,13 +280,13 @@ export default function Navigation() {
   }
 
   const navItems = [
+    { name: '고객 후기', href: '#reviews', marginLeft: '0px', marginRight: '0px' },
     { name: '서비스 소개', href: '#why-choose-us', marginLeft: '0px', marginRight: '0px' },
     { name: '음원 비교', href: '#audio-comparison', marginLeft: '0px', marginRight: '0px' },
     { name: '영상 패키지', href: '#video-packages', marginLeft: '0px', marginRight: '0px' },
     { name: '스튜디오 소개', href: '#studio-info', marginLeft: '0px', marginRight: '0px' },
-    { name: '고객 후기', href: '#reviews', marginLeft: '0px', marginRight: '0px' },
+    { name: '예약현황', href: '#calendar', marginLeft: '0px', marginRight: '0px' },
     { name: '가격 안내', href: '#price-section', marginLeft: '0px', marginRight: '0px' },
-    { name: '결혼식 음원편집', href: '/wedding-edit', marginLeft: '0px', marginRight: '0px', isExternal: true },
   ];
 
   return (

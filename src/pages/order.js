@@ -438,9 +438,13 @@ export default function OrderPage() {
                 onChange={handleInputChange}
                 required
               >
-                <option value="self">커버곡, 취미</option>
-                <option value="guide">이벤트 (축가, 프로포즈) </option>
-                <option value="professional">음원 발매용</option>
+                <option value="">이용 목적을 선택해주세요</option>
+                <option value="커버곡/취미">커버곡/취미</option>
+                <option value="이벤트(축가, 프로포즈)">이벤트(축가, 프로포즈)</option>
+                <option value="음원 발매용">음원 발매용</option>
+                <option value="보컬 녹음">보컬 녹음</option>
+                <option value="악기 녹음">악기 녹음</option>
+                <option value="기타">기타</option>
               </Select>
             </FormGroup>
 

@@ -45,13 +45,21 @@ exports.sendKakaoNotification = functions.https.onRequest(async (req, res) => {
   const apikey = 'gsfprma05alogua7rmtwigr46cxzntzb';
   const userid = 'selfnote10';
   const senderkey = '006507751f3f2bb0cfce5a7cbb8b8bc2e1eaa027';
-  const tpl_code = 'UA_9729';
+  const tpl_code = 'UB_2801';
   const sender = '010-7580-9997'; // 15** 등 승인된 번호
   const subject = '셀프노트 상담';
   const kakaoChatUrl = 'http://pf.kakao.com/_NhDxfM/chat'; // 본인 카카오채널 1:1채팅 링크로 변경
 
-  // 템플릿과 100% 동일하게 작성 (줄바꿈, 띄어쓰기까지)
-  const message = `상담 신청이 접수되었습니다!\n궁금한 점이나 빠른 상담이 필요하시면\n아래 카카오채널 1:1채팅으로 바로 문의해 주세요`;
+  // 새로운 템플릿 메시지 (변수 포함)
+  const message = `선곡: #{videoTitle}
+이름: #{name}
+연락처: #{phone}
+사용인원: #{people}명
+이용목적: #{service}
+상담내용: #{message}
+
+※'예약문의'라고 
+메시지 보내주시면 상담이 시작됩니다.`;
 
   // 버튼 정보 (템플릿 등록 시와 동일하게)
   const button_1 = JSON.stringify({

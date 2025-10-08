@@ -36,14 +36,13 @@ export default async function handler(req, res) {
       status: 'pending' // 상담 상태: pending, contacted, completed
     };
 
-    // 여기서 데이터 저장 및 알림 발송
     console.log('새로운 상담 신청:', consultationData);
 
-    // 1. 사장님에게 이메일 알림 발송 (상담 신청 내용)
+    // 1. 사장님에게 이메일 알림 발송
     console.log('사장님용 이메일 알림 API 호출 시도...');
     
     const ownerEmailData = {
-      to: process.env.OWNER_EMAIL || 'owner@selfnotestudio.co.kr',
+      to: process.env.OWNER_EMAIL || 'owner@selfnote.co.kr',
       subject: '새로운 상담 신청이 접수되었습니다',
       html: `
         <h2>🎤 셀프노트 스튜디오 상담 신청</h2>
@@ -60,7 +59,7 @@ export default async function handler(req, res) {
     };
 
     try {
-      const emailResponse = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'https://selfnote.co.kr'}/api/email-notification`, {
+      const emailResponse = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/email-notification`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -68,36 +67,37 @@ export default async function handler(req, res) {
         body: JSON.stringify(ownerEmailData)
       });
 
-      console.log('사장님 이메일 API 응답 상태:', emailResponse.status);
-      
       if (emailResponse.ok) {
         const emailResult = await emailResponse.json();
-        console.log('사장님 이메일 전송 성공 - 응답:', emailResult);
+        console.log('사장님 이메일 알림 전송 성공:', emailResult);
       } else {
-        const errorText = await emailResponse.text();
-        console.log('사장님 이메일 전송 실패 - 응답:', errorText);
+        console.error('사장님 이메일 알림 전송 실패:', emailResponse.status);
       }
-    } catch (error) {
-      console.error('사장님 이메일 API 호출 오류:', error);
-      console.error('오류 상세:', error.message);
+    } catch (emailError) {
+      console.error('사장님 이메일 알림 API 호출 오류:', emailError);
     }
 
-    // 2. 손님에게 카카오 알림톡 발송 (접수 완료 알림)
+    // 2. 손님에게 카카오 알림톡 발송 (Cafe24 서버 - 새로운 템플릿)
     console.log('손님용 카카오 알림톡 API 호출 시도...');
+    console.log('손님 전화번호:', phone);
+    
     try {
-      // 올바른 환경변수 사용
-      const alimtalkUrl = process.env.ALIGO_PROXY_URL || 'http://cafe24.selfnotestudio.co.kr:3000/sendKakao';
-      
-      // 서버에서 요구하는 형식으로 데이터 전송
-      const formData = new URLSearchParams();
-      formData.append('receiver_1', phone);
+      // Cafe24 서버 사용 (고정 IP) - 새로운 템플릿 UB_2801
+      const alimtalkUrl = 'http://175.125.92.29:3000/api/send-alimtalk';
       
       const alimtalkResponse = await fetch(alimtalkUrl, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
+          'Content-Type': 'application/json',
         },
-        body: formData
+        body: JSON.stringify({ 
+          phone,
+          name,
+          people,
+          service,
+          message,
+          videoTitle
+        })
       });
 
       console.log('카카오 알림톡 API 응답 상태:', alimtalkResponse.status);
@@ -114,8 +114,53 @@ export default async function handler(req, res) {
       console.error('오류 상세:', error.message);
     }
 
-    // 3. 데이터베이스 저장 (향후 구현)
-    // await saveConsultation(consultationData);
+    // 3. 사장님에게 카카오 알림톡 발송 (Cafe24 서버 - 새로운 템플릿)
+    console.log('사장님용 카카오 알림톡 API 호출 시도...');
+    console.log('사장님 전화번호:', process.env.OWNER_PHONE);
+    
+    try {
+      // Cafe24 서버 사용 (고정 IP) - 사장님용 새로운 템플릿
+      const ownerAlimtalkUrl = 'http://175.125.92.29:3000/api/send-owner-alimtalk';
+      
+      const ownerAlimtalkResponse = await fetch(ownerAlimtalkUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ 
+          phone: process.env.OWNER_PHONE,
+          name,
+          people,
+          service,
+          message,
+          videoTitle,
+          timestamp
+        })
+      });
+
+      console.log('사장님 카카오 알림톡 API 응답 상태:', ownerAlimtalkResponse.status);
+      
+      if (!ownerAlimtalkResponse.ok) {
+        const errorText = await ownerAlimtalkResponse.text();
+        console.error('사장님 카카오 알림톡 전송 실패 - 응답:', errorText);
+      } else {
+        const successData = await ownerAlimtalkResponse.json();
+        console.log('사장님 카카오 알림톡 전송 성공 - 응답:', successData);
+      }
+    } catch (error) {
+      console.error('사장님 카카오 알림톡 API 호출 오류:', error);
+      console.error('오류 상세:', error.message);
+    }
+
+    // 4. 데이터베이스 저장 (Firebase 설정 문제로 임시 비활성화)
+    console.log('데이터베이스 저장 시도...');
+    try {
+      // Firebase 설정이 완료되지 않아 임시로 비활성화
+      console.log('Firebase 설정이 완료되지 않아 데이터베이스 저장을 건너뜁니다.');
+      console.log('상담 데이터:', consultationData);
+    } catch (dbError) {
+      console.error('데이터베이스 저장 실패:', dbError.message);
+    }
 
     // 임시로 콘솔에 로그 출력
     console.log('=== 새로운 상담 신청 ===');

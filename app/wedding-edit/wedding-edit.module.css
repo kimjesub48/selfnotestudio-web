@@ -1,0 +1,1494 @@
+/* 전체 페이지 - 다크 테마 */
+.weddingEditPage {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  color: #e2e8f0;
+}
+
+/* Hero 섹션 - 다크 */
+.weddingHero {
+  padding: clamp(100px, 18vh, 140px) 0 clamp(80px, 15vh, 120px);
+  background: linear-gradient(135deg, #1a202c 0%, #2d3748 50%, #4a5568 100%);
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.weddingHero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%);
+}
+
+.weddingHero::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+.weddingHeroContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 4vw, 40px);
+  position: relative;
+  z-index: 2;
+}
+
+.weddingHeroContent {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(50px, 10vw, 100px);
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .weddingHeroContent {
+    grid-template-columns: 1fr auto;
+  }
+}
+
+.weddingHeroText {
+  max-width: 600px;
+}
+
+.badge {
+  display: inline-block;
+  background: rgba(139, 92, 246, 0.2);
+  color: #c084fc;
+  padding: 12px 24px;
+  border-radius: 50px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 32px;
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.weddingTitle {
+  font-size: clamp(3rem, 7vw, 4.5rem);
+  margin-bottom: 24px;
+  line-height: 1.1;
+  font-weight: 800;
+  background: linear-gradient(135deg, #ffffff 0%, #c084fc 50%, #3b82f6 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: none;
+}
+
+.weddingSubtitle {
+  font-size: clamp(1.25rem, 3.5vw, 1.5rem);
+  margin-bottom: 48px;
+  opacity: 0.9;
+  line-height: 1.6;
+  font-weight: 400;
+  color: #cbd5e0;
+}
+
+.weddingFeatures {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+@media (min-width: 640px) {
+  .weddingFeatures {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 32px;
+  }
+}
+
+.weddingFeature {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: #e2e8f0;
+}
+
+.featureIcon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  background: rgba(139, 92, 246, 0.2);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  color: #c084fc;
+}
+
+.iconCircle {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.iconSquare {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  background: currentColor;
+}
+
+.iconTriangle {
+  width: 0;
+  height: 0;
+  border-left: 9px solid transparent;
+  border-right: 9px solid transparent;
+  border-bottom: 16px solid currentColor;
+}
+
+.weddingHeroImage {
+  display: flex;
+  justify-content: center;
+}
+
+.weddingImagePlaceholder {
+  width: clamp(250px, 45vw, 320px);
+  height: clamp(250px, 45vw, 320px);
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(59, 130, 246, 0.15) 100%);
+  border-radius: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(30px);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.waveAnimation {
+  display: flex;
+  gap: 6px;
+  align-items: end;
+  height: 80px;
+}
+
+.wave {
+  width: 8px;
+  background: linear-gradient(180deg, #c084fc 0%, #3b82f6 100%);
+  border-radius: 4px;
+  animation: wave 2s ease-in-out infinite;
+}
+
+.wave:nth-child(1) { animation-delay: 0s; height: 30px; }
+.wave:nth-child(2) { animation-delay: 0.2s; height: 50px; }
+.wave:nth-child(3) { animation-delay: 0.4s; height: 80px; }
+.wave:nth-child(4) { animation-delay: 0.6s; height: 40px; }
+
+@keyframes wave {
+  0%, 100% { transform: scaleY(1); opacity: 0.7; }
+  50% { transform: scaleY(0.4); opacity: 1; }
+}
+
+/* 서비스 섹션 - 다크 */
+.weddingServiceSection {
+  padding: clamp(100px, 15vh, 140px) 0;
+  background: #0f0f23;
+  position: relative;
+}
+
+.weddingServiceSection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, #374151 50%, transparent 100%);
+}
+
+.weddingServiceContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 4vw, 40px);
+}
+
+.sectionHeader {
+  text-align: center;
+  margin-bottom: clamp(80px, 12vh, 100px);
+}
+
+.weddingServiceTitle {
+  font-size: clamp(2.5rem, 6vw, 3.5rem);
+  margin-bottom: 24px;
+  color: #f7fafc;
+  font-weight: 800;
+  background: linear-gradient(135deg, #ffffff 0%, #c084fc 50%, #3b82f6 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.weddingServiceDesc {
+  font-size: clamp(1.125rem, 3vw, 1.375rem);
+  color: #a0aec0;
+  margin: 0;
+  font-weight: 400;
+}
+
+.weddingServiceGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  margin-bottom: 100px;
+}
+
+@media (min-width: 640px) {
+  .weddingServiceGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .weddingServiceGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.weddingServiceCard {
+  background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+  padding: 40px 32px;
+  border-radius: 24px;
+  border: 1px solid #374151;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.weddingServiceCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(135deg, #8b5cf6 0%, #3b82f6 100%);
+  transform: scaleX(0);
+  transition: transform 0.4s ease;
+}
+
+.weddingServiceCard:hover::before {
+  transform: scaleX(1);
+}
+
+.weddingServiceCard:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 32px 64px rgba(0, 0, 0, 0.4);
+  border-color: #8b5cf6;
+}
+
+/* 프로세스 플로우 스타일 */
+.processFlow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.serviceNumber {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #8b5cf6;
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.2) 0%, rgba(139, 92, 246, 0.1) 100%);
+  width: 80px;
+  height: 80px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border: 2px solid rgba(139, 92, 246, 0.3);
+}
+
+.processArrow {
+  font-size: 1.75rem;
+  color: #4a5568;
+  font-weight: 700;
+}
+
+.processComplete {
+  font-size: 1.75rem;
+  color: #10b981;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(16, 185, 129, 0.1) 100%);
+  width: 60px;
+  height: 60px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid rgba(16, 185, 129, 0.3);
+}
+
+.weddingServiceCard h3 {
+  font-size: 1.5rem;
+  margin-bottom: 16px;
+  color: #f7fafc;
+  font-weight: 700;
+}
+
+.weddingServiceCard p {
+  color: #a0aec0;
+  line-height: 1.7;
+  font-size: 1rem;
+  margin-bottom: 20px;
+}
+
+.processTime {
+  font-size: 0.875rem;
+  color: #8b5cf6;
+  font-weight: 600;
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.2) 0%, rgba(139, 92, 246, 0.1) 100%);
+  padding: 8px 16px;
+  border-radius: 20px;
+  display: inline-block;
+  border: 1px solid rgba(139, 92, 246, 0.3);
+}
+
+/* 편집 유형 섹션 - 다크 */
+.editTypesSection {
+  margin-top: 100px;
+  padding-top: 80px;
+  border-top: 1px solid #374151;
+  position: relative;
+}
+
+.editTypesSection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, #8b5cf6 50%, transparent 100%);
+}
+
+.editTypesTitle {
+  text-align: center;
+  font-size: clamp(1.75rem, 4.5vw, 2.5rem);
+  margin-bottom: 48px;
+  color: #f7fafc;
+  font-weight: 700;
+}
+
+.editTypesGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+@media (min-width: 480px) {
+  .editTypesGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 768px) {
+  .editTypesGrid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+.editTypeCard {
+  background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+  padding: 24px 20px;
+  border-radius: 20px;
+  text-align: center;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid #374151;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.editTypeCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, #8b5cf6 0%, #3b82f6 100%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.editTypeCard:hover::before {
+  opacity: 1;
+}
+
+.editTypeCard:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(139, 92, 246, 0.3);
+}
+
+.editTypeIcon {
+  width: 56px;
+  height: 56px;
+  background: rgba(139, 92, 246, 0.2);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+  color: #c084fc;
+  transition: all 0.4s ease;
+  position: relative;
+  z-index: 2;
+  border: 1px solid rgba(139, 92, 246, 0.3);
+}
+
+.editTypeCard:hover .editTypeIcon {
+  background: rgba(255, 255, 255, 0.9);
+  color: #8b5cf6;
+  transform: scale(1.1);
+}
+
+.editTypeCard span {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #e2e8f0;
+  transition: color 0.4s ease;
+  position: relative;
+  z-index: 2;
+}
+
+.editTypeCard:hover span {
+  color: white;
+}
+
+/* 폼 섹션 - 다크 */
+.weddingFormSection {
+  padding: clamp(100px, 15vh, 140px) 0;
+  background: linear-gradient(135deg, #16213e 0%, #0f0f23 100%);
+  position: relative;
+}
+
+.weddingFormSection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, #374151 50%, transparent 100%);
+}
+
+.weddingFormContainer {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 4vw, 40px);
+}
+
+.formHeader {
+  text-align: center;
+  margin-bottom: clamp(80px, 12vh, 100px);
+}
+
+.weddingFormTitle {
+  font-size: clamp(2.5rem, 6vw, 3.5rem);
+  margin-bottom: 24px;
+  color: #f7fafc;
+  font-weight: 800;
+  background: linear-gradient(135deg, #ffffff 0%, #c084fc 50%, #3b82f6 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.weddingFormDesc {
+  font-size: clamp(1.125rem, 3vw, 1.25rem);
+  color: #a0aec0;
+  margin: 0;
+  font-weight: 400;
+}
+
+.weddingForm {
+  background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+  padding: clamp(40px, 8vw, 60px);
+  border-radius: 32px;
+  border: 1px solid #374151;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.weddingForm::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(135deg, #8b5cf6 0%, #3b82f6 100%);
+}
+
+/* 음원 리스트 섹션 */
+.audioListSection {
+  margin-bottom: 40px;
+}
+
+.audioListHeader {
+  margin-bottom: 32px;
+}
+
+.audioListHeader h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #f7fafc;
+  margin: 0;
+  text-align: center;
+}
+
+/* 음원 추가 섹션 */
+.addAudioSection {
+  margin: 40px 0;
+  text-align: center;
+}
+
+.addAudioButton {
+  background: linear-gradient(135deg, #8b5cf6 0%, #3b82f6 100%);
+  color: white;
+  border: none;
+  padding: 16px 32px;
+  border-radius: 16px;
+  font-size: 1.125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+  box-shadow: 0 8px 24px rgba(139, 92, 246, 0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+.addAudioButton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.2) 50%, transparent 100%);
+  transition: left 0.6s ease;
+}
+
+.addAudioButton:hover::before {
+  left: 100%;
+}
+
+.addAudioButton:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 12px 32px rgba(139, 92, 246, 0.6);
+}
+
+/* 음원 아이템 */
+.audioItem {
+  background: linear-gradient(135deg, #2d3748 0%, rgba(45, 55, 72, 0.7) 100%);
+  border: 2px solid #374151;
+  border-radius: 24px;
+  padding: 32px;
+  margin-bottom: 32px;
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.audioItem::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(135deg, #8b5cf6 0%, #3b82f6 100%);
+  transform: scaleX(0);
+  transition: transform 0.4s ease;
+}
+
+.audioItem:hover::before {
+  transform: scaleX(1);
+}
+
+.audioItem:hover {
+  border-color: #8b5cf6;
+  box-shadow: 0 16px 32px rgba(139, 92, 246, 0.2);
+  transform: translateY(-2px);
+}
+
+.audioItemHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  gap: 16px;
+}
+
+.audioNumber {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #c084fc;
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.2) 0%, rgba(139, 92, 246, 0.1) 100%);
+  padding: 12px 20px;
+  border-radius: 16px;
+  flex-shrink: 0;
+  border: 1px solid rgba(139, 92, 246, 0.3);
+}
+
+.removeAudioButton {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 48px;
+  min-height: 48px;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.removeAudioButton:hover {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  transform: scale(1.1);
+  box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4);
+}
+
+.formGroup {
+  margin-bottom: 28px;
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 28px;
+}
+
+@media (min-width: 640px) {
+  .formRow {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.formLabel {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #e2e8f0;
+  font-size: 1rem;
+}
+
+.required {
+  color: #f87171;
+}
+
+.formInput, .formSelect, .formTextarea {
+  width: 100%;
+  padding: 18px 20px;
+  border: 2px solid #374151;
+  border-radius: 16px;
+  font-size: 1rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-sizing: border-box;
+  background: #1a202c;
+  font-family: inherit;
+  color: #e2e8f0;
+}
+
+.formInput:focus, .formSelect:focus, .formTextarea:focus {
+  outline: none;
+  border-color: #8b5cf6;
+  box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.2);
+  background: #2d3748;
+}
+
+.formTextarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+/* 파일 업로드 */
+.fileUploadArea {
+  position: relative;
+}
+
+.fileInput {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.fileUploadLabel {
+  display: block;
+  padding: 48px 32px;
+  border: 3px dashed #4a5568;
+  border-radius: 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  background: linear-gradient(135deg, #2d3748 0%, rgba(45, 55, 72, 0.5) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.fileUploadLabel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.fileUploadLabel:hover::before {
+  opacity: 1;
+}
+
+.fileUploadLabel:hover {
+  border-color: #8b5cf6;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(139, 92, 246, 0.2);
+}
+
+.uploadIcon {
+  margin-bottom: 20px;
+  color: #c084fc;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+}
+
+.uploadText {
+  font-size: 1.25rem;
+  color: #e2e8f0;
+  margin-bottom: 8px;
+  font-weight: 600;
+  position: relative;
+  z-index: 2;
+}
+
+.uploadHint {
+  font-size: 0.9375rem;
+  color: #a0aec0;
+  position: relative;
+  z-index: 2;
+}
+
+/* 구분선 */
+.formDivider {
+  text-align: center;
+  margin: 40px 0;
+  position: relative;
+}
+
+.formDivider::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, #4a5568 50%, transparent 100%);
+}
+
+.formDivider span {
+  background: #1a202c;
+  padding: 0 24px;
+  color: #718096;
+  font-weight: 600;
+  font-size: 0.875rem;
+  position: relative;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* 결제 버튼 */
+.paymentButton {
+  width: 100%;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  border: none;
+  padding: 24px 40px;
+  font-size: 1.25rem;
+  font-weight: 700;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-top: 32px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  min-height: 64px;
+  box-shadow: 0 12px 28px rgba(16, 185, 129, 0.4);
+}
+
+.paymentButton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.2) 50%, transparent 100%);
+  transition: left 0.6s ease;
+}
+
+.paymentButton:hover:not(:disabled)::before {
+  left: 100%;
+}
+
+.paymentButton:hover:not(:disabled) {
+  transform: translateY(-3px) scale(1.01);
+  box-shadow: 0 16px 36px rgba(16, 185, 129, 0.6);
+}
+
+.paymentButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.loadingSpinner {
+  width: 24px;
+  height: 24px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top: 3px solid white;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* 정보 카드 */
+.weddingInfo {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  margin-top: 60px;
+}
+
+@media (min-width: 640px) {
+  .weddingInfo {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.infoCard {
+  background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+  padding: 32px 24px;
+  border-radius: 20px;
+  border: 1px solid #374151;
+  text-align: center;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.infoCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(135deg, #8b5cf6 0%, #3b82f6 100%);
+  transform: scaleX(0);
+  transition: transform 0.4s ease;
+}
+
+.infoCard:hover::before {
+  transform: scaleX(1);
+}
+
+.infoCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.3);
+}
+
+.infoIcon {
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.2) 0%, rgba(59, 130, 246, 0.2) 100%);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  color: #c084fc;
+  border: 2px solid rgba(139, 92, 246, 0.3);
+}
+
+.infoCard h4 {
+  margin-bottom: 12px;
+  font-size: 1.25rem;
+  color: #f7fafc;
+  font-weight: 700;
+}
+
+.infoCard p {
+  margin: 0;
+  color: #a0aec0;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+/* 뒤로가기 버튼 */
+.backButtonContainer {
+  text-align: center;
+  padding: 60px clamp(20px, 4vw, 40px);
+  background: linear-gradient(135deg, #16213e 0%, #0f0f23 100%);
+}
+
+.backButton {
+  background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+  border: 2px solid #374151;
+  color: #e2e8f0;
+  padding: 16px 32px;
+  border-radius: 16px;
+  cursor: pointer;
+  font-size: 1.125rem;
+  font-weight: 600;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.backButton:hover {
+  background: linear-gradient(135deg, #8b5cf6 0%, #3b82f6 100%);
+  color: white;
+  border-color: #8b5cf6;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(139, 92, 246, 0.4);
+}
+
+.backButton svg {
+  transition: transform 0.3s ease;
+}
+
+.backButton:hover svg {
+  transform: translateX(-4px);
+}
+
+/* 반응형 최적화 - 다크 테마 */
+@media (max-width: 480px) {
+  /* Hero 모바일 최적화 */
+  .weddingHero {
+    padding: 80px 0 60px;
+  }
+  
+  .badge {
+    padding: 10px 20px;
+    font-size: 0.8125rem;
+    margin-bottom: 24px;
+  }
+  
+  .weddingTitle {
+    font-size: clamp(2.25rem, 8vw, 2.75rem);
+  }
+  
+  .weddingSubtitle {
+    font-size: 1.125rem;
+    margin-bottom: 36px;
+  }
+  
+  /* 서비스 섹션 모바일 최적화 */
+  .weddingServiceSection {
+    padding: 80px 0;
+  }
+  
+  .sectionHeader {
+    margin-bottom: 60px;
+  }
+  
+  .weddingServiceGrid {
+    margin-bottom: 80px;
+  }
+  
+  .weddingServiceCard {
+    padding: 32px 24px;
+  }
+  
+  .serviceNumber {
+    width: 64px;
+    height: 64px;
+    font-size: 2rem;
+  }
+  
+  .processArrow {
+    display: none;
+  }
+  
+  .processComplete {
+    width: 48px;
+    height: 48px;
+    font-size: 1.5rem;
+  }
+  
+  /* 편집 유형 모바일 최적화 */
+  .editTypesSection {
+    margin-top: 80px;
+    padding-top: 60px;
+  }
+  
+  .editTypeCard {
+    padding: 20px 16px;
+  }
+  
+  .editTypeIcon {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 12px;
+  }
+  
+  /* 폼 섹션 모바일 최적화 */
+  .weddingFormSection {
+    padding: 80px 0;
+  }
+  
+  .formHeader {
+    margin-bottom: 60px;
+  }
+  
+  .weddingForm {
+    padding: 32px 20px;
+  }
+  
+  .audioListHeader h3 {
+    font-size: 1.25rem;
+  }
+  
+  .addAudioButton {
+    width: 100%;
+    justify-content: center;
+    padding: 18px 24px;
+    font-size: 1rem;
+    min-height: 56px;
+  }
+  
+  .audioItem {
+    padding: 24px 20px;
+    margin-bottom: 24px;
+  }
+  
+  .audioItemHeader {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  
+  .audioNumber {
+    font-size: 1.125rem;
+    padding: 10px 16px;
+    text-align: center;
+    align-self: center;
+  }
+  
+  .removeAudioButton {
+    align-self: center;
+    min-width: 48px;
+    min-height: 48px;
+  }
+  
+  .formInput, .formSelect, .formTextarea {
+    padding: 16px 18px;
+  }
+  
+  .fileUploadLabel {
+    padding: 32px 20px;
+  }
+  
+  .paymentButton {
+    padding: 20px 32px;
+    font-size: 1.125rem;
+    min-height: 60px;
+    margin-top: 24px;
+  }
+  
+  .infoCard {
+    padding: 24px 20px;
+  }
+  
+  .infoIcon {
+    width: 56px;
+    height: 56px;
+    margin-bottom: 16px;
+  }
+  
+  .backButton {
+    padding: 14px 28px;
+    font-size: 1rem;
+  }
+}
+
+/* 초소형 모바일 최적화 */
+@media (max-width: 360px) {
+  .weddingForm {
+    padding: 24px 16px;
+  }
+  
+  .audioItem {
+    padding: 20px 16px;
+  }
+  
+  .addAudioButton {
+    padding: 16px 20px;
+    font-size: 0.9375rem;
+  }
+  
+  .paymentButton {
+    padding: 18px 24px;
+    font-size: 1rem;
+  }
+  
+  .fileUploadLabel {
+    padding: 24px 16px;
+  }
+}
+
+/* 주문 완료 모달 - 다크 테마 */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modalContent {
+  background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+  border-radius: 24px;
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 32px 64px rgba(0, 0, 0, 0.5);
+  position: relative;
+  animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid #374151;
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0;
+    transform: translateY(40px) scale(0.95);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* 모달 헤더 */
+.modalHeader {
+  padding: 32px 32px 24px;
+  border-bottom: 1px solid #374151;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.modalHeader::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(135deg, #8b5cf6 0%, #3b82f6 100%);
+  border-radius: 24px 24px 0 0;
+}
+
+.modalHeader h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #f7fafc;
+  margin: 0;
+}
+
+.modalCloseButton {
+  background: #374151;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #e2e8f0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.modalCloseButton:hover {
+  background: #4a5568;
+  color: #f7fafc;
+}
+
+/* 계좌 정보 */
+.bankInfo {
+  padding: 24px 32px;
+  border-bottom: 1px solid #374151;
+}
+
+.bankInfo h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #f7fafc;
+  margin: 0 0 20px 0;
+}
+
+.bankDetails {
+  background: linear-gradient(135deg, #2d3748 0%, #374151 100%);
+  border-radius: 16px;
+  padding: 24px;
+  border: 1px solid #4a5568;
+}
+
+.bankRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.bankRow:last-child {
+  margin-bottom: 0;
+}
+
+.bankLabel {
+  font-size: 0.9375rem;
+  color: #a0aec0;
+  font-weight: 500;
+}
+
+.bankValue {
+  font-size: 1rem;
+  color: #e2e8f0;
+  font-weight: 600;
+}
+
+.bankValueHighlight {
+  font-size: 1.125rem;
+  color: #c084fc;
+  font-weight: 700;
+  background: rgba(139, 92, 246, 0.2);
+  padding: 4px 12px;
+  border-radius: 8px;
+}
+
+/* 주문 정보 */
+.orderSummary {
+  padding: 24px 32px;
+  border-bottom: 1px solid #374151;
+}
+
+.orderSummary h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #f7fafc;
+  margin: 0 0 20px 0;
+}
+
+.orderDetails {
+  background: rgba(139, 92, 246, 0.1);
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid rgba(139, 92, 246, 0.2);
+}
+
+.orderRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  font-size: 1rem;
+}
+
+.orderRow:last-child {
+  margin-bottom: 0;
+}
+
+.orderRow span:first-child {
+  color: #a0aec0;
+  font-weight: 500;
+}
+
+.orderRow span:last-child {
+  color: #f7fafc;
+  font-weight: 600;
+}
+
+/* 안내 사항 */
+.noticeInfo {
+  padding: 24px 32px;
+  background: #374151;
+  border-bottom: 1px solid #4a5568;
+}
+
+.noticeInfo p {
+  margin: 0 0 8px 0;
+  font-size: 0.9375rem;
+  color: #cbd5e0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.noticeInfo p:last-child {
+  margin-bottom: 0;
+}
+
+/* 모달 버튼들 */
+.modalButtons {
+  padding: 32px;
+  display: flex;
+  gap: 16px;
+}
+
+.kakaoButton {
+  flex: 1;
+  background: #fee500;
+  color: #3a1d1d;
+  border: none;
+  padding: 16px 24px;
+  border-radius: 16px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 56px;
+}
+
+.kakaoButton:hover {
+  background: #e6ce00;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(254, 229, 0, 0.4);
+}
+
+.completeButton {
+  flex: 1;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  border: none;
+  padding: 16px 24px;
+  border-radius: 16px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  min-height: 56px;
+}
+
+.completeButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
+}
+
+/* 모바일 최적화 */
+@media (max-width: 480px) {
+  .modalOverlay {
+    padding: 16px;
+  }
+  
+  .modalContent {
+    border-radius: 20px;
+    max-height: 85vh;
+  }
+  
+  .modalHeader {
+    padding: 24px 24px 20px;
+  }
+  
+  .modalHeader h2 {
+    font-size: 1.25rem;
+  }
+  
+  .bankInfo, .orderSummary {
+    padding: 20px 24px;
+  }
+  
+  .bankInfo h3, .orderSummary h3 {
+    font-size: 1.125rem;
+  }
+  
+  .bankDetails {
+    padding: 20px;
+  }
+  
+  .orderDetails {
+    padding: 16px;
+  }
+  
+  .noticeInfo {
+    padding: 20px 24px;
+  }
+  
+  .modalButtons {
+    padding: 24px;
+    flex-direction: column;
+  }
+  
+  .kakaoButton, .completeButton {
+    width: 100%;
+    padding: 18px 24px;
+    font-size: 1rem;
+  }
+} 
