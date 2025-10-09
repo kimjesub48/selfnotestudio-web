@@ -97,7 +97,7 @@ export default async function handler(req, res) {
       console.log(`   종료: ${endTime.toISOString()}`);
       
       // 하루 종일 이벤트인지 확인 (dateTime이 없으면 하루 종일)
-      if (!event.start.dateTime && !event.end.dateTime) {
+      if (!event.start.dateTime) {
         console.log(`   → 하루 종일 이벤트, 스킵`);
         return; // 하루 종일 이벤트는 스킵
       }

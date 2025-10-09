@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback, useRef } from 'react';
 import styled from 'styled-components';
-import Spacer from './common/Spacer';
+import Spacer from './Spacer';
 import React from 'react';
 import Image from 'next/image';
 import ReactDOM from 'react-dom/client';
