@@ -107,13 +107,38 @@ img {
 }
 
 /* 비디오 최적화 */
-video {
+video:not(.why-choose-us-video) {
   max-width: 100%;
   height: auto;
   display: block;
   will-change: transform;
   transform: translateZ(0);
   backface-visibility: hidden;
+}
+
+/* WhyChooseUs 전용 비디오 스타일 */
+.why-choose-us-video {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  display: block;
+}
+
+/* Safari 재생 버튼 숨김 */
+.why-choose-us-video::-webkit-media-controls {
+  display: none !important;
+}
+
+.why-choose-us-video::-webkit-media-controls-enclosure {
+  display: none !important;
+}
+
+.why-choose-us-video::-webkit-media-controls-panel {
+  display: none !important;
+}
+
+.why-choose-us-video::-webkit-media-controls-start-playback-button {
+  display: none !important;
 }
 
 /* iframe 최적화 */
@@ -522,6 +547,15 @@ body {
         width: 100%;
         max-width: 100%;
         height: auto;
+    }
+    
+    /* WhyChooseUs 비디오는 컨테이너를 꽉 채움 */
+    .why-choose-us-video-container {
+        position: relative;
+        width: 100% !important;
+        max-width: 330px !important;
+        aspect-ratio: 1 / 1;
+        overflow: hidden;
     }
 
     /* 카드 컨테이너 반응형 처리 */
@@ -1000,7 +1034,7 @@ body {
         box-sizing: border-box;
         margin: 0;
     }
-    .why-card-img-simple {
+    .why-card-img-simple:not(.why-choose-us-video-container) {
         width: 100%;
         display: flex;
         justify-content: center;
@@ -1017,6 +1051,16 @@ body {
         border-radius: 18px;
         display: block;
         margin: 0 auto;
+    }
+    
+    /* WhyChooseUs 비디오 컨테이너는 정사각형 유지 */
+    .why-choose-us-video-container .why-choose-us-video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
     }
     .why-card-text-simple {
         width: 100%;
