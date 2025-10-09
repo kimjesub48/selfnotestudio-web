@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import BookingForm from './BookingForm';
+import BookingForm from './07-Calendar-Form';
 
 const CalendarSectionWrapper = styled.section`
   background: #181A1B;

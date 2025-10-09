@@ -1,16 +1,16 @@
 import React from 'react';
 import SEOHead from '../components/SEOHead';
 import StructuredData from '../components/StructuredData';
-import AudioComparison from '../components/AudioComparison';
-import Hero from '../components/Hero';
-import WhyChooseUs from '../components/WhyChooseUs';
-import VideoPackages from '../components/VideoPackages';
-import Reviews from '../components/Reviews';
-import StudioInfo from '../components/StudioInfo';
-import CalendarSection from '../components/CalendarSection';
-import ReservationSection from '../components/ReservationSection';
+import AudioComparison from '../components/04-Audio-Main';
+import Hero from '../components/01-Hero';
+import WhyChooseUs from '../components/03-WhyChooseUs';
+import VideoPackages from '../components/05-VideoPackages';
+import Reviews from '../components/02-Reviews';
+import StudioInfo from '../components/06-StudioInfo';
+import CalendarSection from '../components/07-Calendar-Container';
+import ReservationSection from '../components/09-ReservationSection';
 import Footer from '../components/Footer';
-import PriceSection from '../components/PriceSection';
+import PriceSection from '../components/08-PriceSection';
 
 export default function Home() {
   return (
