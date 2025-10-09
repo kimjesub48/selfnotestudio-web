@@ -1,7 +1,5 @@
 // 예약 가능한 시간을 가져오는 API
 import { google } from 'googleapis';
-import fs from 'fs';
-import path from 'path';
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') {
@@ -22,15 +20,17 @@ export default async function handler(req, res) {
     const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
     const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
     const calendarId = process.env.GOOGLE_CALENDAR_ID;
+    const refreshToken = process.env.GOOGLE_REFRESH_TOKEN;
 
-    if (!clientId || !clientSecret || !calendarId) {
+    if (!clientId || !clientSecret || !calendarId || !refreshToken) {
       console.error('환경 변수가 설정되지 않았습니다:', {
         clientId: !!clientId,
         clientSecret: !!clientSecret,
-        calendarId: !!calendarId
+        calendarId: !!calendarId,
+        refreshToken: !!refreshToken
       });
       return res.status(500).json({ 
-        message: 'Google Calendar API 설정이 필요합니다' 
+        message: 'Google Calendar API 설정이 필요합니다. 환경 변수를 확인하세요.' 
       });
     }
 
@@ -41,49 +41,18 @@ export default async function handler(req, res) {
       `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/auth/callback`
     );
 
-    // 파일에서 토큰 가져오기
-    const tokensPath = path.join(process.cwd(), 'google-calendar-tokens.json');
-    
-    let tokens;
-    try {
-      if (!fs.existsSync(tokensPath)) {
-        return res.status(401).json({ 
-          success: false, 
-          message: 'Google Calendar API 인증이 필요합니다. 관리자가 /api/auth/google 로 접속하여 인증을 진행해야 합니다.' 
-        });
-      }
-      
-      const tokensData = fs.readFileSync(tokensPath, 'utf-8');
-      tokens = JSON.parse(tokensData);
-      console.log('✅ 토큰 파일에서 읽기 성공');
-    } catch (fileError) {
-      console.error('토큰 파일 읽기 실패:', fileError);
-      return res.status(401).json({ 
-        success: false, 
-        message: 'Google Calendar API 인증 파일을 읽을 수 없습니다.' 
-      });
-    }
+    // 환경 변수에서 Refresh Token 설정
+    oauth2Client.setCredentials({
+      refresh_token: refreshToken
+    });
 
-    oauth2Client.setCredentials(tokens);
+    console.log('✅ 환경 변수에서 Refresh Token 읽기 성공');
 
-    // Access token 만료 시 자동 갱신
+    // Access token 만료 시 자동 갱신 (메모리에만 저장)
     oauth2Client.on('tokens', (newTokens) => {
-      console.log('🔄 토큰 자동 갱신됨');
-      
-      // 새로운 토큰을 파일에 저장
-      const updatedTokens = {
-        access_token: newTokens.access_token,
-        refresh_token: newTokens.refresh_token || tokens.refresh_token, // refresh_token이 없으면 기존 것 유지
-        expiry_date: newTokens.expiry_date,
-        updated_at: new Date().toISOString()
-      };
-      
-      try {
-        fs.writeFileSync(tokensPath, JSON.stringify(updatedTokens, null, 2), 'utf-8');
-        console.log('✅ 갱신된 토큰이 파일에 저장되었습니다');
-      } catch (fileError) {
-        console.error('토큰 파일 저장 실패:', fileError);
-      }
+      console.log('🔄 Access Token 자동 갱신됨');
+      console.log('   새로운 만료 시간:', new Date(newTokens.expiry_date));
+      // Refresh token은 환경 변수에 저장되어 있으므로 별도 저장 불필요
     });
 
     // Calendar API 인스턴스 생성

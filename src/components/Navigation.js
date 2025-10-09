@@ -213,12 +213,16 @@ const ReservationButton = styled.a`
 
 const MobileReservationButton = styled(ReservationButton)`
   width: calc(100% - 48px);
-  margin: 24px auto;
-  padding: 15px 0;
-  font-size: 16px;
-  border-radius: 12px;
+  max-width: 320px;
+  margin: 20px auto;
+  padding: 14px 0;
+  font-size: 15px;
+  border-radius: 10px;
   background: linear-gradient(135deg, #3491FF 0%, #1C6FE3 100%);
   box-shadow: 0 4px 15px rgba(52, 145, 255, 0.2);
+  display: block;
+  text-align: center;
+  text-decoration: none !important;
 
   &:hover {
     transform: translateY(-2px);
