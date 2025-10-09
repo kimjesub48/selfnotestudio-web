@@ -125,9 +125,10 @@ export default async function handler(req, res) {
       
       // 시간 범위 내의 모든 1시간 단위 슬롯을 예약된 것으로 표시
       // 시작 시간이 포함된 시간대부터 종료 시간이 포함된 시간대까지 모두 예약됨
-      const startHour = startTime.getHours();
-      const endHour = endTime.getHours();
-      const endMinute = endTime.getMinutes();
+      // UTC를 KST(+9)로 변환
+      const startHour = startTime.getUTCHours() + 9;
+      const endHour = endTime.getUTCHours() + 9;
+      const endMinute = endTime.getUTCMinutes();
       
       // 시작 시간부터 종료 시간까지 순회
       for (let hour = startHour; hour <= endHour; hour++) {
