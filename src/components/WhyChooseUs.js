@@ -340,7 +340,7 @@ export default function WhyChooseUs() {
 
   // 스타일 설정
   const styles = {
-    pcVideoSize: isMobile ? 330 : 320,
+    pcVideoSize: isMobile ? Math.min(330, window.innerWidth - 60) : 320,
     pcGap: isMobile ? 20 : 80,
     pcTextMaxWidth: isMobile ? 320 : 380,
   };
