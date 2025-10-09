@@ -33,6 +33,10 @@ export default function SEOHead({
       
       {/* 캐노니컬 URL */}
       <link rel="canonical" href={url} />
+      
+      {/* 파비콘 */}
+      <link rel="icon" type="image/webp" href="/logo/selfnotelogo.webp" />
+      <link rel="apple-touch-icon" href="/logo/selfnotelogo.webp" />
     </Head>
   );
 } 

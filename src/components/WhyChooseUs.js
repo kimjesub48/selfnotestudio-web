@@ -254,15 +254,7 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
             order: isMobile ? 1 : (index % 2 === 1 ? 0 : 1),
             marginLeft: !isMobile && index % 2 === 0 ? styles.pcGap : 0,
             marginRight: !isMobile && index % 2 === 1 ? styles.pcGap : 0,
-            marginTop: isMobile ? '20px' : 0,
-            // 아이폰에서만 간단한 중앙 정렬
-            ...(isMobile && isIPhone() && {
-              width: `${styles.pcVideoSize}px`,
-              marginLeft: 'auto',
-              marginRight: 'auto',
-              display: 'block',
-              textAlign: 'center'
-            })
+            marginTop: isMobile ? '20px' : 0
           }}
         >
           <video
@@ -272,14 +264,7 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
             loop={true}
             playsInline={true}
             preload="auto"
-            style={{
-              ...videoStyle,
-              // 아이폰에서 동영상 자체도 중앙 정렬
-              ...(isMobile && isIPhone() && {
-                margin: '0 auto',
-                display: 'block'
-              })
-            }}
+            style={videoStyle}
             className="why-choose-us-video"
             src={getVideoUrl()}
             controls={false}
