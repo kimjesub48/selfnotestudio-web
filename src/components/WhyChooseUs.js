@@ -28,8 +28,9 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
   // 비디오 컨테이너 스타일 (비디오를 감싸는 박스)
   const videoContainerStyle = {
     position: 'relative',
-    width: `${styles.pcVideoSize}px`,
-    height: `${styles.pcVideoSize}px`,
+    width: '100%',
+    maxWidth: `${styles.pcVideoSize}px`,
+    aspectRatio: '1 / 1',
     overflow: 'hidden',
     backgroundColor: '#272840',
     borderRadius: '32px',
@@ -109,50 +110,13 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
     return videoPath;
   };
 
-  // 아이폰 감지 함수
-  const isIPhone = () => {
-    return /iPhone|iPod/.test(navigator.userAgent);
-  };
-
   // 기본 비디오 로딩
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
-    // 아이폰에서 강력한 자동재생 설정
-    if (isIPhone()) {
-      video.setAttribute('webkit-playsinline', 'true');
-      video.setAttribute('playsinline', 'true');
-      video.setAttribute('muted', 'true');
-      video.setAttribute('autoplay', 'true');
-      video.setAttribute('loop', 'true');
-      video.muted = true;
-      video.defaultMuted = true;
-      video.volume = 0;
-      
-      // 아이폰 터치 이벤트로 강제 재생
-      const forcePlay = () => {
-        video.play().catch(() => {});
-      };
-      
-      // 다양한 이벤트에서 재생 시도
-      document.addEventListener('touchstart', forcePlay, { once: true, passive: true });
-      document.addEventListener('click', forcePlay, { once: true, passive: true });
-      
-      // 일정 시간 후 재생 시도
-      setTimeout(() => {
-        video.play().catch(() => {});
-      }, 500);
-    }
-
     const handleLoadedData = () => {
       setVideoLoaded(true);
-      if (isIPhone()) {
-        // 아이폰에서 데이터 로드 후 즉시 재생 시도
-        setTimeout(() => {
-          video.play().catch(() => {});
-        }, 100);
-      }
     };
 
     const handleCanPlay = () => {
@@ -269,12 +233,7 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
             src={getVideoUrl()}
             controls={false}
             disablePictureInPicture={true}
-            disableRemotePlaybook={true}
-            // 아이폰 전용 속성들
-            webkit-playsinline="true"
-            x5-playsinline="true"
-            x5-video-player-type="h5"
-            x5-video-player-fullscreen="true"
+            disableRemotePlayback={true}
           >
             <source src={getVideoUrl()} type="video/mp4" />
             Your browser does not support the video tag.
