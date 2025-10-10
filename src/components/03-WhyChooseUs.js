@@ -28,9 +28,8 @@ const VideoCard = React.memo(({ index, isMobile, styles, expandedCards, toggleCa
   // 비디오 컨테이너 스타일 (비디오를 감싸는 박스)
   const videoContainerStyle = {
     position: 'relative',
-    width: '100%',
-    maxWidth: `${styles.pcVideoSize}px`,
-    aspectRatio: '1 / 1',
+    width: `${styles.pcVideoSize}px`,
+    height: `${styles.pcVideoSize}px`,
     overflow: 'hidden',
     backgroundColor: '#272840',
     borderRadius: '32px',

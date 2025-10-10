@@ -554,8 +554,14 @@ body {
         position: relative;
         width: 100% !important;
         max-width: 330px !important;
-        aspect-ratio: 1 / 1;
         overflow: hidden;
+    }
+    
+    /* 모바일에서 정사각형 비율 유지 (Safari 호환) */
+    .why-choose-us-video-container::before {
+        content: "";
+        display: block;
+        padding-top: 100%; /* 1:1 비율 */
     }
 
     /* 카드 컨테이너 반응형 처리 */
