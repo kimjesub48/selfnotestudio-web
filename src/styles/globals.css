@@ -554,14 +554,9 @@ body {
         position: relative;
         width: 100% !important;
         max-width: 330px !important;
+        height: 0 !important;
+        padding-bottom: 100% !important; /* 1:1 비율 */
         overflow: hidden;
-    }
-    
-    /* 모바일에서 정사각형 비율 유지 (Safari 호환) */
-    .why-choose-us-video-container::before {
-        content: "";
-        display: block;
-        padding-top: 100%; /* 1:1 비율 */
     }
 
     /* 카드 컨테이너 반응형 처리 */
@@ -1061,9 +1056,9 @@ body {
     
     /* WhyChooseUs 비디오 컨테이너는 정사각형 유지 */
     .why-choose-us-video-container .why-choose-us-video {
-        position: absolute;
-        top: 0;
-        left: 0;
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
         width: 100% !important;
         height: 100% !important;
         object-fit: cover !important;
