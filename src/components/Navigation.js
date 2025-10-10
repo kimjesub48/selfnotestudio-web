@@ -9,11 +9,11 @@ const NavContainer = styled.nav`
   width: 100%;
   z-index: 1000;
   background: rgba(19, 21, 28, 0.95);
-  backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   height: 70px;
   display: flex;
   align-items: center;
+  transition: background 0.2s ease, border-bottom 0.2s ease;
 `;
 
 const NavContent = styled.div`
@@ -179,35 +179,12 @@ const ReservationButton = styled.a`
   align-items: center;
   justify-content: center;
   letter-spacing: -0.3px;
-  box-shadow: 0 2px 8px rgba(52, 145, 255, 0.15);
-  position: relative;
-  overflow: hidden;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      rgba(255, 255, 255, 0.2) 50%,
-      transparent 100%
-    );
-    transition: left 0.5s ease;
-  }
 
   &:hover {
     background: linear-gradient(135deg, #3491FF 0%, #1559BD 100%);
     color: #fff;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(52, 145, 255, 0.2);
-
-    &::before {
-      left: 100%;
-    }
+    opacity: 0.9;
   }
 `;
 
@@ -219,14 +196,13 @@ const MobileReservationButton = styled(ReservationButton)`
   font-size: 15px;
   border-radius: 10px;
   background: linear-gradient(135deg, #3491FF 0%, #1C6FE3 100%);
-  box-shadow: 0 4px 15px rgba(52, 145, 255, 0.2);
   display: block;
   text-align: center;
   text-decoration: none !important;
 
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(52, 145, 255, 0.25);
+    opacity: 0.9;
     background: linear-gradient(135deg, #3491FF 0%, #1559BD 100%);
   }
 
@@ -284,13 +260,13 @@ export default function Navigation() {
   }
 
   const navItems = [
-    { name: '고객 후기', href: '#reviews', marginLeft: '0px', marginRight: '0px' },
-    { name: '서비스 소개', href: '#why-choose-us', marginLeft: '0px', marginRight: '0px' },
-    { name: '음원 비교', href: '#audio-comparison', marginLeft: '0px', marginRight: '0px' },
-    { name: '영상 패키지', href: '#video-packages', marginLeft: '0px', marginRight: '0px' },
-    { name: '스튜디오 소개', href: '#studio-info', marginLeft: '0px', marginRight: '0px' },
-    { name: '예약현황', href: '#calendar', marginLeft: '0px', marginRight: '0px' },
-    { name: '가격 안내', href: '#price-section', marginLeft: '0px', marginRight: '0px' },
+    { name: '고객 후기', href: '/#reviews', marginLeft: '0px', marginRight: '0px' },
+    { name: '서비스 소개', href: '/#why-choose-us', marginLeft: '0px', marginRight: '0px' },
+    { name: '음원 비교', href: '/#audio-comparison', marginLeft: '0px', marginRight: '0px' },
+    { name: '영상 패키지', href: '/#video-packages', marginLeft: '0px', marginRight: '0px' },
+    { name: '스튜디오 소개', href: '/#studio-info', marginLeft: '0px', marginRight: '0px' },
+    { name: '예약현황', href: '/#calendar', marginLeft: '0px', marginRight: '0px' },
+    { name: '가격 안내', href: '/#price-section', marginLeft: '0px', marginRight: '0px' },
   ];
 
   return (
