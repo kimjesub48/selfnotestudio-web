@@ -702,6 +702,7 @@ export default function Hero() {
           <BackgroundOverlay />
           <VideoBackground
             ref={videoRef}
+            className="hero-background-video"
             autoPlay
             muted
             loop

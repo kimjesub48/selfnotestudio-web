@@ -107,7 +107,7 @@ img {
 }
 
 /* 비디오 최적화 */
-video:not(.why-choose-us-video) {
+video:not(.why-choose-us-video):not(.hero-background-video) {
   max-width: 100%;
   height: auto;
   display: block;
@@ -543,7 +543,7 @@ body {
     }
 
     /* WhyChooseUs 컴포넌트의 비디오는 예외 처리 */
-    .why-card-img-simple video:not(.why-choose-us-video) {
+    .why-card-img-simple video:not(.why-choose-us-video):not(.hero-background-video) {
         width: 100%;
         max-width: 100%;
         height: auto;
@@ -946,7 +946,7 @@ body {
     min-height: 320px;
 }
 .why-card-img-simple img,
-.why-card-img-simple video:not(.why-choose-us-video) {
+.why-card-img-simple video:not(.why-choose-us-video):not(.hero-background-video) {
     border-radius: 32px;
     width: 320px;
     height: 320px;
@@ -1044,7 +1044,7 @@ body {
         margin: 0;
     }
     .why-card-img-simple img,
-    .why-card-img-simple video:not(.why-choose-us-video) {
+    .why-card-img-simple video:not(.why-choose-us-video):not(.hero-background-video) {
         width: 100%;
         max-width: 100%;
         height: auto;
