@@ -39,4 +39,10 @@ next-env.d.ts
 
 # IDE
 .idea/
-.vscode/ 
+.vscode/
+
+# FFmpeg binaries (local use only)
+/bin/
+
+# Video backups
+*.backup 
