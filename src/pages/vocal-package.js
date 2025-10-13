@@ -100,7 +100,7 @@ const PriceTag = styled.div`
 `;
 
 const ProductSection = styled.section`
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 60px 24px;
   display: flex;
@@ -110,11 +110,14 @@ const ProductSection = styled.section`
   @media (max-width: 768px) {
     gap: 40px;
     padding: 40px 20px;
+    max-width: 800px;
   }
 `;
 
 const GalleryContainer = styled.div`
   width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
 `;
 
 const GalleryTitle = styled.h3`
@@ -137,18 +140,235 @@ const MainImageContainer = styled.div`
   margin-bottom: 24px;
 `;
 
-const MainImage = styled.img`
+const ImageWrapper = styled.div`
+  position: relative;
   width: 100%;
   max-width: 700px;
+  margin: 0 auto;
+`;
+
+const MainImage = styled.img`
+  width: 100%;
   height: auto;
   border-radius: 12px;
   object-fit: cover;
   display: block;
-  margin: 0 auto;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   
   @media (max-width: 640px) {
     border-radius: 8px;
+  }
+`;
+
+const ImageNavButton = styled.button`
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%) ${props => props.$direction === 'prev' ? 'rotate(180deg)' : 'rotate(0deg)'};
+  ${props => props.$direction === 'prev' ? 'left: 15px;' : 'right: 15px;'}
+  width: 40px;
+  height: 40px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 10;
+  user-select: none;
+  padding: 0;
+  
+  &::before {
+    content: '';
+    width: 14px;
+    height: 14px;
+    border-right: 3px solid white;
+    border-top: 3px solid white;
+    transform: rotate(45deg);
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  }
+  
+  &:hover {
+    transform: translateY(-50%) ${props => props.$direction === 'prev' ? 'rotate(180deg) scale(1.2)' : 'rotate(0deg) scale(1.2)'};
+  }
+  
+  &:hover::before {
+    filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.5));
+  }
+  
+  &:active {
+    transform: translateY(-50%) ${props => props.$direction === 'prev' ? 'rotate(180deg) scale(1)' : 'rotate(0deg) scale(1)'};
+  }
+  
+  @media (max-width: 640px) {
+    width: 36px;
+    height: 36px;
+    ${props => props.$direction === 'prev' ? 'left: 10px;' : 'right: 10px;'}
+    
+    &::before {
+      width: 12px;
+      height: 12px;
+      border-width: 2.5px;
+    }
+  }
+`;
+
+const ImageIndicators = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+`;
+
+const IndicatorDot = styled.button`
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  background: ${props => props.$active ? '#2c3e50' : '#d1d5db'};
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+  
+  &:hover {
+    background: ${props => props.$active ? '#2c3e50' : '#9ca3af'};
+    transform: scale(1.2);
+  }
+`;
+
+// Why 섹션  
+const WhySection = styled.div`
+  background: #f9fafb;
+  border-radius: 12px;
+  padding: 40px 32px;
+  margin: 24px 0;
+  
+  @media (max-width: 768px) {
+    padding: 32px 20px;
+  }
+`;
+
+const WhyTitle = styled.h3`
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #222;
+  text-align: center;
+  margin-bottom: 8px;
+  
+  @media (max-width: 768px) {
+    font-size: 1.5rem;
+  }
+`;
+
+const WhySubtitle = styled.p`
+  font-size: 1.05rem;
+  color: #666;
+  text-align: center;
+  margin-bottom: 32px;
+  
+  @media (max-width: 768px) {
+    font-size: 0.95rem;
+    margin-bottom: 24px;
+  }
+`;
+
+const WhyCardGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  
+  @media (min-width: 769px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+`;
+
+const WhyCard = styled.div`
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  }
+`;
+
+const WhyCardImage = styled.img`
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  
+  @media (max-width: 768px) {
+    height: 180px;
+  }
+`;
+
+const WhyCardContent = styled.div`
+  padding: 24px;
+  
+  @media (max-width: 768px) {
+    padding: 20px;
+  }
+`;
+
+const WhyCardTitle = styled.h4`
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 16px;
+  line-height: 1.4;
+  
+  @media (max-width: 768px) {
+    font-size: 1.1rem;
+  }
+`;
+
+const WhyCardText = styled.p`
+  font-size: 0.95rem;
+  color: #555;
+  line-height: 1.7;
+  margin-bottom: 16px;
+  
+  @media (max-width: 768px) {
+    font-size: 0.9rem;
+  }
+`;
+
+const WhyCardDivider = styled.div`
+  height: 1px;
+  background: #e9ecef;
+  margin: 16px 0;
+`;
+
+const WhyCardList = styled.ul`
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  
+  li {
+    padding: 8px 0;
+    font-size: 0.9rem;
+    color: #666;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    line-height: 1.6;
+    
+    &:before {
+      content: '✓';
+      color: #1db954;
+      font-weight: 700;
+      font-size: 1rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
   }
 `;
 
@@ -272,6 +492,9 @@ const PlaylistSection = styled.div`
   background: #f8f9fa;
   border-radius: 12px;
   padding: 32px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
   
   @media (max-width: 768px) {
     padding: 24px 16px;
@@ -302,29 +525,33 @@ const PlaylistItem = styled.div`
   border-radius: 8px;
   padding: 12px 16px;
   display: flex;
-  align-items: center;
-  gap: 16px;
+  flex-direction: column;
+  gap: 12px;
   border: 2px solid ${props => props.$isPlaying ? '#1db954' : '#e9ecef'};
-  cursor: pointer;
   transition: all 0.2s ease;
-  user-select: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
   
   &:hover {
     background: #f8f9fa;
     border-color: #1db954;
   }
   
+  @media (max-width: 768px) {
+    padding: 10px 12px;
+    gap: 10px;
+  }
+`;
+
+const PlaylistItemTop = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+  
   &:active {
     transform: scale(0.98);
   }
   
   @media (max-width: 768px) {
-    padding: 10px 12px;
     gap: 12px;
   }
 `;
@@ -338,8 +565,6 @@ const PlaylistNumber = styled.div`
   font-size: 0.9rem;
   font-weight: 600;
   color: #999;
-  user-select: none;
-  pointer-events: none;
   
   @media (max-width: 768px) {
     width: 28px;
@@ -353,8 +578,6 @@ const PlaylistAlbumArt = styled.img`
   height: 48px;
   border-radius: 4px;
   object-fit: cover;
-  user-select: none;
-  pointer-events: none;
   
   @media (max-width: 768px) {
     width: 40px;
@@ -367,8 +590,6 @@ const PlaylistInfo = styled.div`
   display: flex;
   flex-direction: column;
   gap: 4px;
-  user-select: none;
-  pointer-events: none;
 `;
 
 const PlaylistTrackTitle = styled.div`
@@ -391,8 +612,6 @@ const PlaylistDuration = styled.div`
   color: #999;
   min-width: 45px;
   text-align: right;
-  user-select: none;
-  pointer-events: none;
   
   @media (max-width: 768px) {
     font-size: 0.8rem;
@@ -411,9 +630,6 @@ const PlayIcon = styled.div`
   justify-content: center;
   font-size: 0.9rem;
   transition: all 0.2s ease;
-  user-select: none;
-  -webkit-user-select: none;
-  pointer-events: none;
   
   ${PlaylistItem}:hover & {
     background: #1db954;
@@ -426,6 +642,36 @@ const PlayIcon = styled.div`
     width: 32px;
     height: 32px;
     font-size: 0.85rem;
+  }
+`;
+
+const InlineProgressBar = styled.div`
+  width: 100%;
+  height: 4px;
+  background: #e9ecef;
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  
+  &:hover {
+    height: 6px;
+    transition: height 0.2s ease;
+  }
+  
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: ${props => props.$progress || 0}%;
+    background: #1db954;
+    transition: width 0.1s linear;
+  }
+  
+  &:hover::before {
+    background: #1ed760;
   }
 `;
 
@@ -665,6 +911,9 @@ const InfoBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
 `;
 
 const BadgeRow = styled.div`
@@ -749,7 +998,9 @@ const PriceSection = styled.div`
   border-top: 1px solid #f0f0f0;
   border-bottom: 1px solid #f0f0f0;
   padding: 20px 0;
-  margin: 16px 0;
+  margin: 16px auto;
+  max-width: 800px;
+  width: 100%;
 `;
 
 const DiscountInfo = styled.div`
@@ -802,7 +1053,9 @@ const BenefitSection = styled.div`
   background: #f9fafb;
   border-radius: 8px;
   padding: 20px;
-  margin: 16px 0;
+  margin: 16px auto;
+  max-width: 800px;
+  width: 100%;
 `;
 
 const BenefitTitle = styled.div`
@@ -1133,7 +1386,7 @@ const SubmitButton = styled.button`
 
 const FixedBottomBar = styled.div`
   position: fixed;
-  bottom: ${props => props.$playerActive ? '90px' : '0'};
+  bottom: 0;
   left: 0;
   right: 0;
   background: white;
@@ -1141,27 +1394,13 @@ const FixedBottomBar = styled.div`
   padding: 16px 24px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 16px;
+  justify-content: center;
   z-index: 100000;
   transform: translateY(${props => props.$visible ? '0' : '100%'});
   transition: all 0.3s ease;
   
   @media (max-width: 768px) {
-    flex-direction: column;
-    gap: 12px;
     padding: 12px 20px;
-    bottom: ${props => props.$playerActive ? '80px' : '0'};
-  }
-`;
-
-const FixedPrice = styled.div`
-  font-size: 1.8rem;
-  font-weight: 900;
-  color: #667eea;
-  
-  @media (max-width: 768px) {
-    font-size: 1.5rem;
   }
 `;
 
@@ -1189,203 +1428,6 @@ const FixedButton = styled.button`
   @media (max-width: 768px) {
     width: 100%;
     padding: 14px;
-  }
-`;
-
-// 음악 플레이어
-const MusicPlayer = styled.div`
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 90px;
-  background: linear-gradient(to bottom, #282828, #181818);
-  border-top: 1px solid #404040;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 24px;
-  z-index: 99999;
-  transform: translateY(${props => props.$visible ? '0' : '100%'});
-  transition: transform 0.3s ease;
-  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5);
-  user-select: none;
-  -webkit-user-select: none;
-  
-  @media (max-width: 768px) {
-    padding: 12px 16px;
-    height: 80px;
-  }
-`;
-
-const PlayerLeft = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  flex: 0 0 30%;
-  min-width: 180px;
-  
-  @media (max-width: 768px) {
-    flex: 0 0 auto;
-    min-width: auto;
-  }
-`;
-
-const PlayerAlbumArt = styled.img`
-  width: 56px;
-  height: 56px;
-  border-radius: 4px;
-  object-fit: cover;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-`;
-
-const PlayerInfo = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  
-  @media (max-width: 768px) {
-    display: none;
-  }
-`;
-
-const PlayerTitle = styled.div`
-  color: white;
-  font-size: 0.95rem;
-  font-weight: 600;
-`;
-
-const PlayerArtist = styled.div`
-  color: #b3b3b3;
-  font-size: 0.8rem;
-`;
-
-const PlayerCenter = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  flex: 1;
-  max-width: 700px;
-  
-  @media (max-width: 768px) {
-    gap: 6px;
-  }
-`;
-
-const PlayerControls = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  
-  @media (max-width: 768px) {
-    gap: 16px;
-  }
-`;
-
-const PlayerButton = styled.button`
-  background: none;
-  border: none;
-  color: #b3b3b3;
-  font-size: 1.2rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  padding: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  user-select: none;
-  -webkit-user-select: none;
-  -webkit-tap-highlight-color: transparent;
-  
-  &:hover {
-    color: white;
-    transform: scale(1.1);
-  }
-  
-  &:disabled {
-    opacity: 0.3;
-    cursor: not-allowed;
-  }
-`;
-
-const PlayButton = styled(PlayerButton)`
-  background: white;
-  color: black;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  padding: 0;
-  
-  &:hover {
-    background: white;
-    color: black;
-    transform: scale(1.05);
-  }
-`;
-
-const PlayerProgressBar = styled.div`
-  width: 100%;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-`;
-
-const PlayerTime = styled.div`
-  color: #b3b3b3;
-  font-size: 0.75rem;
-  min-width: 40px;
-  text-align: center;
-`;
-
-const ProgressBar = styled.input`
-  flex: 1;
-  height: 4px;
-  border-radius: 2px;
-  background: #4d4d4d;
-  outline: none;
-  -webkit-appearance: none;
-  cursor: pointer;
-  
-  &::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: white;
-    cursor: pointer;
-    opacity: 0;
-    transition: opacity 0.2s;
-  }
-  
-  &:hover::-webkit-slider-thumb {
-    opacity: 1;
-  }
-  
-  &::-moz-range-thumb {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: white;
-    cursor: pointer;
-    border: none;
-    opacity: 0;
-    transition: opacity 0.2s;
-  }
-  
-  &:hover::-moz-range-thumb {
-    opacity: 1;
-  }
-  
-  &::-webkit-slider-runnable-track {
-    background: linear-gradient(to right, 
-      #1db954 0%, 
-      #1db954 ${props => props.$progress || 0}%, 
-      #4d4d4d ${props => props.$progress || 0}%, 
-      #4d4d4d 100%
-    );
-    height: 4px;
-    border-radius: 2px;
   }
 `;
 
@@ -1477,6 +1519,44 @@ export default function VocalPackage() {
     num => `/vocal-program/audio/vocal-${String(num).padStart(2, '0')}.mp3`
   );
   
+  // Why 섹션 카드 데이터
+  const whyCards = [
+    {
+      id: 1,
+      title: '나혼자 연습하면서 답답하시나요?',
+      description: '내 목소리, 제대로 들어본 적 있나요? 녹음실에서 들으면 충격받습니다.',
+      video: '/vocal-program/video/video01.mp4?v=' + Date.now(),
+      isVideo: true,
+      points: [
+        '프로 장비로 내 목소리를 객관적으로 모니터링',
+        '숨소리, 발음, 호흡까지 세밀하게 체크',
+        '혼자서는 절대 알 수 없는 나만의 음색 발견'
+      ]
+    },
+    {
+      id: 2,
+      title: '왜 프로는 다를까요?',
+      description: '프로와 아마추어의 차이? 자기 목소리를 제대로 아는 것입니다.',
+      image: '/studio/studio05.webp',
+      points: [
+        '전문 엔지니어의 1:1 실시간 피드백',
+        '디테일을 살리는 보컬 테크닉 습득',
+        '귀가 열리면 스스로 교정하는 능력 생김'
+      ]
+    },
+    {
+      id: 3,
+      title: '노래방 실력 = 진짜 실력?',
+      description: '진짜 긴장감 속에서 불러봐야 실력이 보입니다. 그게 성장입니다.',
+      image: '/studio/studio08.webp',
+      points: [
+        '실제 녹음 환경에서 경험하는 진짜 긴장감',
+        '프레셔 속에서 발견하는 내 한계와 가능성',
+        '이 경험이 당신을 프로처럼 만들어줍니다'
+      ]
+    }
+  ];
+  
   useEffect(() => {
     let timeoutId = null;
     
@@ -1535,36 +1615,89 @@ export default function VocalPackage() {
     setSelectedImageIndex(index);
   };
   
-  // 음악 재생
-  const playTrack = (index, e) => {
-    if (e) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
+  // 이전 이미지
+  const previousImage = () => {
+    setSelectedImageIndex((prev) => 
+      prev === 0 ? studentImages.length - 1 : prev - 1
+    );
+  };
+  
+  // 다음 이미지
+  const nextImage = () => {
+    setSelectedImageIndex((prev) => 
+      (prev + 1) % studentImages.length
+    );
+  };
+  
+  // 터치 스와이프 기능
+  const [touchStart, setTouchStart] = useState(null);
+  const [touchEnd, setTouchEnd] = useState(null);
+  
+  const minSwipeDistance = 50; // 최소 스와이프 거리
+  
+  const onTouchStart = (e) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+  
+  const onTouchMove = (e) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+  
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
     
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+    
+    if (isLeftSwipe) {
+      nextImage();
+    }
+    if (isRightSwipe) {
+      previousImage();
+    }
+  };
+  
+  // 음악 재생
+  const playTrack = (index) => {
     if (currentTrack === index && isPlaying) {
-      // 같은 곡 재생 중이면 일시정지
       audioRef.current?.pause();
       setIsPlaying(false);
     } else {
-      // 새로운 곡 재생
       setCurrentTrack(index);
       setCurrentTime(0);
+      setIsPlaying(false);
       setTimeout(() => {
-        audioRef.current?.play();
-        setIsPlaying(true);
-      }, 100);
+        if (audioRef.current) {
+          audioRef.current.play()
+            .then(() => {
+              setIsPlaying(true);
+            })
+            .catch((error) => {
+              console.error('재생 오류:', error);
+              setIsPlaying(false);
+            });
+        }
+      }, 50);
     }
   };
   
   // 재생/일시정지
   const togglePlay = () => {
+    if (!audioRef.current) return;
+    
     if (isPlaying) {
-      audioRef.current?.pause();
+      audioRef.current.pause();
       setIsPlaying(false);
     } else {
-      audioRef.current?.play();
-      setIsPlaying(true);
+      audioRef.current.play()
+        .then(() => {
+          setIsPlaying(true);
+        })
+        .catch((error) => {
+          console.error('재생 오류:', error);
+        });
     }
   };
   
@@ -1574,10 +1707,18 @@ export default function VocalPackage() {
     const newIndex = currentTrack === 0 ? studentImages.length - 1 : currentTrack - 1;
     setCurrentTrack(newIndex);
     setCurrentTime(0);
+    setIsPlaying(false);
     setTimeout(() => {
-      audioRef.current?.play();
-      setIsPlaying(true);
-    }, 100);
+      if (audioRef.current) {
+        audioRef.current.play()
+          .then(() => {
+            setIsPlaying(true);
+          })
+          .catch((error) => {
+            console.error('재생 오류:', error);
+          });
+      }
+    }, 50);
   };
   
   // 다음 곡
@@ -1586,10 +1727,18 @@ export default function VocalPackage() {
     const newIndex = (currentTrack + 1) % studentImages.length;
     setCurrentTrack(newIndex);
     setCurrentTime(0);
+    setIsPlaying(false);
     setTimeout(() => {
-      audioRef.current?.play();
-      setIsPlaying(true);
-    }, 100);
+      if (audioRef.current) {
+        audioRef.current.play()
+          .then(() => {
+            setIsPlaying(true);
+          })
+          .catch((error) => {
+            console.error('재생 오류:', error);
+          });
+      }
+    }, 50);
   };
   
   // 시간 업데이트
@@ -1701,15 +1850,45 @@ export default function VocalPackage() {
           </InfoBox>
 
           <GalleryContainer>
-            <GalleryTitle>수강생 결과물</GalleryTitle>
-            <GallerySubtitle>프로그램을 수료한 수강생들의 실제 녹음 결과물입니다</GallerySubtitle>
+            <GalleryTitle>수강생 후기</GalleryTitle>
+            <GallerySubtitle>프로그램을 수료한 수강생들의 후기와 결과물입니다</GallerySubtitle>
             
             {/* 메인 큰 이미지 */}
             <MainImageContainer>
-              <MainImage 
-                src={studentImages[selectedImageIndex]} 
-                alt={`수강생 결과물 ${imageNumbers[selectedImageIndex]}`}
-              />
+              <ImageWrapper
+                onTouchStart={onTouchStart}
+                onTouchMove={onTouchMove}
+                onTouchEnd={onTouchEnd}
+              >
+                <ImageNavButton 
+                  $direction="prev" 
+                  onClick={previousImage}
+                  aria-label="이전 이미지"
+                />
+                
+                <MainImage 
+                  src={studentImages[selectedImageIndex]} 
+                  alt={`수강생 결과물 ${imageNumbers[selectedImageIndex]}`}
+                />
+                
+                <ImageNavButton 
+                  $direction="next" 
+                  onClick={nextImage}
+                  aria-label="다음 이미지"
+                />
+              </ImageWrapper>
+              
+              {/* 이미지 인디케이터 */}
+              <ImageIndicators>
+                {studentImages.map((_, index) => (
+                  <IndicatorDot
+                    key={index}
+                    $active={selectedImageIndex === index}
+                    onClick={() => selectImage(index)}
+                    aria-label={`${index + 1}번째 이미지로 이동`}
+                  />
+                ))}
+              </ImageIndicators>
               
               {/* 수강생 후기 */}
               <ReviewCard>
@@ -1741,7 +1920,7 @@ export default function VocalPackage() {
           {/* 플레이리스트 섹션 */}
           <PlaylistSection>
             <PlaylistTitle>녹음 결과물 듣기</PlaylistTitle>
-            <PlaylistSubtitle>클릭하면 하단 플레이어에서 들을 수 있습니다</PlaylistSubtitle>
+            <PlaylistSubtitle>재생 버튼을 클릭하면 바로 들을 수 있습니다</PlaylistSubtitle>
             
             <PlaylistContainer>
               {studentImages
@@ -1749,23 +1928,42 @@ export default function VocalPackage() {
                 .map((image, index) => (
                   <PlaylistItem 
                     key={index}
-                    onClick={(e) => playTrack(index, e)}
                     $isPlaying={currentTrack === index && isPlaying}
                   >
-                    <PlaylistNumber>
-                      {currentTrack === index && isPlaying ? '♪' : String(index + 1).padStart(2, '0')}
-                    </PlaylistNumber>
-                    <PlaylistAlbumArt src={image} alt={`트랙 ${index + 1}`} />
-                    <PlaylistInfo>
-                      <PlaylistTrackTitle>
-                        {getStudentName(index)}
-                      </PlaylistTrackTitle>
-                      <PlaylistArtist>{songTitles[index]}</PlaylistArtist>
-                    </PlaylistInfo>
-                    <PlaylistDuration>3:45</PlaylistDuration>
-                    <PlayIcon $isPlaying={currentTrack === index && isPlaying}>
-                      {currentTrack === index && isPlaying ? '⏸' : '▶'}
-                    </PlayIcon>
+                    <PlaylistItemTop onClick={() => playTrack(index)}>
+                      <PlaylistNumber>
+                        {currentTrack === index && isPlaying ? '♪' : String(index + 1).padStart(2, '0')}
+                      </PlaylistNumber>
+                      <PlaylistAlbumArt src={image} alt={`트랙 ${index + 1}`} />
+                      <PlaylistInfo>
+                        <PlaylistTrackTitle>
+                          {getStudentName(index)}
+                        </PlaylistTrackTitle>
+                        <PlaylistArtist>{songTitles[index]}</PlaylistArtist>
+                      </PlaylistInfo>
+                      <PlaylistDuration>3:45</PlaylistDuration>
+                      <PlayIcon $isPlaying={currentTrack === index && isPlaying}>
+                        {currentTrack === index && isPlaying ? '⏸' : '▶'}
+                      </PlayIcon>
+                    </PlaylistItemTop>
+                    
+                    {/* 재생 중일 때 프로그레스바 표시 */}
+                    {currentTrack === index && (
+                      <InlineProgressBar 
+                        $progress={(currentTime / duration) * 100 || 0}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          if (audioRef.current && duration) {
+                            const rect = e.currentTarget.getBoundingClientRect();
+                            const clickX = e.clientX - rect.left;
+                            const percentage = clickX / rect.width;
+                            const newTime = duration * percentage;
+                            audioRef.current.currentTime = newTime;
+                            setCurrentTime(newTime);
+                          }
+                        }}
+                      />
+                    )}
                   </PlaylistItem>
                 ))}
             </PlaylistContainer>
@@ -1794,6 +1992,42 @@ export default function VocalPackage() {
               </div>
               <FollowButton>문의하기</FollowButton>
             </StudioInfo>
+
+            {/* Why 섹션 */}
+            <WhySection>
+              <WhyTitle>혼자 연습만 하고 계신가요?</WhyTitle>
+              <WhySubtitle>실전 녹음 경험으로 진짜 실력을 키우세요</WhySubtitle>
+              
+              <WhyCardGrid>
+                {whyCards.map((card) => (
+                  <WhyCard key={card.id}>
+                    {card.isVideo ? (
+                      <video 
+                        style={{ width: '100%', height: 'auto', objectFit: 'cover' }}
+                        autoPlay 
+                        loop 
+                        muted 
+                        playsInline
+                      >
+                        <source src={card.video} type="video/mp4" />
+                      </video>
+                    ) : (
+                      <WhyCardImage src={card.image} alt={card.title} />
+                    )}
+                    <WhyCardContent>
+                      <WhyCardTitle>{card.title}</WhyCardTitle>
+                      <WhyCardText>{card.description}</WhyCardText>
+                      <WhyCardDivider />
+                      <WhyCardList>
+                        {card.points.map((point, index) => (
+                          <li key={index}>{point}</li>
+                        ))}
+                      </WhyCardList>
+                    </WhyCardContent>
+                  </WhyCard>
+                ))}
+              </WhyCardGrid>
+            </WhySection>
 
             {/* 커리큘럼 */}
             <BenefitSection>
@@ -2085,71 +2319,23 @@ export default function VocalPackage() {
 
       </PageContainer>
 
+      {/* 오디오 엘리먼트 */}
+      {currentTrack !== null && (
+        <audio
+          ref={audioRef}
+          src={audioFiles[currentTrack]}
+          onTimeUpdate={handleTimeUpdate}
+          onLoadedMetadata={handleLoadedMetadata}
+          preload="auto"
+        />
+      )}
+
       {/* Fixed Bottom Bar */}
-      <FixedBottomBar $visible={showFixedBar} $playerActive={currentTrack !== null}>
-        <div>
-          <FixedPrice>200,000원</FixedPrice>
-          <div style={{ fontSize: '0.85rem', color: '#999', marginTop: '4px' }}>
-            2025년 수강생 모집중
-          </div>
-        </div>
+      <FixedBottomBar $visible={showFixedBar}>
         <FixedButton onClick={scrollToForm}>
           수강 신청
         </FixedButton>
       </FixedBottomBar>
-
-      {/* 음악 플레이어 */}
-      <MusicPlayer $visible={currentTrack !== null}>
-        <PlayerLeft>
-          {currentTrack !== null && (
-            <>
-              <PlayerAlbumArt src={studentImages[currentTrack]} alt="앨범 커버" />
-              <PlayerInfo>
-                <PlayerTitle>{getStudentName(currentTrack)}</PlayerTitle>
-                <PlayerArtist>{songTitles[currentTrack]}</PlayerArtist>
-              </PlayerInfo>
-            </>
-          )}
-        </PlayerLeft>
-
-        <PlayerCenter>
-          <PlayerControls>
-            <PlayerButton onClick={previousTrack} disabled={currentTrack === null}>
-              ⏮
-            </PlayerButton>
-            <PlayButton onClick={togglePlay}>
-              {isPlaying ? '⏸' : '▶'}
-            </PlayButton>
-            <PlayerButton onClick={nextTrack} disabled={currentTrack === null}>
-              ⏭
-            </PlayerButton>
-          </PlayerControls>
-
-          <PlayerProgressBar>
-            <PlayerTime>{formatTime(currentTime)}</PlayerTime>
-            <ProgressBar
-              type="range"
-              min="0"
-              max={duration || 0}
-              value={currentTime}
-              onChange={handleProgressChange}
-              $progress={(currentTime / duration) * 100 || 0}
-            />
-            <PlayerTime>{formatTime(duration)}</PlayerTime>
-          </PlayerProgressBar>
-        </PlayerCenter>
-
-        {/* 오디오 엘리먼트 */}
-        {currentTrack !== null && (
-          <audio
-            ref={audioRef}
-            src={audioFiles[currentTrack]}
-            onTimeUpdate={handleTimeUpdate}
-            onLoadedMetadata={handleLoadedMetadata}
-            onEnded={nextTrack}
-          />
-        )}
-      </MusicPlayer>
 
       <Footer />
     </>
